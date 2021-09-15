@@ -141,7 +141,7 @@ class TopBar extends React.Component{
       {/* button zone for sign in etc */}
         <div className={styles.topBarBtnZone}>
           {/* <SecondaryButton text='Log in'/> */}
-          <PrimaryButton text='Log in' clickFn={function(){window.open('/login?next=' + window.location.href, '_self')}}/>
+          <PrimaryButton text='hi' clickFn={function(){window.open('/login?next=' + window.location.href, '_self')}}/>
         </div>
       </div>
         
