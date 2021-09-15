@@ -1,0 +1,199 @@
+/* page styles */
+.page{
+    margin-top: 50px;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    user-select: none;
+}
+
+
+/* global/generic button styles to ensure consistency */
+button{
+    border-radius: 6px;
+    margin-right: 20px;
+    height: 40px;
+    width: fit-content;
+    min-width: 140px;
+    font-size: 13px;
+    font-family: 'Inter';
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-block;
+    box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+}
+
+button:active{
+    box-shadow: none;
+}
+
+input{
+    border-radius: 6px;
+    border: 0.5px solid rgb(233, 233, 233);
+    height: 36px;
+    box-shadow: 0px 4px 15px -12px rgba(0,0,0,0.2);
+    background: rgb(246,246,246);
+    background: -moz-linear-gradient(0deg, rgba(254, 254, 254,1) 0%, rgba(255,255,255,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(254, 254, 254,1) 0%, rgba(255,255,255,1) 100%);
+    background: linear-gradient(0deg, rgba(254, 254, 254,1) 0%, rgba(255,255,255,1) 100%);
+    padding-left: 15px;
+    font-family: 'Inter';
+    transition: border 0.2s;
+}
+
+input:focus{
+    border: 0.5px solid rgb(201, 201, 201);
+    outline: none;
+}
+
+.topBarLink{
+    cursor: pointer;
+    color: gray;
+    text-decoration: none;
+}
+
+.topBarLink:hover{
+    color: black;
+}
+
+/* primary button */
+.primaryButton{
+    background-color: black;
+    border: none;
+    color: white;
+}
+
+.primaryButton:hover{
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+
+/* secondary button */
+.secondaryButton{
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+
+.secondaryButton:hover{
+    background-color: black;
+    color: white;
+}
+
+
+/* top bar and top bar nav zone (non-app pages only)*/
+.topBar{
+    top: 1vh;
+    left: 1vw;
+    height: 42px;
+    width: 97vw;
+    position: fixed;
+    background-color: rgba(255, 255, 255, .58);
+    backdrop-filter: blur(15px);
+    padding-top: 13px;
+    padding-left: 13px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.topBarNavZone{
+    top: 19px;
+    left: 10vw;
+    width: 80vw;
+    height: 35px;
+    position: fixed;
+    font-size: 13px;
+    color: gray;
+    text-align: center;
+}
+
+.topBarBtnZone{
+    top: 10px;
+    left: 88vw;
+    width: 5vw;
+    text-align: right;
+    position: fixed;
+    height: 44px;
+}
+
+.topBarBtnZone button{
+    height: 5vh;
+    width: 8vw;
+    box-shadow: none;
+}
+
+/* two half window (title takes up left half in card, content in right half). Usage: use for sharing menu/login window, not
+content-rich windows */
+
+.twoHalfWindow{
+    position: fixed;
+    z-index: 10000;
+    left: 20vw;
+    top: 10vh;
+    width: 60vw;
+    height: 80vh;
+    background-color: rgba(254, 254, 254, .7);
+    /* background-color: white; */
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.20);
+    /* transition: all 2s; */
+}
+
+/* CSS Circel logo, use instead of image where possible */
+.circelLogoCircle{
+    width: 18px;
+    height: 18px;
+    border-radius: 50px;
+    background-color: none;
+    border: 1.2px solid gray;
+    padding: 4px;
+    transform: rotate(225deg);
+    display: inline-block;
+}
+
+.circelLogoSemicircle{
+    width: 18px;
+    height: 9px;
+    background-color: gray;
+    border-top-left-radius: 110px;
+    border-top-right-radius: 110px;
+    border-bottom: 0px;
+}
+
+/* CSS for homepage and large cards */
+.minorText{
+    color: gray;
+    font-size: 15px;
+    display: inline;
+}
+
+.homepageWorkspaceCard{
+    height: 50vh;
+    padding-top: 30vh;
+    background-repeat: no-repeat;
+}
+
+.bigPageHeader{
+    font-size: 5vw;
+}
+
+/* page cards */
+.pageCard{
+    box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+    border-radius: 15px;
+    position: absolute;
+    height: 60vh;
+    width: 30vw;
+    padding-left: 25px;
+    padding-bottom: 18px;
+}
+
+.pageCardTransparent{
+    border-radius: 15px;
+    position: absolute;
+    height: 60vh;
+    width: 30vw;
+    padding-left: 25px
+}
