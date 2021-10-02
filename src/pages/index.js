@@ -19,7 +19,7 @@ const IndexPage = () => {
 
         <div style={{height: 1000}}></div>
       </div>
-    }id='main'>
+    }>
     </uniUI.Main>
     </body>
   )

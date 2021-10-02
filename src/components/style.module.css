@@ -7,6 +7,123 @@
     user-select: none;
 }
 
+.fAIcon{
+    font-weight:900;
+}
+
+/* app layouts */
+
+/* three column layout */
+
+.threeColumnLayout{
+    display: grid; 
+    grid-template-columns: 20% 80%; 
+    top: 65px; 
+    left: 1vw; 
+    width: 99vw;
+    position: absolute; 
+    z-index: -100;
+    /* overflow-x: hidden; */
+}
+
+.threeColumnLayoutColumn1{
+    border-radius: 15px;
+    position: absolute;
+    height: 88vh;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 18px;
+    display: block;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    width: 90%;
+    box-sizing: border-box;
+
+}
+
+.threeColumnLayoutColumn2{
+    box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+    border-radius: 15px;
+    position: absolute;
+    height: 88vh;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 18px;
+    display: block;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.threeColumnLayoutColumn3{
+    box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+    border-radius: 15px;
+    position: absolute;
+    height: 88vh;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 18px;
+    display: block;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.pageTile{
+    box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+    border-radius: 15px;
+    position: absolute;
+    height: 85vh;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 18px;
+    display: block;
+}
+
+
+.halvedPageGrid{
+    display: grid; 
+    grid-template-columns: 50% 50%; 
+    top: 0; 
+    left: 0; 
+    position: absolute; 
+    z-index: -100
+}
+
+.halvedPageHalf{
+    padding-left: 5vw; 
+    padding-right: 5vw;
+    padding-top: 50px;
+    width: 40vw;
+    height: 100vh;
+}
+
+.halvedPageHalfSignup1{
+    margin-top: 70px;
+    padding-left: 5vw; 
+    padding-right: 5vw;
+    padding-top: 30px;
+    width: 38vw;
+    height: 80vh;
+    background-image: url('../images/backgrounds/bkgd9.png');
+    background-size: cover;
+    border-radius: 15px;
+}
+
+.halvedPageHalfSignup1 button{
+    background-color: white;
+    color: black !important
+}
+
+.halvedPageHalfSignup1 button:hover{
+    color: white !important
+}
+
 
 /* global/generic button styles to ensure consistency */
 button{
@@ -46,14 +163,38 @@ input:focus{
     outline: none;
 }
 
-.topBarLink{
-    cursor: pointer;
-    color: gray;
-    text-decoration: none;
+.inputDiv{
+    border-radius: 6px;
+    border: 0.5px solid rgb(233, 233, 233);
+    height: fit-content;
+    box-shadow: 0px 4px 15px -12px rgba(0,0,0,0.2);
+    background: rgb(246,246,246);
+    background: -moz-linear-gradient(0deg, rgba(254, 254, 254,1) 0%, rgba(255,255,255,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(254, 254, 254,1) 0%, rgba(255,255,255,1) 100%);
+    background: linear-gradient(0deg, rgba(254, 254, 254,1) 0%, rgba(255,255,255,1) 100%);
+    padding-left: 15px;
+    font-family: 'Inter';
+    transition: border 0.2s;
 }
 
-.topBarLink:hover{
-    color: black;
+.inputDiv:focus{
+    border: 0.5px solid rgb(201, 201, 201);
+    outline: none;
+}
+
+.inputDiv input{
+    border:none;
+    background: none;
+    box-shadow: none;
+    padding: none;
+    width: fit-content;
+    padding-left: 10px;
+}
+
+.inputDiv input:focus{
+    border:none;
+    background: none;
+    box-shadow: none;
 }
 
 /* primary button */
@@ -84,17 +225,18 @@ input:focus{
 
 /* top bar and top bar nav zone (non-app pages only)*/
 .topBar{
-    top: 1vh;
-    left: 1vw;
+    top: 0vh;
+    left: 0vw;
     height: 42px;
-    width: 97vw;
+    width: 100vw;
     position: fixed;
-    background-color: rgba(255, 255, 255, .58);
+    background-color: rgba(255, 255, 255, .85);
     backdrop-filter: blur(15px);
     padding-top: 13px;
     padding-left: 13px;
     overflow: hidden;
-    border-radius: 10px;
+    /* border-radius: 10px; */
+    /* border-bottom: 1px solid rgb(235, 235, 235) */
 }
 
 .topBarNavZone{
@@ -109,9 +251,9 @@ input:focus{
 }
 
 .topBarBtnZone{
-    top: 10px;
-    left: 88vw;
-    width: 5vw;
+    top: 8px;
+    right: 1vw;
+    width: fit-content;
     text-align: right;
     position: fixed;
     height: 44px;
@@ -121,6 +263,101 @@ input:focus{
     height: 5vh;
     width: 8vw;
     box-shadow: none;
+}
+
+.topBarAcntLoggedInZone{
+    top: 19px;
+    right: 3vw;
+    width: fit-content;
+    text-align: right !important;
+    position: fixed;
+    height: 44px;
+}
+
+.topBarLink{
+    cursor: pointer;
+    color: gray;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.topBarLink:hover{
+    color: black;
+}
+
+.topBarAppTitle{
+    color: gray;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.topBarAccountOptions{
+    box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    position: fixed;
+    padding-top: 9px;
+    padding-left: 9px;
+    padding-right: 9px;
+    padding-bottom: 9px;
+    height: fit-content;
+    z-index: 10000;
+    background-color: white;
+    right: 3vw;
+    top: 60px;
+}
+
+.sidebarItem{
+    background-color: transparent;
+    text-align: left;
+    font-size: 14px;
+    border: none;
+    box-shadow: none;
+    padding-left: 12px;
+    height: 38px;
+    color: gray;
+    transition: color 0.1s;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.sidebarItem:hover{
+    background-color: rgba(250, 250, 250, 0.5);
+    color: black
+}
+
+/* context menu/other menu items */
+
+.menuItem{
+    background-color: transparent;
+    text-align: left;
+    font-size: 14px;
+    border: none;
+    box-shadow: none;
+    padding-left: 12px;
+    height: 33px;
+    color: gray;
+    transition: color 0.1s;
+}
+
+.menuItem:hover{
+    background-color: rgb(250, 250, 250);
+    color: black
+}
+
+.hR{
+    width: 95%;
+    display: block;
+    height: 1px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    background-color: gainsboro;
+    margin-left: 5%;
+}
+
+.topBarAccountOptions .menuItem{
+    width: 100%;
 }
 
 /* two half window (title takes up left half in card, content in right half). Usage: use for sharing menu/login window, not
@@ -187,6 +424,7 @@ content-rich windows */
     height: 60vh;
     width: 30vw;
     padding-left: 25px;
+    padding-right: 25px;
     padding-bottom: 18px;
 }
 

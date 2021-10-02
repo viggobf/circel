@@ -12,7 +12,7 @@ const NotFoundPage = () => {
       <br></br>
         <h1 className={uniUI.styles.bigPageHeader} style={{textAlign: 'left'}}><span style={{color: 'rgb(233, 233, 233)'}}>Error 404</span><br/>Sorry, that page doesn't exist.</h1>
 
-        <p className={uniUI.styles.minorText}>Let's get you back on track. How about these?</p><br/>
+        <p className={uniUI.styles.minorText}>Let's get you back on track. How about these?</p><br/><br/>
         <uniUI.PrimaryButton text='Return to the Circel homepage' clickFn={function(){window.open('/', '_self')}}/>
 
         <uniUI.SecondaryButton text='Visit Circel Support' clickFn={function(){window.open('/help', '_self')}}/>
