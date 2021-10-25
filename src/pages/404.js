@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import * as uniUX from '../components/uniUX.js'
+import * as uniUX from '../components/uniux.js'
 
 // markup
 const NotFoundPage = () => {

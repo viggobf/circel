@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as uniUX from '../components/uniUX.js'
+import * as uniUX from '../components/uniux.js'
 import { Link } from 'gatsby'
 import * as firebaseSetup from '../components/firebasesetup.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
