@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as uniUI from '../components/uniui.js'
+import * as uniUX from '../components/uniUX.js'
 import { Link } from 'gatsby'
 import * as firebaseSetup from '../components/firebasesetup.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,34 +9,34 @@ import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 const SignupPage = () => {
   return (
     <body>
-    <uniUI.Main appPage={true} pageName={'Sign up'} content={
-      <div className={uniUI.styles.halvedPageGrid}>
-      <div className={uniUI.styles.halvedPageHalf} style={{backgroundColor: 'white'}}>
+    <uniUX.Main appPage={true} pageName={'Sign up'} content={
+      <div className={uniUX.styles.halvedPageGrid}>
+      <div className={uniUX.styles.halvedPageHalf} style={{backgroundColor: 'white'}}>
       <br/><br/>
-        <h1 className={uniUI.styles.bigPageHeader} style={{textAlign: 'left'}}>Sign up</h1>
+        <h1 className={uniUX.styles.bigPageHeader} style={{textAlign: 'left'}}>Sign up</h1>
 
         <input placeholder='Circel ID' style={{width:'30vw'}} type='email' id='loginPageEmail'/><br/><br/>
 
         <input placeholder='Password' style={{width:'30vw'}} type='password' id='loginPagePassword'/><br/><br/><br/>
 
-        <uniUI.PrimaryButton text='Sign up' clickFn={function(){uniUI.logIn(document.getElementById('loginPageEmail').value, document.getElementById('loginPagePassword').value)}}/>
+        <uniUX.PrimaryButton text='Sign up' clickFn={function(){uniUX.logIn(document.getElementById('loginPageEmail').value, document.getElementById('loginPagePassword').value)}}/>
 
-        <uniUI.SecondaryButton text='Log in instead' clickFn={function(){window.open('/login', '_self')}}/><br/><br/>
+        <uniUX.SecondaryButton text='Log in instead' clickFn={function(){window.open('/login', '_self')}}/><br/><br/>
 
-        <p className={uniUI.styles.minorText}>By continuing, you confirm you have read and agree to Circel's Terms.</p>
+        <p className={uniUX.styles.minorText}>By continuing, you confirm you have read and agree to Circel's Terms.</p>
       </div>
 
-      <div className={uniUI.styles.halvedPageHalfSignup1}>
+      <div className={uniUX.styles.halvedPageHalfSignup1}>
       <br/><br/><br/><br/><br/>
-        <h1 className={uniUI.styles.bigPageHeader} style={{fontSize: '2.5vw', color: 'white'}}>Sign up a different way</h1>
+        <h1 className={uniUX.styles.bigPageHeader} style={{fontSize: '2.5vw', color: 'white'}}>Sign up a different way</h1>
 
-        <uniUI.SecondaryButton styles={{width: '25vw', textAlign: 'left', color: 'white'}} clickFn={function(){uniUI.logInGoogle()}} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle}/>&emsp;Log in with Google&ensp;</p>}/><br/><br/>
+        <uniUX.SecondaryButton styles={{width: '25vw', textAlign: 'left', color: 'white'}} clickFn={function(){uniUX.logInGoogle()}} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle}/>&emsp;Log in with Google&ensp;</p>}/><br/><br/>
 
-        <uniUI.SecondaryButton styles={{width: '25vw', textAlign: 'left', color: 'white'}} clickFn={function(){uniUI.logInTwitter()}} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faTwitter}/>&emsp;Log in with Twitter&ensp;</p>}/><br/><br/>
+        <uniUX.SecondaryButton styles={{width: '25vw', textAlign: 'left', color: 'white'}} clickFn={function(){uniUX.logInTwitter()}} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faTwitter}/>&emsp;Log in with Twitter&ensp;</p>}/><br/><br/>
       </div>
         </div>
     }>
-    </uniUI.Main>
+    </uniUX.Main>
     </body>
   )
 }

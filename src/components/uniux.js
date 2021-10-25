@@ -1,19 +1,16 @@
 import * as React from 'react'
 import * as styles from './style.module.css'
 import { Link } from 'gatsby'
-import '@fontsource/inter'
-import '@fontsource/inter/500.css'
-import '@fontsource/inter/900.css'
 import reactDom from 'react-dom'
 import * as firebaseSetup from './firebasesetup.js'
 import { Auth } from '@firebase/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
-import { LogoNodejs } from 'react-ionicons'
 
 var accountMenuOpen = false;
 var userInfo;
+var inDev = false
 
 // making a random number for variable UIs and other stuff
   const no = Math.random();
@@ -81,15 +78,30 @@ const circelWorkspaceTitleStyles = {
 
 class Main extends React.Component{
   render(){
-    return <div className={styles.page}>
+    if(this.props.inDev){
+      inDev = true
+    }
+    if(!this.props.appPage){  
+      return <div className={styles.page}>
+        <title>{this.props.pageName} | Circel</title>
+        <TopBar appPage={this.props.appPage} pageName={this.props.pageName}/>
+        <div id='accountOptionsArea'>
+            {/* account options box rendered here */}
+        </div>
+
+        {this.props.content}
+      </div>
+    } else {
+      return <div className={styles.page}>
       <title>{this.props.pageName} | Circel</title>
-      <TopBar appPage={this.props.appPage} pageName={this.props.pageName}/>
+      {/* <TopBar appPage={this.props.appPage} pageName={this.props.pageName}/> */}
       <div id='accountOptionsArea'>
           {/* account options box rendered here */}
       </div>
 
       {this.props.content}
-    </div>
+      </div>
+    }
   }
 
   componentDidMount(){
@@ -99,9 +111,17 @@ class Main extends React.Component{
       if (user) {
         const userInfo = user
         console.log('Welcome, ' + userInfo.email)
-        reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{userInfo.displayName}&ensp;<FAIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('accountArea'))
+        try {
+          reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{userInfo.displayName}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('accountArea'))
+        } catch (error) {
+          
+        }
       } else {
-        reactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function(){window.open('/login?next=' + window.location.href, '_self')}}/></div>, document.getElementById('accountArea'))
+        try {
+          reactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function(){window.open('/login?next=' + window.location.href, '_self')}}/></div>, document.getElementById('accountArea'))
+        } catch (error) {
+          
+        }
       }
     });
 
@@ -115,41 +135,68 @@ class Main extends React.Component{
       
     }
 
+    window.onscroll = function(){
+      alert('hi')
+    }
+
     window.onclick = function(){
       if(accountMenuOpen){
         renderNothing(document.getElementById('accountOptionsArea'))
         accountMenuOpen = false
       }
     }
-
+    
   }
 }
 
 // app layout types
 
+// error function
+function throwUniUXError(errorMsg){
+  if(inDev == false){
+    throw Error(errorMsg + ` \n\nIf you are developing your app and do not wish to see these errors at this time, please add the inDev={true} attribute
+    to your uniUX.Main component (even with inDev={true}, errors will still be logged to the Console).`)
+  } else {
+    console.error(errorMsg + ` \n\nThis error was not shown at runtime since you have inDev={true} on your uniUX.Main component - please
+    however make sure you still address it before publishing, we recommend without inDev={true}`)
+  }
+}
+
 class ColumnedApp extends React.Component{
   render(){
-    return <div className={styles.threeColumnLayout}>
+    if(this.props.themeColour && this.props.pageTitle && this.props.appShortenedName && this.props.firstColumnPageItems 
+      && this.props.secondColumnContent && this.props.appTitle){
 
-      <div className={styles.threeColumnLayoutColumn1}>
-        {/* <h1></h1> */}
-        <h1 style={{color: this.props.themeColour}}>{this.props.pageTitle}</h1>
-        <div className={styles.inputDiv}>
-          <FontAwesomeIcon icon={icons.faSearch} style={{color: 'gray', fontSize: '12px'}}/>
-          <input placeholder={'Search ' + this.props.pageShortenedName}/>
-        </div>
+    } else {
+      throwUniUXError(`UniUX Error 1: Some attributes of the app are missing. Please make sure you have included appTitle, pageTitle,
+      themeColour, appShortenedName, firstColumnPageItems and secondColumnContent.`)
+    }
+    return <div className={styles.columnedLayout}>
+
+      <div className={styles.columnedLayoutC1}>
+        {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/app', '_self')}}><div className={styles.circelLogoSemicircle}></div></div> */}
+        <CircelLogo/>
+        
+        <br/>
+        <h2 style={{color: this.props.themeColour, marginTop: 10, marginBottom: 0}}>{this.props.appTitle}</h2>
 
         <div id='appItemsSidebar'>
 
         </div>
       </div>
 
-      <div className={styles.threeColumnLayoutColumn2}>
+      <div className={styles.columnedLayoutC2} scrollLevel={'0'} id={'column2'} onScroll={function(){
+        if(document.getElementById('column2').scrollTop < 1){
+          document.getElementById('column2TopBar').className = styles.columnedLayoutTopBarTop
+        } else {
+          document.getElementById('column2TopBar').className = styles.columnedLayoutTopBar
+        }
+        
+        }}>
+        <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
+          <h3 style={{marginTop: 4}}>{this.props.pageTitle}</h3>
+        </div>
         {this.props.secondColumnContent}
-      </div>
-
-      <div className={styles.threeColumnLayoutColumn3}>
-        {this.props.thirdColumnContent}
       </div>
       
     </div>
@@ -157,17 +204,40 @@ class ColumnedApp extends React.Component{
 
   componentDidMount(){
     var listOfApps = []
-    this.props.firstColumnAppItems.forEach(appItem => {
-      listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} iconColour={this.props.themeColour}/>)
+    var pageTitleMatchesASidebarItem
+    this.props.firstColumnPageItems.forEach(appItem => {
+      if(appItem[0] == this.props.pageTitle){
+        appItem.push(true)
+        pageTitleMatchesASidebarItem = true
+      }
+      if(appItem[2]){
+        listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)'}} iconColour={'white'}/>)
+      } else {
+        listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} iconColour={'rgba(146,146,146)'}/>)
+      }
     });
+    if(!pageTitleMatchesASidebarItem){
+      throwUniUXError(`UniUX Error 2: The Page Title does not match a page name in any sidebar item. Please make sure you are using one of the
+      items in this page's sidebar as the Page Title.`)
+    }
     reactDom.render(<span><br/> {listOfApps}</span>, document.getElementById('appItemsSidebar'))
   }
 }
 
-class FAIcon extends React.Component{
+class OverviewCard extends React.Component{
   render(){
-    return <FontAwesomeIcon icon={this.props.icon} className={styles.fAIcon} style={this.props.style}/>
+    return <div className={styles.overviewCard} style={this.props.styles}>
+      <strong style={{marginBottom: 5}}>{this.props.name}</strong>
+      <br/><br/>
+      {this.props.content}
+    </div>
   }
+}
+
+const appsAndTheirPages = {
+  // so when sidebar item is added to one page in app, it is added to all for uniformity (and to save a job).
+  // AlWAYS add an array here for the app, don't add arrays individually to every page. Reference the array of pages eg appsAndTheirPages.settings
+  settings: [['Overview', icons.faList], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]]
 }
 
 // circel logo with CSS
@@ -218,9 +288,9 @@ class TopBar extends React.Component{
         <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/', '_self')}}><div className={styles.circelLogoSemicircle}></div></div>
 
       {/* navigation zone for links */}
-        <div className={styles.topBarNavZone}>
+        <div className={styles.topBarNavZoneApp}>
           <div className={styles.topBarAppTitle}>
-            {this.props.pageName}
+            {/* {this.props.pageName} */}
           </div>
         </div>
 
@@ -257,7 +327,7 @@ class MenuItem extends React.Component{
         </div>
 
         <div style={{textAlign: 'right'}}>
-          <FAIcon icon={this.props.icon}/>&nbsp;
+          {/* <FontAwesomeIcon icon={this.props.icon}/>&nbsp; */}
         </div>
       </div>
       </button>
@@ -272,7 +342,7 @@ class MenuItem extends React.Component{
         </div>
 
         <div style={{textAlign: 'right'}}>
-          <FAIcon icon={this.props.icon}/>&nbsp;
+          {/* <FontAwesomeIcon icon={this.props.icon}/>&nbsp; */}
         </div>
       </div>
       </button>
@@ -284,16 +354,14 @@ class MenuItem extends React.Component{
 class SidebarItem extends React.Component{
   render(){
     return <button class={styles.sidebarItem} style={this.props.styles} onClick={this.props.clickFn}>
-        <div style={{display: 'grid', gridTemplateColumns: '13% 87%'}}>
+        <div style={{display: 'grid', gridTemplateColumns: '25px 50px'}}>
 
           <div style={{textAlign: 'left'}}>
-          <LogoNodejs
-          color={this.props.iconColour}
+          <FontAwesomeIcon style={{color: this.props.iconColour}} icon={this.props.icon}
           />
-            {/* <FAIcon icon={this.props.icon} style={{color: this.props.iconColour}}/>&nbsp; */}
           </div>
 
-          <div>
+          <div style={{fontWeight: 500}}>
             {this.props.text}
           </div>
         </div>
@@ -318,6 +386,12 @@ class SecondaryButton extends React.Component{
 class DynamicText extends React.Component{
   render(){
     return <span className={styles.topBarLink}>{this.props.text}</span>
+  }
+}
+
+class QuickSpan extends React.Component{
+  render(){
+    return <span>{this.props.text}</span>
   }
 }
 
@@ -428,7 +502,7 @@ function renderNothing(placeForRender){
   reactDom.render(<Nothing/>, placeForRender)
 }
 
-// uniUI functions
+// uniUX functions
 
 function toggleAccountMenu(){
   if(!accountMenuOpen){
@@ -523,6 +597,24 @@ function logInTwitter(){
 }
 
 
+
+// firebase functions
+
+async function getDocFromFirestore(collection, documentName){
+  const docRef = firebaseSetup.firestore.doc(firebaseSetup.firestore.getFirestore(firebaseSetup.app), collection, documentName);
+  const docGotten = await firebaseSetup.firestore.getDoc(docRef);
+
+  if (docGotten.exists()) {
+    console.log("Document data:", docGotten.data())
+    return docGotten.data()
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+    return 'No such document'
+  }
+}
+
+
 // ze massive export
 export {
   // first style objects
@@ -531,14 +623,14 @@ export {
 
 
   // second react components
-  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem,
+  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, DynamicText,
 
 
-  // third uniUI functions
-  logIn, logInGoogle, logInTwitter, toggleAccountMenu,
+  // third uniUX functions
+  logIn, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore,
 
   // other variables etc
-  randomNumber,
+  randomNumber, appsAndTheirPages
 
 }
 
