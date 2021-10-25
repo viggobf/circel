@@ -34,7 +34,6 @@ class SettingsOverviewPage extends React.Component{
     const userAndSettings = uniUX.getDocFromFirestore('users', 'viggobf').then(function(result){
       reactDom.render(<span>{result['name']}</span>, document.getElementById('settingsName'))
     })
-    console.log(userAndSettings)
   }
 }
 
