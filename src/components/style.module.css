@@ -19,9 +19,14 @@
     --sidebarWidth: 18vw;
 }
 
-.ionIcon{
-    vertical-align: baseline;
-    font-size: 20px !important;
+a{
+    text-decoration: none;
+    color: none;
+}
+
+a:any-link{
+    text-decoration: none;
+    color: none
 }
 
 .columnedLayoutC2 h4{
@@ -67,11 +72,12 @@
     border-right: 1px solid rgb(240, 240, 240);
     box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02);
     z-index: 100;
+    overflow-x: scroll;
 }
 
 .columnedLayoutC2{
     position: absolute;
-    height: 100vh;
+    height: 99vh;
     margin-bottom: 15px;
     padding-left: 16px;
     padding-right: 25px;
@@ -85,7 +91,6 @@
     margin-right: 100px;
     background-color: rgb(252, 252, 252);
     overflow-y: scroll;
-    /* overflow-x: hidden; */
 }
 
 .overviewCard{
@@ -108,21 +113,23 @@
 .columnedLayoutTopBarTop{
     top: 0vh;
     left: 19vw;
-    height: fit-content;
-    width: 82vw;
+    height: 42px;
+    /* border-bottom: 1px solid red; */
+    width: 80vw;
     position: fixed;
     backdrop-filter: blur(15px);
     padding-top: 13px;
     padding-left: 15px;
     overflow: hidden;
     transition: background 0.3s;
+    grid-template-columns: 50% 50%;
 }
 
 .columnedLayoutTopBar{
     top: 0vh;
     left: 19vw;
     height: 42px;
-    width: 82vw;
+    width: 80vw;
     position: fixed;
     grid-template-columns: 50% 50%;
     background-color: rgba(255, 255, 255, 0.9);
@@ -136,8 +143,12 @@
     box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02);
 }
 
-.columnedLayoutTopBar .rightOptions{
-
+.topBarRightOptionsPfp{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: 3px solid white;
+    /* box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.45); */
 }
 
 .pageTile{
@@ -154,7 +165,9 @@
 .pageTileRow{
     display: flex;
     width: 100%;
-    overflow-x:scroll !important;
+    overflow: visible;
+    background: none;
+    z-index: -10;
 }
 
 
@@ -351,7 +364,7 @@ input:focus{
     top: 19px;
     right: 3vw;
     width: fit-content;
-    text-align: right !important;
+    /* text-align: right !important; */
     position: fixed;
     height: 44px;
 }

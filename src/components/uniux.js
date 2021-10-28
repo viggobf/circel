@@ -7,6 +7,7 @@ import { Auth } from '@firebase/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
+import LogoImage from '../images/icon.png'
 
 var accountMenuOpen = false;
 var userInfo;
@@ -111,10 +112,10 @@ class Main extends React.Component{
       if (user) {
         const userInfo = user
         console.log('Welcome, ' + userInfo.email)
-        try {
+        if(!this.props.appPage) {
           reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{userInfo.displayName}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('accountArea'))
-        } catch (error) {
-          
+        } else {
+          reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{userInfo.displayName}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('appTopBarRightOptions'))
         }
       } else {
         try {
@@ -133,10 +134,6 @@ class Main extends React.Component{
         )
         }
       
-    }
-
-    window.onscroll = function(){
-      alert('hi')
     }
 
     window.onclick = function(){
@@ -194,11 +191,12 @@ class ColumnedApp extends React.Component{
         
         }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-          <h3 style={{marginTop: 4}}>{this.props.pageTitle}</h3>
+          <h3 style={{marginTop: 4, width: '90%', float: 'left', textAlign: 'right'}}>{this.props.pageTitle}</h3>
+          <div id='appTopBarRightOptions' style={{marginTop: -4, gridColumnEnd: 3, width: '10%', float: 'left'}}><img className={styles.topBarRightOptionsPfp} src={LogoImage}/></div>
         </div>
         {this.props.secondColumnContent}
       </div>
-      
+      <div id='accountOptionsArea'></div>
     </div>
   }
 
@@ -227,7 +225,7 @@ class ColumnedApp extends React.Component{
 class OverviewCard extends React.Component{
   render(){
     return <div className={styles.overviewCard} style={this.props.styles}>
-      <strong style={{marginBottom: 5}}>{this.props.name}</strong>
+      <strong style={{marginBottom: 5, fontSize: 'large'}}>{this.props.name}</strong>
       <br/><br/>
       {this.props.content}
     </div>
@@ -263,13 +261,13 @@ class TopBar extends React.Component{
             <Link className={styles.topBarLink} to='/'>Home</Link>
             &emsp;&emsp;&emsp;&emsp;
 
-            <Link className={styles.topBarLink} to='/products'>Products</Link>
+            {/* <Link className={styles.topBarLink} to='/products'>Products</Link>
             &emsp;&emsp;&emsp;&emsp;
 
             <Link className={styles.topBarLink} to='/contact'>Support</Link>
             &emsp;&emsp;&emsp;&emsp;
 
-            <Link className={styles.topBarLink} to='/support'>Docs</Link>
+            <Link className={styles.topBarLink} to='/support'>Docs</Link> */}
           </div>
 
         {/* button zone for sign in etc */}
@@ -353,9 +351,9 @@ class MenuItem extends React.Component{
 
 class SidebarItem extends React.Component{
   render(){
-    return <button class={styles.sidebarItem} style={this.props.styles} onClick={this.props.clickFn}>
+    return <Link to={'/' + this.props.text}>
+    <button class={styles.sidebarItem} style={this.props.styles}>
         <div style={{display: 'grid', gridTemplateColumns: '25px 50px'}}>
-
           <div style={{textAlign: 'left'}}>
           <FontAwesomeIcon style={{color: this.props.iconColour}} icon={this.props.icon}
           />
@@ -366,6 +364,7 @@ class SidebarItem extends React.Component{
           </div>
         </div>
       </button>
+      </Link>
   }
 }
 
@@ -623,14 +622,14 @@ export {
 
 
   // second react components
-  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, DynamicText,
+  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, DynamicText, FontAwesomeIcon,
 
 
   // third uniUX functions
   logIn, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore,
 
   // other variables etc
-  randomNumber, appsAndTheirPages
+  randomNumber, appsAndTheirPages, icons, brandIcons
 
 }
 
