@@ -9,7 +9,7 @@ import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 const LoginPage = () => {
   return (
     <body>
-    <uniUX.Main appPage={true} pageName={'Log in'} content={
+    <uniUX.Main pageType={'semiApp'} pageName={'Log in'} content={
       <div className={uniUX.styles.halvedPageGrid}>
         <div className={uniUX.styles.halvedPageHalf}>
         <br/><br/>
@@ -19,7 +19,15 @@ const LoginPage = () => {
 
         <input placeholder='Password' style={{width:'30vw'}} type='password' id='loginPagePassword'/><br/><br/><br/>
 
-        <uniUX.PrimaryButton text='Log in' clickFn={function(){uniUX.logIn(document.getElementById('loginPageEmail').value, document.getElementById('loginPagePassword').value)}}/>
+        <uniUX.PrimaryButton text='Log in' clickFn={function(){
+          uniUX.logIn(document.getElementById('loginPageEmail').value, document.getElementById('loginPagePassword').value).then(function(result){
+            if(result == 'success'){
+              window.open(window.location.href.split('=')[1], '_self')
+            } else {
+              console.log(result)
+            }
+          })
+        }}/>
 
         <uniUX.SecondaryButton text='Sign up instead' clickFn={function(){window.open('/signup', '_self')}}/>
         </div>

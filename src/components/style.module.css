@@ -8,7 +8,7 @@
     margin-top: 50px;
     margin-left: 5vw;
     margin-right: 5vw;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Inter', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     user-select: none;
     /* below are definitions for variables for Circel's colour scheme. when using a colour, use its variable form eg var(--green) so as to
     use the colour scheme here */
@@ -22,11 +22,6 @@
 a{
     text-decoration: none;
     color: none;
-}
-
-a:any-link{
-    text-decoration: none;
-    color: none
 }
 
 .columnedLayoutC2 h4{
@@ -320,7 +315,21 @@ input:focus{
     padding-top: 13px;
     padding-left: 13px;
     overflow: hidden;
-    box-shadow: 0px 4px 1px -4px rgba(0,0,0,0.15);
+    box-shadow: 0px 4px 1px -4px rgba(0,0,0,0.15) !important;
+}
+
+.topBarTop{
+    top: 0vh;
+    left: 0vw;
+    height: 42px;
+    width: 100vw;
+    position: fixed;
+    background-color: rgba(255, 255, 255, .85);
+    backdrop-filter: blur(15px);
+    padding-top: 13px;
+    padding-left: 13px;
+    overflow: hidden;
+    box-shadow: none;
 }
 
 .topBarNavZone{
@@ -399,8 +408,8 @@ input:focus{
     height: fit-content;
     z-index: 10000;
     background-color: white;
-    right: 3vw;
-    top: 60px;
+    right: 2vw;
+    top: 50px;
 }
 
 .sidebarItem{

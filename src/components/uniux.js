@@ -8,10 +8,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 import LogoImage from '../images/icon.png'
+import Favicon from 'react-favicon'
 
 var accountMenuOpen = false;
 var userInfo;
 var inDev = false
+var username
+var loginRequired
 
 // making a random number for variable UIs and other stuff
   const no = Math.random();
@@ -48,18 +51,17 @@ const welcomeHeadingStyles = {
   fontFamily: 'Inter',
   fontWeight: 900,
   fontSize: '4vw',
+  // textShadow: 'color: #131313',
+  // letterSpacing: '.15em',
+  // textShadow: '1px -1px 0 #767676, -1px 2px 1px #737272, -2px 4px 1px #767474, -3px 6px 1px #787777, -4px 8px 1px #7b7a7a, -5px 10px 1px #7f7d7d, -6px 12px 1px #828181, -7px 14px 1px #868585, -8px 16px 1px #8b8a89, -9px 18px 1px #8f8e8d, -10px 20px 1px #949392, -11px 22px 1px #999897, -12px 24px 1px #9e9c9c, -13px 26px 1px #a3a1a1, -14px 28px 1px #a8a6a6, -15px 30px 1px #adabab, -16px 32px 1px #b2b1b0, -17px 34px 1px #b7b6b5, -18px 36px 1px #bcbbba, -19px 38px 1px #c1bfbf, -20px 40px 1px #c6c4c4, -21px 42px 1px #cbc9c8, -22px 44px 1px #cfcdcd, -23px 46px 1px #d4d2d1, -24px 48px 1px #d8d6d5, -25px 50px 1px #dbdad9, -26px 52px 1px #dfdddc, -27px 54px 1px #e2e0df, -28px 56px 1px #e4e3e2'
 }
 
-// font with linear gradient for Workspace titles
-const circelWorkspaceTitleStyles = {
-  background: '#000000',
-  background: '-webkit-linear-gradient(to right, #000000 0%, #0614CF 70%)',
-  background: '-moz-linear-gradient(to right, #000000 0%, #0614CF 70%)',
-  background: 'linear-gradient(to right, #000000 0%, #0614CF 70%)',
-  webkitBackgroundClip: 'text',
-  webkitTextFillColor: 'transparent',
-  // textShadow: '3px 3px 6px rgba(150, 150, 150, 0.54)',
+// font with cool shadow for CIRCELR21 only
+const circelrStyles = {
   fontSize: '9vw',
+  textShadow: 'color: #131313',
+  letterSpacing: '.15em',
+  textShadow: '1px -1px 0 #767676, -1px 2px 1px #737272, -2px 4px 1px #767474, -3px 6px 1px #787777, -4px 8px 1px #7b7a7a, -5px 10px 1px #7f7d7d, -6px 12px 1px #828181, -7px 14px 1px #868585, -8px 16px 1px #8b8a89, -9px 18px 1px #8f8e8d, -10px 20px 1px #949392, -11px 22px 1px #999897, -12px 24px 1px #9e9c9c, -13px 26px 1px #a3a1a1, -14px 28px 1px #a8a6a6, -15px 30px 1px #adabab, -16px 32px 1px #b2b1b0, -17px 34px 1px #b7b6b5, -18px 36px 1px #bcbbba, -19px 38px 1px #c1bfbf, -20px 40px 1px #c6c4c4, -21px 42px 1px #cbc9c8, -22px 44px 1px #cfcdcd, -23px 46px 1px #d4d2d1, -24px 48px 1px #d8d6d5, -25px 50px 1px #dbdad9, -26px 52px 1px #dfdddc, -27px 54px 1px #e2e0df, -28px 56px 1px #e4e3e2'
 }
 
 
@@ -82,8 +84,18 @@ class Main extends React.Component{
     if(this.props.inDev){
       inDev = true
     }
-    if(!this.props.appPage){  
-      return <div className={styles.page}>
+    // get if page is app, semiApp (app with no login requirement, app layout), or website (no login requirement, top bar shown) and
+    // render correct interface from that
+    if(this.props.pageType == 'website'){  
+      loginRequired = false
+      return <div className={styles.page} id='page' onScroll={function(){
+        if(document.getElementById('page').scrollTop < 1){
+          document.getElementById('topbar').className = styles.topBarTop
+        } else {
+          document.getElementById('topbar').className = styles.topBar
+        }
+      }}>
+        <Favicon url={LogoImage}/>
         <title>{this.props.pageName} | Circel</title>
         <TopBar appPage={this.props.appPage} pageName={this.props.pageName}/>
         <div id='accountOptionsArea'>
@@ -92,36 +104,70 @@ class Main extends React.Component{
 
         {this.props.content}
       </div>
-    } else {
+
+    } else if (this.props.pageType == 'app') {
+      loginRequired = true
       return <div className={styles.page}>
       <title>{this.props.pageName} | Circel</title>
-      {/* <TopBar appPage={this.props.appPage} pageName={this.props.pageName}/> */}
+      <Favicon url={LogoImage}/>
       <div id='accountOptionsArea'>
           {/* account options box rendered here */}
       </div>
 
       {this.props.content}
       </div>
+
+    } else if (this.props.pageType == 'semiApp') {
+      loginRequired = false
+      return <div className={styles.page}>
+      <title>{this.props.pageName} | Circel</title>
+      <Favicon url={LogoImage}/>
+      <div id='accountOptionsArea'>
+          {/* account options box rendered here */}
+      </div>
+
+      {this.props.content}
+      </div>
+    } else {
+      throwUniUXError(`UniUX Error 3: This page's pageType is not 'website', 'semiApp' or 'app', so UniUX.Main couldn't render.
+      Please make sure pageType matches one of the stated values.`)
     }
   }
 
   componentDidMount(){
-    // basically page load functions etc
+    // basically load page functions etc
+
+    // get user info and add options box
     const auth = firebaseSetup.firebaseAuth.getAuth();
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {
       if (user) {
         const userInfo = user
         console.log('Welcome, ' + userInfo.email)
-        if(!this.props.appPage) {
-          reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{userInfo.displayName}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('accountArea'))
-        } else {
-          reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{userInfo.displayName}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('appTopBarRightOptions'))
+        // add the account options box
+        try{
+          if(userInfo.displayName){
+            username = userInfo.displayName
+          } else {
+            username = 'Account'
+          }
+          if(this.props.pageType == 'website') {
+            reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('accountArea'))
+          } else if(this.props.pageType == 'app') {
+            reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('appTopBarRightOptions'))
+          } else if(this.props.pageType == 'semiApp') {
+            reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown}/></span>}/></div>, document.getElementById('accountArea'))
+          }
+        } catch(error){
+          // do nothing cos there's no place to put it
         }
       } else {
+        if(loginRequired){
+          window.open('/login?next=' + window.location.href, '_self')
+        }
         try {
           reactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function(){window.open('/login?next=' + window.location.href, '_self')}}/></div>, document.getElementById('accountArea'))
         } catch (error) {
-          
+          // do nothing cos there's no place to put it
         }
       }
     });
@@ -182,7 +228,7 @@ class ColumnedApp extends React.Component{
         </div>
       </div>
 
-      <div className={styles.columnedLayoutC2} scrollLevel={'0'} id={'column2'} onScroll={function(){
+      <div className={styles.columnedLayoutC2} id={'column2'} onScroll={function(){
         if(document.getElementById('column2').scrollTop < 1){
           document.getElementById('column2TopBar').className = styles.columnedLayoutTopBarTop
         } else {
@@ -191,8 +237,8 @@ class ColumnedApp extends React.Component{
         
         }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-          <h3 style={{marginTop: 4, width: '90%', float: 'left', textAlign: 'right'}}>{this.props.pageTitle}</h3>
-          <div id='appTopBarRightOptions' style={{marginTop: -4, gridColumnEnd: 3, width: '10%', float: 'left'}}><img className={styles.topBarRightOptionsPfp} src={LogoImage}/></div>
+          <h3 style={{marginTop: 4, width: '50%', float: 'left', textAlign: 'left'}}>{this.props.pageTitle}</h3>
+          <div id='appTopBarRightOptions' style={{marginTop: -4, width: '48%', float: 'left'}}></div>
         </div>
         {this.props.secondColumnContent}
       </div>
@@ -306,7 +352,13 @@ class TopBarAccountOptions extends React.Component{
     return <div class={styles.topBarAccountOptions}>
       <MenuItem text='My Circel' icon={icons.faHome} firstInList={true}/>
       <MenuItem text='Settings' icon={icons.faCog}/>
-      <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red'/>
+      <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' clickFn={function(){
+        if(!loginRequired){
+          logOut(false)
+        } else {
+          logOut(true)
+        }
+      }}/>
     </div>
   }
 }
@@ -318,7 +370,7 @@ class MenuItem extends React.Component{
     if(!this.props.firstInList){
       return <span>
       <Hr/>
-      <button class={styles.menuItem} style={this.props.styles} onClick={this.props.clickFn}>
+      <button class={styles.menuItem} style={this.props.styles} onMouseUp={this.props.clickFn}>
       <div style={{display: 'grid', gridTemplateColumns: '50% 50%', color: this.props.accentColour}}>
         <div>
           {this.props.text}
@@ -527,19 +579,28 @@ function toggleAccountMenu(){
 
 // Circel Accounts functions
 
-function logIn(email, password){
-  const auth = firebaseSetup.firebaseAuth.getAuth();
-  firebaseSetup.firebaseAuth.signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log('logged in')
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode)
-    });
+async function logIn(email, password){
+    const auth = firebaseSetup.firebaseAuth.getAuth();
+
+    try{
+       const logInStatus = await firebaseSetup.firebaseAuth.signInWithEmailAndPassword(auth, email, password)
+       if (logInStatus) {
+        // logged in successfully, return that
+        const user = logInStatus.user;
+        console.log('hi')
+        return 'success'
+      }
+    } catch(error){
+      return error.code
+    }
+}
+
+function logOut(takeToLoginPage){
+  firebaseSetup.firebaseAuth.signOut(firebaseSetup.firebaseAuth.getAuth()).then(function(){
+    if(takeToLoginPage){
+      window.open('/login', '_self')
+    }
+  })
 }
 
 function logInGoogle(){
@@ -596,9 +657,6 @@ function logInTwitter(){
 }
 
 
-
-// firebase functions
-
 async function getDocFromFirestore(collection, documentName){
   const docRef = firebaseSetup.firestore.doc(firebaseSetup.firestore.getFirestore(firebaseSetup.app), collection, documentName);
   const docGotten = await firebaseSetup.firestore.getDoc(docRef);
@@ -617,7 +675,7 @@ async function getDocFromFirestore(collection, documentName){
 // ze massive export
 export {
   // first style objects
-  welcomeHeadingStyles, circelWorkspaceTitleStyles, styles,
+  welcomeHeadingStyles, circelrStyles, styles,
 
 
 
