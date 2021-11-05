@@ -620,57 +620,34 @@ function logOut(takeToLoginPage) {
   })
 }
 
-function logInGoogle() {
-  const provider = new firebaseSetup.firebaseAuth.GoogleAuthProvider();
-  const auth = firebaseSetup.firebaseAuth.getAuth();
-  firebaseSetup.firebaseAuth.signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = firebaseSetup.firebaseAuth.GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      console.log('logged in with google')
-    }).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The AuthCredential type that was used.
-      const credential = firebaseSetup.firebaseAuth.GoogleAuthProvider.credentialFromError(error);
-
-      console.log(errorCode)
-      // ...
-    });
+async function logInGoogle() {
+  try {
+    const provider = new firebaseSetup.firebaseAuth.GoogleAuthProvider()
+    const auth = firebaseSetup.firebaseAuth.getAuth();
+    const loginStatus = await firebaseSetup.firebaseAuth.signInWithPopup(auth, provider)
+    if (loginStatus) {
+      // logged in successfully, return that
+      const user = loginStatus.user;
+      return 'success'
+    }
+  } catch (error) {
+    return error.code
+  }
 }
 
-function logInTwitter() {
-  const provider = new firebaseSetup.firebaseAuth.TwitterAuthProvider()
-  const auth = firebaseSetup.firebaseAuth.getAuth();
-  firebaseSetup.firebaseAuth.signInWithRedirect(auth, provider)
-    .then((result) => {
-      // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
-      // You can use these server side with your app's credentials to access the Twitter API.
-      const credential = firebaseSetup.firebaseAuth.TwitterAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const secret = credential.secret;
-
-      // The signed-in user info.
-      const user = result.user;
-      console.log('logged in with twitter')
-      // ...
-    }).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The AuthCredential type that was used.
-      const credential = firebaseSetup.firebaseAuth.TwitterAuthProvider.credentialFromError(error);
-      console.log(errorCode)
-      // ...
-    });
+async function logInTwitter() {
+  try {
+    const provider = new firebaseSetup.firebaseAuth.TwitterAuthProvider()
+    const auth = firebaseSetup.firebaseAuth.getAuth();
+    const loginStatus = await firebaseSetup.firebaseAuth.signInWithPopup(auth, provider)
+    if (loginStatus) {
+      // logged in successfully, return that
+      const user = loginStatus.user;
+      return 'success'
+    }
+  } catch (error) {
+    return error.code
+  }
 }
 
 

@@ -52,7 +52,7 @@ const SignupPage = () => {
                   } else if (result == 'auth/weak-password') {
                     ReactDom.render(<span>That password looks too weak - make sure it's over 6 characters long.</span>, document.getElementById('errorRenderSpace'))
                   } else {
-                    ReactDom.render(<span>An unknown error occurred.</span>, document.getElementById('errorRenderSpace'))
+                    ReactDom.render(<span>An error occurred (<code>{result.split('/')[1]}</code>)</span>, document.getElementById('errorRenderSpace'))
                   }
                 }
               })
@@ -69,9 +69,43 @@ const SignupPage = () => {
             <br /><br /><br /><br /><br />
             <h1 className={uniUX.styles.bigPageHeader} style={{ fontSize: '2.5vw', color: 'white' }}>Sign up a different way</h1>
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () { uniUX.logInGoogle() }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Log in with Google&ensp;</p>} /><br /><br />
+            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () { 
+              uniUX.logInGoogle().then(function (result) {
+                if (result == 'success') {
+                  window.open(window.location.href.split('=')[1], '_self')
+                } else {
+                  console.log(result)
+                  if (result == 'auth/invalid-email') {
+                    ReactDom.render(<span>That Circel ID doesn't match any Circel account.</span>, document.getElementById('errorRenderSpace'))
+                  } else if (result == 'auth/wrong-password') {
+                    ReactDom.render(<span>That password doesn't match your Circel ID - please try again.</span>, document.getElementById('errorRenderSpace'))
+                  } else if (result == 'auth/user-disabled') {
+                    ReactDom.render(<span>This Circel account has been disabled.</span>, document.getElementById('errorRenderSpace'))
+                  } else {
+                    ReactDom.render(<span>An error occurred (<code>{result.split('/')[1]}</code>)</span>, document.getElementById('errorRenderSpace'))
+                  }
+                }
+              })
+             }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Log in with Google&ensp;</p>} /><br /><br />
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () { uniUX.logInTwitter() }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faTwitter} />&emsp;Log in with Twitter&ensp;</p>} /><br /><br />
+            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () { 
+              uniUX.logInTwitter().then(function (result) {
+                if (result == 'success') {
+                  window.open(window.location.href.split('=')[1], '_self')
+                } else {
+                  console.log(result)
+                  if (result == 'auth/invalid-email') {
+                    ReactDom.render(<span>That Circel ID doesn't match any Circel account.</span>, document.getElementById('errorRenderSpace'))
+                  } else if (result == 'auth/wrong-password') {
+                    ReactDom.render(<span>That password doesn't match your Circel ID - please try again.</span>, document.getElementById('errorRenderSpace'))
+                  } else if (result == 'auth/user-disabled') {
+                    ReactDom.render(<span>This Circel account has been disabled.</span>, document.getElementById('errorRenderSpace'))
+                  } else {
+                    ReactDom.render(<span>An error occurred (<code>{result.split('/')[1]}</code>)</span>, document.getElementById('errorRenderSpace'))
+                  }
+                }
+              })
+             }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faTwitter} />&emsp;Log in with Twitter&ensp;</p>} /><br /><br />
           </div>
         </div>
       }>
