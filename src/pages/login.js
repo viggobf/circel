@@ -42,7 +42,23 @@ const LoginPage = () => {
 
             <uniUX.SecondaryButton text='Sign up instead' clickFn={function () { window.open('/signup?next=' + window.location.href.split('=')[1], '_self') }} />
             <br /><br />
+            
+            {/* password reset button */}
+            <span id='resetPasswordBtn' style={{cursor: 'pointer'}} className={uniUX.styles.minorText} onClick={function(){
+              ReactDom.render(<span>Loading...</span>, document.getElementById('resetPasswordBtn'))
+              uniUX.resetPasswordEmail(document.getElementById('loginPageEmail').value).then(function(result){
+                if(result == 'success'){  
+                  ReactDom.render(<span>Password reset link sent to <em>{document.getElementById('loginPageEmail').value}</em>. Click to send again.</span>, document.getElementById('resetPasswordBtn'))
+                } else {
+                  ReactDom.render(<span>Password reset link couldn't be sent. Click to try again.</span>, document.getElementById('resetPasswordBtn'))
+                }
+              })
+            }}>Forgot password?</span>
+            <br/><br/>
+
+            {/* place where errors are rendered */}
             <span id='errorRenderSpace' className={uniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
+            
           </div>
 
           <div className={uniUX.styles.halvedPageHalfSignup1}>
@@ -55,8 +71,8 @@ const LoginPage = () => {
                   window.open(window.location.href.split('=')[1], '_self')
                 } else {
                   console.log(result)
-                  if (result == 'auth/invalid-email') {
-                    ReactDom.render(<span>That Circel ID doesn't match any Circel account.</span>, document.getElementById('errorRenderSpace'))
+                  if (result == 'auth/popup-blocked') {
+                    ReactDom.render(<span>You need to allow the popup to log in with Google.</span>, document.getElementById('errorRenderSpace'))
                   } else if (result == 'auth/wrong-password') {
                     ReactDom.render(<span>That password doesn't match your Circel ID - please try again.</span>, document.getElementById('errorRenderSpace'))
                   } else if (result == 'auth/user-disabled') {
@@ -66,7 +82,7 @@ const LoginPage = () => {
                   }
                 }
               })
-             }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Log in with Google&ensp;</p>} /><br /><br />
+             }} text={<span>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Log in with Google&ensp;</span>} /><br /><br />
 
             <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () { 
               uniUX.logInTwitter().then(function (result) {
@@ -74,8 +90,8 @@ const LoginPage = () => {
                   window.open(window.location.href.split('=')[1], '_self')
                 } else {
                   console.log(result)
-                  if (result == 'auth/invalid-email') {
-                    ReactDom.render(<span>That Circel ID doesn't match any Circel account.</span>, document.getElementById('errorRenderSpace'))
+                  if (result == 'auth/popup-blocked') {
+                    ReactDom.render(<span>You need to allow the popup to log in with Twitter.</span>, document.getElementById('errorRenderSpace'))
                   } else if (result == 'auth/wrong-password') {
                     ReactDom.render(<span>That password doesn't match your Circel ID - please try again.</span>, document.getElementById('errorRenderSpace'))
                   } else if (result == 'auth/user-disabled') {
@@ -85,7 +101,7 @@ const LoginPage = () => {
                   }
                 }
               })
-             }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faTwitter} />&emsp;Log in with Twitter&ensp;</p>} /><br /><br />
+             }} text={<span>&ensp;<FontAwesomeIcon icon={brandIcons.faTwitter} />&emsp;Log in with Twitter&ensp;</span>} /><br /><br />
           </div>
         </div>
       }>

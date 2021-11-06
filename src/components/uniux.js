@@ -603,10 +603,23 @@ async function signUp(email, password) {
   try {
     const signupStatus = await firebaseSetup.firebaseAuth.createUserWithEmailAndPassword(auth, email, password)
     if (signupStatus) {
-      // logged in successfully, return that
+      // signed up successfully, return that
       const user = signupStatus.user;
       return 'success'
     }
+  } catch (error) {
+    return error.code
+  }
+}
+
+async function resetPasswordEmail(email){
+  const auth = firebaseSetup.firebaseAuth.getAuth();
+
+  try {
+    const passwordResetStatus = await firebaseSetup.firebaseAuth.sendPasswordResetEmail(auth, email)
+    
+    // password reset email link sent successfully, return that
+    return 'success'
   } catch (error) {
     return error.code
   }
@@ -678,7 +691,7 @@ export {
 
 
   // third uniUX functions
-  logIn, signUp, logOut, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
+  logIn, signUp, logOut, resetPasswordEmail, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
 
   // other variables etc
   randomNumber, appsAndTheirPages, icons, brandIcons
