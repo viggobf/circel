@@ -1,4 +1,4 @@
 node_modules/
 .cache/
 public
-# src/pages/app
+src/pages/app
