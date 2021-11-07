@@ -46,7 +46,7 @@ const Page = () => {
             {/* password reset button */}
             <span id='resetPasswordBtn' style={{cursor: 'pointer'}} className={uniUX.styles.minorText} onClick={function(){
               ReactDom.render(<span>Loading...</span>, document.getElementById('resetPasswordBtn'))
-              uniUX.resetPasswordEmail(document.getElementById('loginPageEmail').value).then(function(result){
+              uniUX.resetPasswordEmail(document.getElementById('loginPageEmail').value, window.location.href.split('=')[1]).then(function(result){
                 if(result == 'success'){  
                   ReactDom.render(<span>Password reset link sent to <em>{document.getElementById('loginPageEmail').value}</em>. Click to send again.</span>, document.getElementById('resetPasswordBtn'))
                 } else {

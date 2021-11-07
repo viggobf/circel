@@ -612,12 +612,12 @@ async function signUp(email, password) {
   }
 }
 
-async function resetPasswordEmail(email){
+async function resetPasswordEmail(email, continueUrl){
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
     const actionCodeSettings = {
-      url: window.location.href.split('=')[1],
+      url: continueUrl,
     };
     const passwordResetStatus = await firebaseSetup.firebaseAuth.sendPasswordResetEmail(auth, email, actionCodeSettings)
     
