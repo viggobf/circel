@@ -2,8 +2,8 @@ import * as React from "react"
 import { Link } from "gatsby"
 import * as uniUX from '../components/uniux.js'
 
-// markup
-const NotFoundPage = () => {
+
+const Page = () => {
   return (
     <body>
     <main className={uniUX.styles.page}>
@@ -21,4 +21,4 @@ const NotFoundPage = () => {
   )
 }
 
-export default NotFoundPage
+export default Page

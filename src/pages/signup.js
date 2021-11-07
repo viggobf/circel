@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 
-const SignupPage = () => {
+const Page = () => {
   return (
     <body>
     <uniUX.Main appPage={true} pageName={'Sign up'} content={
@@ -41,4 +41,4 @@ const SignupPage = () => {
   )
 }
 
-export default SignupPage
+export default Page
