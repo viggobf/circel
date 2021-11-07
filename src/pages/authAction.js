@@ -8,13 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 
-const url = new URL(window.location.href)
-var continueUrl
-if (url.searchParams.get('continueUrl')) {
-    continueUrl = url.searchParams.get('continueUrl')
-} else {
-    continueUrl = 'https://circel.co/'
-}
+var url;
 
 class Page extends React.Component {
     render() {
@@ -40,6 +34,13 @@ class Page extends React.Component {
 
 
     componentDidMount(){
+        url = new URL(window.location.href)
+        var continueUrl
+        if (url.searchParams.get('continueUrl')) {
+            continueUrl = url.searchParams.get('continueUrl')
+        } else {
+            continueUrl = 'https://circel.co/'
+        }
         if (url.searchParams.get('mode') == 'resetPassword') {
             uniUX.verifyPasswordResetCode(url.searchParams.get('oobCode')).then(function (result) {
                 if (result == 'error') {
