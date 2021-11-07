@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as styles from './style.module.css'
 import * as ReactSpring from 'react-spring'
 import { Link } from 'gatsby'
-import reactDom from 'react-dom'
+import ReactDom from 'react-dom'
 import * as firebaseSetup from './firebasesetup.js'
 import { Auth } from '@firebase/auth'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -152,11 +152,11 @@ class Main extends React.Component {
             username = 'Account'
           }
           if (this.props.pageType == 'website') {
-            reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           } else if (this.props.pageType == 'app') {
-            reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
           } else if (this.props.pageType == 'semiApp') {
-            reactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           }
         } catch (error) {
           // do nothing cos there's no place to put it
@@ -166,7 +166,7 @@ class Main extends React.Component {
           window.open('/login?next=' + window.location.href, '_self')
         }
         try {
-          reactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function () { window.open('/login?next=' + window.location.href, '_self') }} /></div>, document.getElementById('accountArea'))
+          ReactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function () { window.open('/login?next=' + window.location.href, '_self') }} /></div>, document.getElementById('accountArea'))
         } catch (error) {
           // do nothing cos there's no place to put it
         }
@@ -265,7 +265,7 @@ class ColumnedApp extends React.Component {
       throwUniUXError(`UniUX Error 2: The Page Title does not match a page name in any sidebar item. Please make sure you are using one of the
       items in this page's sidebar as the Page Title.`)
     }
-    reactDom.render(<span><br /> {listOfApps}</span>, document.getElementById('appItemsSidebar'))
+    ReactDom.render(<span><br /> {listOfApps}</span>, document.getElementById('appItemsSidebar'))
   }
 }
 
@@ -467,93 +467,93 @@ class Hr extends React.Component {
 
 function fadeInElementOnRender(elementForRender, placeForRender, totalFadeInTimeMs) {
   // fades in element by gradually increasing opacity
-  reactDom.render(<div style={{ opacity: '0', transition: 'opacity 0.5s' }} id='fadingIn'>{elementForRender}</div>, placeForRender)
+  ReactDom.render(<div style={{ opacity: '0', transition: 'opacity 0.5s' }} id='fadingIn'>{elementForRender}</div>, placeForRender)
 
   document.getElementById('fadingIn').style.opacity = '1'
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.15}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.15}}>{elementForRender}</div>, placeForRender)
   // }, 0.5 *(totalFadeInTimeMs / 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.2}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.2}}>{elementForRender}</div>, placeForRender)
   // }, 1 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.25}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.25}}>{elementForRender}</div>, placeForRender)
   // }, 1.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.3}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.3}}>{elementForRender}</div>, placeForRender)
   // }, 2 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.35}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.35}}>{elementForRender}</div>, placeForRender)
   // }, 2.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.4}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.4}}>{elementForRender}</div>, placeForRender)
   // }, 3 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.45}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.45}}>{elementForRender}</div>, placeForRender)
   // }, 3.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.5}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.5}}>{elementForRender}</div>, placeForRender)
   // }, 4 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.55}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.55}}>{elementForRender}</div>, placeForRender)
   // }, 4.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.6}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.6}}>{elementForRender}</div>, placeForRender)
   // }, 5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.65}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.65}}>{elementForRender}</div>, placeForRender)
   // }, 5.5 * (totalFadeInTimeMs / 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.7}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.7}}>{elementForRender}</div>, placeForRender)
   // }, 6 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.75}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.75}}>{elementForRender}</div>, placeForRender)
   // }, 6.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.8}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.8}}>{elementForRender}</div>, placeForRender)
   // }, 7 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.85}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.85}}>{elementForRender}</div>, placeForRender)
   // }, 7.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.9}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.9}}>{elementForRender}</div>, placeForRender)
   // }, 8 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.95}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.95}}>{elementForRender}</div>, placeForRender)
   // }, 8.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.97}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.97}}>{elementForRender}</div>, placeForRender)
   // }, 9 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 0.98}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 0.98}}>{elementForRender}</div>, placeForRender)
   // }, 9.5 *(totalFadeInTimeMs/ 10))
 
   // setTimeout(function(){
-  //   reactDom.render(<div style={{opacity: 1}}>{elementForRender}</div>, placeForRender)
+  //   ReactDom.render(<div style={{opacity: 1}}>{elementForRender}</div>, placeForRender)
   // }, 10 *(totalFadeInTimeMs/ 10))
 }
 
 function renderNothing(placeForRender) {
-  reactDom.render(<Nothing />, placeForRender)
+  ReactDom.render(<Nothing />, placeForRender)
 }
 
 // uniUX functions
@@ -572,7 +572,7 @@ function toggleAccountMenu() {
     )
   } else {
     // close it
-    reactDom.render(
+    ReactDom.render(
       <Nothing />,
       document.getElementById('accountOptionsArea')
     )
@@ -616,12 +616,46 @@ async function resetPasswordEmail(email){
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
-    const passwordResetStatus = await firebaseSetup.firebaseAuth.sendPasswordResetEmail(auth, email)
+    const actionCodeSettings = {
+      url: window.location.href.split('=')[1],
+    };
+    const passwordResetStatus = await firebaseSetup.firebaseAuth.sendPasswordResetEmail(auth, email, actionCodeSettings)
     
     // password reset email link sent successfully, return that
     return 'success'
   } catch (error) {
     return error.code
+  }
+}
+
+async function completeResetPassword(email, newPassword, oobCode){
+  const auth = firebaseSetup.firebaseAuth.getAuth();
+
+  try {
+      const passwordResetStatus = await firebaseSetup.firebaseAuth.confirmPasswordReset(auth, oobCode, newPassword)
+    
+      // password changed successfully, log them in, then return success
+      const logInAfterResetStatus = await firebaseSetup.firebaseAuth.signInWithEmailAndPassword(auth, email, newPassword)
+      if (logInAfterResetStatus) {
+        // logged in after reset successfully, return that
+        const user = logInAfterResetStatus.user;
+        return 'success'
+      }
+  } catch (error) {
+    return error.code
+  }
+}
+
+async function verifyPasswordResetCode(oobCode){
+  const auth = firebaseSetup.firebaseAuth.getAuth();
+
+  try {
+    const passwordResetStatus = await firebaseSetup.firebaseAuth.verifyPasswordResetCode(auth, oobCode)
+    
+    // password changed successfully, return that
+    return passwordResetStatus
+  } catch (error) {
+    return 'error'
   }
 }
 
@@ -691,11 +725,11 @@ export {
 
 
   // third uniUX functions
-  logIn, signUp, logOut, resetPasswordEmail, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
+  logIn, signUp, logOut, resetPasswordEmail, completeResetPassword, verifyPasswordResetCode, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
 
   // other variables etc
   randomNumber, appsAndTheirPages, icons, brandIcons
 
 }
 
-// reactDom.render
+// ReactDom.render
