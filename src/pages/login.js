@@ -53,7 +53,7 @@ const Page = () => {
                   ReactDom.render(<span>Password reset link couldn't be sent. Click to try again.</span>, document.getElementById('resetPasswordBtn'))
                 }
               })
-            }}>Forgot password?</span>
+            }}>Forgot Password</span>
             <br/><br/>
 
             {/* place where errors are rendered */}
