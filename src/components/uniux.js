@@ -269,6 +269,7 @@ class ColumnedApp extends React.Component {
   }
 }
 
+// a card
 class OverviewCard extends React.Component {
   render() {
     return <div className={styles.overviewCard} style={this.props.styles}>
@@ -279,10 +280,24 @@ class OverviewCard extends React.Component {
   }
 }
 
+// 
+class FullWidthNavCard extends React.Component {
+  render() {
+    const href = this.props.takeTo
+    return <div className={styles.fullWidthNavCard} style={this.props.styles} onClick={function () { window.open(href, '_self') }}>
+      <strong style={{ marginBottom: 5, fontSize: '19px', width: '80%', float: 'left' }}>{this.props.name}</strong>
+      <strong style={{ marginBottom: 5, fontSize: 'large', width: '20%', float: 'left', textAlign: 'right' }}><FontAwesomeIcon icon={icons.faArrowRight} /></strong>
+      
+      <br /><br />
+      <span className={styles.minorText}>{this.props.content}</span>
+    </div>
+  }
+}
+
 const appsAndTheirPages = {
   // so when sidebar item is added to one page in app, it is added to all for uniformity (and to save a job).
   // AlWAYS add an array here for the app, don't add arrays individually to every page. Reference the array of pages eg appsAndTheirPages.settings
-  settings: [['Overview', icons.faList], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]]
+  settings: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]]
 }
 
 // circel logo with CSS
@@ -406,7 +421,7 @@ class SidebarItem extends React.Component {
   render() {
     return <Link to={'/' + this.props.text}>
       <button class={styles.sidebarItem} style={this.props.styles}>
-        <div style={{ display: 'grid', gridTemplateColumns: '25px 50px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
           <div style={{ textAlign: 'left' }}>
             <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon}
             />
@@ -460,6 +475,14 @@ class Nothing extends React.Component {
 class Hr extends React.Component {
   render() {
     return <div className={styles.hR} />
+  }
+}
+
+// an element that breaks float:left, so i don't go insane
+
+class FloatBr extends React.Component {
+  render() {
+    return <div style={{ clear: 'both' }} />
   }
 }
 
@@ -580,8 +603,10 @@ function toggleAccountMenu() {
   }
 }
 
-// Circel Accounts functions
+// Circel Accounts functions. While we name Circel IDs as emails here, 
+// please name them as Circel IDs when the user can see (brand identity :)).
 
+// login/signup
 async function logIn(email, password) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
@@ -612,7 +637,8 @@ async function signUp(email, password) {
   }
 }
 
-async function resetPasswordEmail(email, continueUrl){
+// password reset
+async function resetPasswordEmail(email, continueUrl) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
@@ -620,38 +646,39 @@ async function resetPasswordEmail(email, continueUrl){
       url: continueUrl,
     };
     const passwordResetStatus = await firebaseSetup.firebaseAuth.sendPasswordResetEmail(auth, email, actionCodeSettings)
-    
+
     // password reset email link sent successfully, return that
     return 'success'
   } catch (error) {
+    console.log(error.code)
     return error.code
   }
 }
 
-async function completeResetPassword(email, newPassword, oobCode){
+async function completeResetPassword(email, newPassword, oobCode) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
-      const passwordResetStatus = await firebaseSetup.firebaseAuth.confirmPasswordReset(auth, oobCode, newPassword)
-    
-      // password changed successfully, log them in, then return success
-      const logInAfterResetStatus = await firebaseSetup.firebaseAuth.signInWithEmailAndPassword(auth, email, newPassword)
-      if (logInAfterResetStatus) {
-        // logged in after reset successfully, return that
-        const user = logInAfterResetStatus.user;
-        return 'success'
-      }
+    const passwordResetStatus = await firebaseSetup.firebaseAuth.confirmPasswordReset(auth, oobCode, newPassword)
+
+    // password changed successfully, log them in, then return success
+    const logInAfterResetStatus = await firebaseSetup.firebaseAuth.signInWithEmailAndPassword(auth, email, newPassword)
+    if (logInAfterResetStatus) {
+      // logged in after reset successfully, return that
+      const user = logInAfterResetStatus.user;
+      return 'success'
+    }
   } catch (error) {
     return error.code
   }
 }
 
-async function verifyPasswordResetCode(oobCode){
+async function verifyPasswordResetCode(oobCode) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
     const passwordResetStatus = await firebaseSetup.firebaseAuth.verifyPasswordResetCode(auth, oobCode)
-    
+
     // password changed successfully, return that
     return passwordResetStatus
   } catch (error) {
@@ -659,6 +686,21 @@ async function verifyPasswordResetCode(oobCode){
   }
 }
 
+// circel id (email) verification
+async function completeEmailVerification(email, oobCode) {
+  const auth = firebaseSetup.firebaseAuth.getAuth();
+
+  try {
+    const emailVerifyStatus = await firebaseSetup.firebaseAuth.applyActionCode(auth, oobCode)
+
+    // email verified successfully, return that
+    return 'success'
+  } catch (error) {
+    return error.code
+  }
+}
+
+// log out
 function logOut(takeToLoginPage) {
   firebaseSetup.firebaseAuth.signOut(firebaseSetup.firebaseAuth.getAuth()).then(function () {
     if (takeToLoginPage) {
@@ -721,7 +763,8 @@ export {
 
 
   // second react components
-  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, DynamicText, FontAwesomeIcon,
+  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, FullWidthNavCard, DynamicText, FontAwesomeIcon,
+  Hr, FloatBr,
 
 
   // third uniUX functions
