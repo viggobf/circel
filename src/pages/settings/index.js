@@ -30,8 +30,9 @@ class Page extends React.Component{
           Appearance
         </h4>
         <uniUX.FullWidthNavCard name='Appearance Settings' takeTo='/settings/appearance' content={<span>
-          View your user profile, edit your account settings and more.
+          Make UniUX yours.
         </span>}/>
+        
         </span>
       }/>
     }>

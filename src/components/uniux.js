@@ -108,7 +108,7 @@ class Main extends React.Component {
 
     } else if (this.props.pageType == 'app') {
       loginRequired = true
-      return <div className={styles.page}>
+      return <span><div className={styles.page} style={{opacity: '1', transition: 'opacity 0.5s'}} id='page'>
         <title>{this.props.pageName} | Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
@@ -117,10 +117,15 @@ class Main extends React.Component {
 
         {this.props.content}
       </div>
+      <div className={styles.loadingScreen} id='loadingScreen'>
+        {/* <CircelLogo scale='1.8'/> */}
+        <div className={styles.pageLoader}/>
+      </div>
+      </span>
 
     } else if (this.props.pageType == 'semiApp') {
       loginRequired = false
-      return <div className={styles.page}>
+      return <span><div className={styles.page}>
         <title>{this.props.pageName} | Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
@@ -129,6 +134,7 @@ class Main extends React.Component {
 
         {this.props.content}
       </div>
+      </span>
     } else {
       throwUniUXError(`UniUX Error 3: This page's pageType is not 'website', 'semiApp' or 'app', so UniUX.Main couldn't render.
       Please make sure pageType matches one of the stated values.`)
@@ -171,6 +177,10 @@ class Main extends React.Component {
           // do nothing cos there's no place to put it
         }
       }
+
+
+      // finished now. Don't put functions after this to ensure a smooth loading experience.
+      
     });
 
     window.onresize = function () {
@@ -190,6 +200,19 @@ class Main extends React.Component {
       }
     }
 
+
+
+    // page loading has finished, hide the loading overlay screen. don't put functions after this; please put
+    // them before this comment to ensure a smooth loading experience.
+    setTimeout(function(){  
+      try{
+        document.getElementById('page').style.opacity = '1'
+        document.getElementById('loadingScreen').style.opacity = '0'
+        setTimeout(function(){document.getElementById('loadingScreen').style.display = 'none'}, 500)
+      } catch (e){
+        // do nothing cos circel loading screen doesn't apply to this page
+      }
+    }, 600)
   }
 }
 
@@ -210,8 +233,9 @@ class ColumnedApp extends React.Component {
   render() {
     if (this.props.themeColour && this.props.pageTitle && this.props.appShortenedName && this.props.firstColumnPageItems
       && this.props.secondColumnContent && this.props.appTitle) {
-
+      // yey, we've got all the necessary props
     } else {
+      // uh oh, we're missing some props
       throwUniUXError(`UniUX Error 1: Some attributes of the app are missing. Please make sure you have included appTitle, pageTitle,
       themeColour, appShortenedName, firstColumnPageItems and secondColumnContent.`)
     }
@@ -219,10 +243,12 @@ class ColumnedApp extends React.Component {
 
       <div className={styles.columnedLayoutC1}>
         {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/app', '_self')}}><div className={styles.circelLogoSemicircle}></div></div> */}
-        <CircelLogo />
-
-        <br />
-        <h2 style={{ color: this.props.themeColour, marginTop: 10, marginBottom: 0 }}>{this.props.appTitle}</h2>
+        <div className={styles.columnedLayoutC1TitleBar}> 
+          {/* <CircelLogo /> */}
+          <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left'}}>
+            Settings
+          </h3>
+        </div>
 
         <div id='appItemsSidebar'>
 
@@ -238,7 +264,14 @@ class ColumnedApp extends React.Component {
 
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-          <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>{this.props.pageTitle}</h3>
+          <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>
+            <span style={{fontWeight: '300'}}>
+            <FontAwesomeIcon icon={icons.faChevronLeft} onClick={function(){window.history.back()}}/> &emsp; 
+            <FontAwesomeIcon icon={icons.faChevronRight} style={{cursor: 'pointer'}} onClick={function(){window.history.forward()}}/>
+            </span> 
+            &emsp;
+            {this.props.pageTitle}
+          </h3>
           <div id='appTopBarRightOptions' style={{ marginTop: -4, width: '48%', float: 'left' }}></div>
         </div>
         {this.props.secondColumnContent}
