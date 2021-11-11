@@ -305,16 +305,8 @@ class TopBar extends React.Component {
 
         {/* since this is an app page */}
         <div className={styles.topBarNavZone}>
-          <Link className={styles.topBarLink} to='/'>Home</Link>
-          &emsp;&emsp;&emsp;&emsp;
-
-          {/* <Link className={styles.topBarLink} to='/products'>Products</Link>
-            &emsp;&emsp;&emsp;&emsp;
-
-            <Link className={styles.topBarLink} to='/contact'>Support</Link>
-            &emsp;&emsp;&emsp;&emsp;
-
-            <Link className={styles.topBarLink} to='/support'>Docs</Link> */}
+          <Link className={styles.topBarLink} to='/'>Home</Link>&emsp;&emsp;&emsp;&emsp;
+          <Link className={styles.topBarLink} to='/design'>Design</Link>
         </div>
 
         {/* button zone for sign in etc */}

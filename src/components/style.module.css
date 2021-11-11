@@ -109,7 +109,6 @@ a{
     top: 0vh;
     left: 19vw;
     height: 42px;
-    /* border-bottom: 1px solid red; */
     width: 80vw;
     position: fixed;
     backdrop-filter: blur(15px);
