@@ -9,10 +9,9 @@ const Page = () => {
     <uniUX.Main pageType={'website'} pageName={'Home'} content={
       <div>
         <div className={uniUX.styles.homepageWorkspaceCard}>
-          <h1 style={uniUX.welcomeHeadingStyles}><span style={{color: 'rgb(109, 109, 109)'}}>12/11/21 18:00</span><br/><span style={{fontSize: '9vw', textShadow: 'color: #131313'}}>CIRCELR21</span></h1>
-          <p className={uniUX.styles.minorText}>Circel's annual event, premiering on YouTube. You're invited. Nov 12 18:00 GMT. #circelr21</p><br/><br/>
-          <uniUX.PrimaryButton text='Subscribe to Circel' clickFn={function(){window.open('https://www.youtube.com/channel/UClWJCTCgs8AnvgHtms5ei6Q', '_self')}}/>
-          <uniUX.SecondaryButton text='Follow @circelnews for more' styles={{width: '200px'}} clickFn={function(){window.open('https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Efollow%7Ctwgr%5Ecircelnews&screen_name=circelnews', '_self')}}/>
+          <h1 style={uniUX.welcomeHeadingStyles}><span style={{color: 'rgb(109, 109, 109)'}}>New</span><br/><span style={{fontSize: '9vw', textShadow: 'color: #131313'}}>UniUX 3</span></h1>
+          <p className={uniUX.styles.minorText}>A user experience like no other. Coming 2022.</p><br/><br/>
+          <uniUX.PrimaryButton text='Watch CIRCELR21' clickFn={function(){window.open('https://www.youtube.com/channel/UClWJCTCgs8AnvgHtms5ei6Q', '_self')}}/>
         </div>
         <br/><br/><br/><br/><br/><br/><br/>
 
@@ -22,7 +21,7 @@ const Page = () => {
           <span className={uniUX.styles.pageTileRow}>
             <uniUX.OverviewCard name='CIRCELR21' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
             <p className={uniUX.styles.minorText}>
-              The 2021 Circel event - it's happening.<br/><br/>Watch the live event keynote at 18:00 on November 12.
+              The 2021 Circel event - watch it now.<br/><br/>Catch up on the Circel YouTube channel.
             </p>
             </span>}/>
 
