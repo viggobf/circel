@@ -10,7 +10,7 @@ import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 const Page = () => {
   return (
     <body>
-      <uniUX.Main pageType={'semiApp'} pageName={'Sign up'} content={
+      <uniUX.Main pageType={'custom'} pageName={'Sign up'} content={
         <div className={uniUX.styles.halvedPageGrid}>
           <div className={uniUX.styles.halvedPageHalf} id='halvedPageHalf1' style={{ backgroundColor: 'white' }}>
             <br /><br />

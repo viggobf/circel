@@ -13,7 +13,7 @@ var url;
 class Page extends React.Component {
     render() {
         return (<body id='authActionRenderSpace'>
-            <uniUX.Main pageType={'semiApp'} pageName={'Reset Password'} content={
+            <uniUX.Main pageType={'custom'} pageName={'Reset Password'} content={
                 <div className={uniUX.styles.halvedPageGrid}>
                     <div className={uniUX.styles.halvedPageHalf}>
                         <br /><br />
@@ -45,7 +45,7 @@ class Page extends React.Component {
             uniUX.verifyPasswordResetCode(url.searchParams.get('oobCode')).then(function (result) {
                 if (result == 'error') {
                     ReactDom.render(<body>
-                        <uniUX.Main pageType={'semiApp'} pageName={'Reset Password'} content={
+                        <uniUX.Main pageType={'custom'} pageName={'Reset Password'} content={
                             <div className={uniUX.styles.halvedPageGrid}>
                                 <div className={uniUX.styles.halvedPageHalf}>
                                     <br /><br />
@@ -67,7 +67,7 @@ class Page extends React.Component {
                 } else {
                     ReactDom.render(
                         <body>
-                            <uniUX.Main pageType={'semiApp'} pageName={'Reset Password'} content={
+                            <uniUX.Main pageType={'custom'} pageName={'Reset Password'} content={
                                 <div className={uniUX.styles.halvedPageGrid}>
                                     <div className={uniUX.styles.halvedPageHalf}>
                                         <br /><br />
@@ -110,7 +110,7 @@ class Page extends React.Component {
         else if (url.searchParams.get('mode') == 'verifyEmail') {
             ReactDom.render(
                 <body>
-                    <uniUX.Main pageType={'semiApp'} pageName={'Verify your Circel ID'} content={
+                    <uniUX.Main pageType={'custom'} pageName={'Verify your Circel ID'} content={
                         <div className={uniUX.styles.halvedPageGrid}>
                             <div className={uniUX.styles.halvedPageHalf}>
                                 <br /><br />

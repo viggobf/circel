@@ -28,7 +28,8 @@
     left: 0;
     top: 0;
     backdrop-filter: blur(10px);
-    transition: opacity 0.6s;
+    transition: opacity 0.5s;
+    background-color: white;
 }
 
 .pageLoader {
@@ -97,7 +98,7 @@ a{
     width: 18vw;
     box-sizing: border-box;
     border-right: 1px solid rgb(240, 240, 240);
-    box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02);
+    /* box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02); */
     z-index: 100;
     overflow-x: scroll;
 }
@@ -204,7 +205,7 @@ a{
     box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02);
 }
 
-.topBarRightOptionsPfp{
+.pfp{
     border-radius: 50%;
     width: 30px;
     height: 30px;

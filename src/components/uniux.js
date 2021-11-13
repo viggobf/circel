@@ -16,6 +16,8 @@ var userInfo;
 var inDev = false
 var username
 var loginRequired
+var userInfo
+var urlTo
 
 // making a random number for variable UIs and other stuff
 const no = Math.random();
@@ -85,7 +87,7 @@ class Main extends React.Component {
     if (this.props.inDev) {
       inDev = true
     }
-    // get if page is app, semiApp (app with no login requirement, app layout), or website (no login requirement, top bar shown) and
+    // get if page is app, custom (app with no login requirement, app layout), or website (no login requirement, top bar shown) and
     // render correct interface from that
     if (this.props.pageType == 'website') {
       loginRequired = false
@@ -123,7 +125,7 @@ class Main extends React.Component {
       </div>
       </span>
 
-    } else if (this.props.pageType == 'semiApp') {
+    } else if (this.props.pageType == 'custom') {
       loginRequired = false
       return <span><div className={styles.page}>
         <title>{this.props.pageName} | Circel</title>
@@ -131,12 +133,12 @@ class Main extends React.Component {
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
         </div>
-
+        
         {this.props.content}
       </div>
       </span>
     } else {
-      throwUniUXError(`UniUX Error 3: This page's pageType is not 'website', 'semiApp' or 'app', so UniUX.Main couldn't render.
+      throwUniUXError(`UniUX Error 3: This page's pageType is not 'website', 'custom' or 'app', so UniUX.Main couldn't render.
       Please make sure pageType matches one of the stated values.`)
     }
   }
@@ -148,7 +150,7 @@ class Main extends React.Component {
     const auth = firebaseSetup.firebaseAuth.getAuth();
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {
       if (user) {
-        const userInfo = user
+        userInfo = user
         console.log('Welcome, ' + userInfo.email)
         // add the account options box
         try {
@@ -161,7 +163,7 @@ class Main extends React.Component {
             ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           } else if (this.props.pageType == 'app') {
             ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
-          } else if (this.props.pageType == 'semiApp') {
+          } else if (this.props.pageType == 'custom') {
             ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           }
         } catch (error) {
@@ -245,8 +247,8 @@ class ColumnedApp extends React.Component {
         {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/app', '_self')}}><div className={styles.circelLogoSemicircle}></div></div> */}
         <div className={styles.columnedLayoutC1TitleBar}> 
           {/* <CircelLogo /> */}
-          <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left'}}>
-            Settings
+          <h3 style={{ marginTop: 4, marginBottom: 0, width: '50%', float: 'left', textAlign: 'left'}}>
+            {this.props.appTitle}
           </h3>
         </div>
 
@@ -266,7 +268,7 @@ class ColumnedApp extends React.Component {
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
           <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>
             <span style={{fontWeight: '300'}}>
-            <FontAwesomeIcon icon={icons.faChevronLeft} onClick={function(){window.history.back()}}/> &emsp; 
+            <FontAwesomeIcon icon={icons.faChevronLeft} style={{cursor: 'zoomIn'}} onClick={function(){window.history.back()}}/> &emsp; 
             <FontAwesomeIcon icon={icons.faChevronRight} style={{cursor: 'pointer'}} onClick={function(){window.history.forward()}}/>
             </span> 
             &emsp;
@@ -284,6 +286,11 @@ class ColumnedApp extends React.Component {
     var listOfApps = []
     var pageTitleMatchesASidebarItem
     this.props.firstColumnPageItems.forEach(appItem => {
+      if (appItem[0] == 'Home'){
+        urlTo = '/' + this.props.appTitle
+      } else {
+        urlTo = '/' + this.props.appTitle + '/' + appItem[0]
+      }
       if (appItem[0] == this.props.pageTitle) {
         appItem.push(true)
         pageTitleMatchesASidebarItem = true
@@ -291,7 +298,7 @@ class ColumnedApp extends React.Component {
       if (appItem[2]) {
         listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)' }} iconColour={'white'} />)
       } else {
-        listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
+        listOfApps.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
       }
     });
     if (!pageTitleMatchesASidebarItem) {
@@ -452,20 +459,20 @@ class MenuItem extends React.Component {
 
 class SidebarItem extends React.Component {
   render() {
-    return <Link to={'/' + this.props.text}>
-      <button class={styles.sidebarItem} style={this.props.styles}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
-          <div style={{ textAlign: 'left' }}>
-            <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon}
-            />
-          </div>
+      return <Link to={this.props.to}>
+        <button class={styles.sidebarItem} style={this.props.styles}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
+            <div style={{ textAlign: 'left' }}>
+              <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon}
+              />
+            </div>
 
-          <div style={{ fontWeight: 500 }}>
-            {this.props.text}
+            <div style={{ fontWeight: 500 }}>
+              {this.props.text}
+            </div>
           </div>
-        </div>
-      </button>
-    </Link>
+        </button>
+      </Link>
   }
 }
 
@@ -516,6 +523,12 @@ class Hr extends React.Component {
 class FloatBr extends React.Component {
   render() {
     return <div style={{ clear: 'both' }} />
+  }
+}
+
+class LargeBr extends React.Component {
+  render() {
+    return <span><div style={{ clear: 'both' }} /><br/></span>
   }
 }
 
@@ -772,6 +785,15 @@ async function logInTwitter() {
   }
 }
 
+async function getUserDetails(){
+  const userDetails = firebaseSetup.firebaseAuth.getAuth().currentUser.displayName
+  // const userDetails = 'h'
+
+  return userDetails
+}
+
+
+
 
 async function getDocFromFirestore(collection, documentName) {
   const docRef = firebaseSetup.firestore.doc(firebaseSetup.firestore.getFirestore(firebaseSetup.app), collection, documentName);
@@ -797,15 +819,14 @@ export {
 
   // second react components
   TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, FullWidthNavCard, DynamicText, FontAwesomeIcon,
-  Hr, FloatBr,
+  Hr, FloatBr, LargeBr,
 
 
   // third uniUX functions
-  logIn, signUp, logOut, resetPasswordEmail, completeResetPassword, verifyPasswordResetCode, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
+  logIn, signUp, logOut, resetPasswordEmail, completeResetPassword, verifyPasswordResetCode, getUserDetails,
+  logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
 
   // other variables etc
-  randomNumber, appsAndTheirPages, icons, brandIcons
+  randomNumber, appsAndTheirPages, icons, brandIcons, userInfo,
 
 }
-
-// ReactDom.render
