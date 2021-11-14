@@ -137,7 +137,7 @@ a{
     overflow-y: scroll;
 }
 
-.overviewCard{
+.smallCard{
     width: 300px;
     height: 150px;
     border-radius: 11px;

@@ -20,19 +20,19 @@ const Page = () => {
         <p className={uniUX.styles.minorText}></p>
         <h2>Need to know</h2>
           <span className={uniUX.styles.pageTileRow}>
-            <uniUX.OverviewCard name='CIRCELR21' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
+            <uniUX.SmallCard name='CIRCELR21' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
             <p className={uniUX.styles.minorText}>
               The 2021 Circel event - it's happening.<br/><br/>Watch the live event keynote at 18:00 on November 12.
             </p>
             </span>}/>
 
-            <uniUX.OverviewCard name='Circel on social' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
+            <uniUX.SmallCard name='Circel on social' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
             <p className={uniUX.styles.minorText}>
               Follow us @circelofficial, @circelnews, @circeldesign, @circelsupport on Twitter.<br/><br/> Subscribe to us <a href='https://www.youtube.com/channel/UClWJCTCgs8AnvgHtms5ei6Q'>here on YouTube</a>.
             </p>
             </span>}/>
             
-            <uniUX.OverviewCard name='The Circel Discord server' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
+            <uniUX.SmallCard name='The Circel Discord server' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
             <p className={uniUX.styles.minorText}>
               Join our brand new Discord server for chat, meeting the team, and news straight through Discord.<br/><br/><a href='https://discord.gg/2fN7FfWZ6P'>Join today!</a>
             </p>

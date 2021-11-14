@@ -18,6 +18,8 @@ var username
 var loginRequired
 var userInfo
 var urlTo
+var openAppSidebarItemRendered
+var sidebarItemDestination
 
 // making a random number for variable UIs and other stuff
 const no = Math.random();
@@ -110,7 +112,7 @@ class Main extends React.Component {
 
     } else if (this.props.pageType == 'app') {
       loginRequired = true
-      return <span><div className={styles.page} style={{opacity: '1', transition: 'opacity 0.5s'}} id='page'>
+      return <span><div className={styles.page} style={{ opacity: '1', transition: 'opacity 0.5s' }} id='page'>
         <title>{this.props.pageName} | Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
@@ -119,10 +121,10 @@ class Main extends React.Component {
 
         {this.props.content}
       </div>
-      <div className={styles.loadingScreen} id='loadingScreen'>
-        {/* <CircelLogo scale='1.8'/> */}
-        <div className={styles.pageLoader}/>
-      </div>
+        <div className={styles.loadingScreen} id='loadingScreen'>
+          {/* <CircelLogo scale='1.8'/> */}
+          <div className={styles.pageLoader} />
+        </div>
       </span>
 
     } else if (this.props.pageType == 'custom') {
@@ -133,7 +135,7 @@ class Main extends React.Component {
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
         </div>
-        
+
         {this.props.content}
       </div>
       </span>
@@ -160,11 +162,11 @@ class Main extends React.Component {
             username = 'Account'
           }
           if (this.props.pageType == 'website') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           } else if (this.props.pageType == 'app') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
           } else if (this.props.pageType == 'custom') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           }
         } catch (error) {
           // do nothing cos there's no place to put it
@@ -182,7 +184,7 @@ class Main extends React.Component {
 
 
       // finished now. Don't put functions after this to ensure a smooth loading experience.
-      
+
     });
 
     window.onresize = function () {
@@ -196,25 +198,26 @@ class Main extends React.Component {
     }
 
     window.onclick = function () {
-      if (accountMenuOpen) {
-        renderNothing(document.getElementById('accountOptionsArea'))
-        accountMenuOpen = false
-      }
+      // setTimeout(function) 
+        if (accountMenuOpen) {
+          renderNothing(document.getElementById('accountOptionsArea'))
+          accountMenuOpen = false
+        }
     }
 
 
 
     // page loading has finished, hide the loading overlay screen. don't put functions after this; please put
     // them before this comment to ensure a smooth loading experience.
-    setTimeout(function(){  
-      try{
+    setTimeout(function () {
+      try {
         document.getElementById('page').style.opacity = '1'
         document.getElementById('loadingScreen').style.opacity = '0'
-        setTimeout(function(){document.getElementById('loadingScreen').style.display = 'none'}, 500)
-      } catch (e){
+        setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+      } catch (e) {
         // do nothing cos circel loading screen doesn't apply to this page
       }
-    }, 600)
+    }, 0)
   }
 }
 
@@ -245,16 +248,14 @@ class ColumnedApp extends React.Component {
 
       <div className={styles.columnedLayoutC1}>
         {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/app', '_self')}}><div className={styles.circelLogoSemicircle}></div></div> */}
-        <div className={styles.columnedLayoutC1TitleBar}> 
+        <div className={styles.columnedLayoutC1TitleBar}>
           {/* <CircelLogo /> */}
-          <h3 style={{ marginTop: 4, marginBottom: 0, width: '50%', float: 'left', textAlign: 'left'}}>
+          <h3 style={{ marginTop: 4, marginBottom: 0, width: '50%', float: 'left', textAlign: 'left' }}>
             {this.props.appTitle}
           </h3>
         </div>
 
-        <div id='appItemsSidebar'>
-
-        </div>
+        <div id='appItemsSidebar' />
       </div>
 
       <div className={styles.columnedLayoutC2} id={'column2'} onScroll={function () {
@@ -267,10 +268,10 @@ class ColumnedApp extends React.Component {
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
           <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>
-            <span style={{fontWeight: '300'}}>
-            <FontAwesomeIcon icon={icons.faChevronLeft} style={{cursor: 'zoomIn'}} onClick={function(){window.history.back()}}/> &emsp; 
-            <FontAwesomeIcon icon={icons.faChevronRight} style={{cursor: 'pointer'}} onClick={function(){window.history.forward()}}/>
-            </span> 
+            <span style={{ fontWeight: '300' }}>
+              <FontAwesomeIcon icon={icons.faChevronLeft} style={{ cursor: 'cursor' }} onClick={function () { window.history.back() }} /> &emsp;
+              <FontAwesomeIcon icon={icons.faChevronRight} style={{ cursor: 'pointer' }} onClick={function () { window.history.forward() }} />
+            </span>
             &emsp;
             {this.props.pageTitle}
           </h3>
@@ -285,13 +286,15 @@ class ColumnedApp extends React.Component {
   componentDidMount() {
     var listOfApps = []
     var pageTitleMatchesASidebarItem
+    listOfApps = []
     this.props.firstColumnPageItems.forEach(appItem => {
-      if (appItem[0] == 'Home'){
+      urlTo = ""
+      if (appItem[0] == 'Home') {
         urlTo = '/' + this.props.appTitle
       } else {
         urlTo = '/' + this.props.appTitle + '/' + appItem[0]
       }
-      if (appItem[0] == this.props.pageTitle) {
+      if (appItem[0] === this.props.pageTitle) {
         appItem.push(true)
         pageTitleMatchesASidebarItem = true
       }
@@ -305,14 +308,20 @@ class ColumnedApp extends React.Component {
       throwUniUXError(`UniUX Error 2: The Page Title does not match a page name in any sidebar item. Please make sure you are using one of the
       items in this page's sidebar as the Page Title.`)
     }
-    ReactDom.render(<span><br /> {listOfApps}</span>, document.getElementById('appItemsSidebar'))
+    ReactDom.render(<span>{listOfApps}</span>, document.getElementById('appItemsSidebar'))
+  }
+
+  componentWillUnmount() {
+    // ReactDom.render(null, document.getElementById('appItemsSidebar'))
+    document.getElementById('page').style.opacity = '0'
+    document.getElementById('loadingScreen').opacity = '1'
   }
 }
 
 // a card
-class OverviewCard extends React.Component {
+class SmallCard extends React.Component {
   render() {
-    return <div className={styles.overviewCard} style={this.props.styles}>
+    return <div className={styles.smallCard} style={this.props.styles}>
       <strong style={{ marginBottom: 5, fontSize: 'large' }}>{this.props.name}</strong>
       <br /><br />
       {this.props.content}
@@ -327,7 +336,7 @@ class FullWidthNavCard extends React.Component {
     return <div className={styles.fullWidthNavCard} style={this.props.styles} onClick={function () { window.open(href, '_self') }}>
       <strong style={{ marginBottom: 5, fontSize: '19px', width: '80%', float: 'left' }}>{this.props.name}</strong>
       <strong style={{ marginBottom: 5, fontSize: 'large', width: '20%', float: 'left', textAlign: 'right' }}><FontAwesomeIcon icon={icons.faArrowRight} /></strong>
-      
+
       <br /><br />
       <span className={styles.minorText}>{this.props.content}</span>
     </div>
@@ -406,8 +415,7 @@ class TopBar extends React.Component {
 class TopBarAccountOptions extends React.Component {
   render() {
     return <div class={styles.topBarAccountOptions}>
-      <MenuItem text='My Circel' icon={icons.faHome} firstInList={true} />
-      <MenuItem text='Settings' icon={icons.faCog} />
+      <MenuItem text='Settings' icon={icons.faCog} firstInList/>
       <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' clickFn={function () {
         if (!loginRequired) {
           logOut(false)
@@ -433,7 +441,7 @@ class MenuItem extends React.Component {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              {/* <FontAwesomeIcon icon={this.props.icon}/>&nbsp; */}
+              <FontAwesomeIcon icon={this.props.icon}/>&nbsp;
             </div>
           </div>
         </button>
@@ -448,7 +456,7 @@ class MenuItem extends React.Component {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              {/* <FontAwesomeIcon icon={this.props.icon}/>&nbsp; */}
+              <FontAwesomeIcon icon={this.props.icon}/>&nbsp;
             </div>
           </div>
         </button>
@@ -459,20 +467,20 @@ class MenuItem extends React.Component {
 
 class SidebarItem extends React.Component {
   render() {
-      return <Link to={this.props.to}>
-        <button class={styles.sidebarItem} style={this.props.styles}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
-            <div style={{ textAlign: 'left' }}>
-              <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon}
-              />
-            </div>
-
-            <div style={{ fontWeight: 500 }}>
-              {this.props.text}
-            </div>
+    return <a href={this.props.to}>
+      <button class={styles.sidebarItem} style={this.props.styles}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
+          <div style={{ textAlign: 'left' }}>
+            <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon}
+            />
           </div>
-        </button>
-      </Link>
+
+          <div style={{ fontWeight: 500 }}>
+            {this.props.text}
+          </div>
+        </div>
+      </button>
+    </a>
   }
 }
 
@@ -528,7 +536,7 @@ class FloatBr extends React.Component {
 
 class LargeBr extends React.Component {
   render() {
-    return <span><div style={{ clear: 'both' }} /><br/></span>
+    return <span><div style={{ clear: 'both' }} /><br /></span>
   }
 }
 
@@ -785,7 +793,7 @@ async function logInTwitter() {
   }
 }
 
-async function getUserDetails(){
+async function getUserDetails() {
   const userDetails = firebaseSetup.firebaseAuth.getAuth().currentUser.displayName
   // const userDetails = 'h'
 
@@ -818,7 +826,7 @@ export {
 
 
   // second react components
-  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, FullWidthNavCard, DynamicText, FontAwesomeIcon,
+  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, SmallCard, FullWidthNavCard, DynamicText, FontAwesomeIcon,
   Hr, FloatBr, LargeBr,
 
 
