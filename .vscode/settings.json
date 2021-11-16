@@ -1,6 +1,6 @@
 {
     "workbench.list.fastScrollSensitivity": 10,
-    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.colorTheme": "Default Dark+",
     "window.autoDetectColorScheme": true,
     "window.title": "${activeEditorShort}${separator}${rootName} (${folderPath})",
     "window.titleSeparator": " - ",

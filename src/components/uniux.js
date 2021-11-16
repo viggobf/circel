@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as styles from './style.module.css'
 import * as ReactSpring from 'react-spring'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import ReactDom from 'react-dom'
 import * as firebaseSetup from './firebasesetup.js'
 import { Auth } from '@firebase/auth'
@@ -12,6 +12,7 @@ import LogoImage from '../images/icon.png'
 import Favicon from 'react-favicon'
 
 var accountMenuOpen = false;
+var accountMenuOpened = false
 var userInfo;
 var inDev = false
 var username
@@ -20,6 +21,7 @@ var userInfo
 var urlTo
 var openAppSidebarItemRendered
 var sidebarItemDestination
+var columnedAppAppName
 
 // making a random number for variable UIs and other stuff
 const no = Math.random();
@@ -198,26 +200,30 @@ class Main extends React.Component {
     }
 
     window.onclick = function () {
-      // setTimeout(function) 
-        if (accountMenuOpen) {
-          renderNothing(document.getElementById('accountOptionsArea'))
-          accountMenuOpen = false
-        }
+      if (accountMenuOpen) {
+        renderNothing(document.getElementById('accountOptionsArea'))
+        accountMenuOpen = false
+      }
+    }
+
+    window.onkeyup = function (ev) {
+      if (ev.key == 'Escape') {
+        renderNothing(document.getElementById('accountOptionsArea'))
+        accountMenuOpen = false
+      }
     }
 
 
 
     // page loading has finished, hide the loading overlay screen. don't put functions after this; please put
     // them before this comment to ensure a smooth loading experience.
-    setTimeout(function () {
-      try {
-        document.getElementById('page').style.opacity = '1'
-        document.getElementById('loadingScreen').style.opacity = '0'
-        setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
-      } catch (e) {
-        // do nothing cos circel loading screen doesn't apply to this page
-      }
-    }, 0)
+    try {
+      document.getElementById('page').style.opacity = '1'
+      document.getElementById('loadingScreen').style.opacity = '0'
+      setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+    } catch (e) {
+      // do nothing cos circel loading screen doesn't apply to this page
+    }
   }
 }
 
@@ -238,12 +244,38 @@ class ColumnedApp extends React.Component {
   render() {
     if (this.props.themeColour && this.props.pageTitle && this.props.appShortenedName && this.props.firstColumnPageItems
       && this.props.secondColumnContent && this.props.appTitle) {
-      // yey, we've got all the necessary props
+      // yey, we've got all the necessary props, lez continue
     } else {
       // uh oh, we're missing some props
       throwUniUXError(`UniUX Error 1: Some attributes of the app are missing. Please make sure you have included appTitle, pageTitle,
       themeColour, appShortenedName, firstColumnPageItems and secondColumnContent.`)
     }
+
+    // try{  
+    //   if (this.props.backTo) {
+    //     var prevUrl = this.props.backTo.split('//')[1].split('/')[1]
+    //     var backButton = <Link title={'Go back to ' + prevUrl} to={this.props.backTo}><FontAwesomeIcon icon={icons.faChevronLeft} style={{ cursor: 'pointer' }}/> &emsp;</Link>
+    //   } else {
+    //     var backButton = null
+    //   }
+    // } catch (e){
+    //   var backButton = null
+    // }
+
+    // try{  
+    //   if (this.props.forwardTo) {
+    //     var nextUrl = this.props.forwardTo
+    //     var forwardButton = <Link title={'Go forward to ' + nextUrl} to={this.props.forwardTo}><FontAwesomeIcon icon={icons.faChevronRight} style={{ cursor: 'pointer' }}/> &emsp;</Link>
+    //   } else {
+    //     var forwardButton = null
+    //   }
+    // } catch (e){
+    //   var forwardButton = null
+    // }
+
+    var backButton = <Link><FontAwesomeIcon onClick={function(){window.history.back()}} icon={icons.faChevronLeft} style={{ cursor: 'pointer' }}/></Link>
+    var forwardButton = <Link><FontAwesomeIcon onClick={function(){window.history.forward()}} icon={icons.faChevronRight} style={{ cursor: 'pointer' }}/></Link>
+
     return <div className={styles.columnedLayout}>
 
       <div className={styles.columnedLayoutC1}>
@@ -269,8 +301,9 @@ class ColumnedApp extends React.Component {
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
           <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>
             <span style={{ fontWeight: '300' }}>
-              <FontAwesomeIcon icon={icons.faChevronLeft} style={{ cursor: 'cursor' }} onClick={function () { window.history.back() }} /> &emsp;
-              <FontAwesomeIcon icon={icons.faChevronRight} style={{ cursor: 'pointer' }} onClick={function () { window.history.forward() }} />
+              {backButton}
+              &emsp;&ensp;
+              {forwardButton}
             </span>
             &emsp;
             {this.props.pageTitle}
@@ -286,6 +319,7 @@ class ColumnedApp extends React.Component {
   componentDidMount() {
     var listOfApps = []
     var pageTitleMatchesASidebarItem
+    columnedAppAppName = this.props.appTitle
     listOfApps = []
     this.props.firstColumnPageItems.forEach(appItem => {
       urlTo = ""
@@ -295,11 +329,8 @@ class ColumnedApp extends React.Component {
         urlTo = '/' + this.props.appTitle + '/' + appItem[0]
       }
       if (appItem[0] === this.props.pageTitle) {
-        appItem.push(true)
-        pageTitleMatchesASidebarItem = true
-      }
-      if (appItem[2]) {
         listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)' }} iconColour={'white'} />)
+        pageTitleMatchesASidebarItem = true
       } else {
         listOfApps.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
       }
@@ -318,6 +349,15 @@ class ColumnedApp extends React.Component {
   }
 }
 
+// link, making sure the current page is recorded so we can go back
+class GatsbyLink extends React.Component{
+  render(){
+    return <Link to={this.props.to} state={{backTo: window.location.href}}>
+      {this.props.children}
+    </Link> 
+  }
+}
+
 // a card
 class SmallCard extends React.Component {
   render() {
@@ -333,7 +373,7 @@ class SmallCard extends React.Component {
 class FullWidthNavCard extends React.Component {
   render() {
     const href = this.props.takeTo
-    return <div className={styles.fullWidthNavCard} style={this.props.styles} onClick={function () { window.open(href, '_self') }}>
+    return <div className={styles.fullWidthNavCard} style={this.props.styles} onClick={function () { navigate(href) }}>
       <strong style={{ marginBottom: 5, fontSize: '19px', width: '80%', float: 'left' }}>{this.props.name}</strong>
       <strong style={{ marginBottom: 5, fontSize: 'large', width: '20%', float: 'left', textAlign: 'right' }}><FontAwesomeIcon icon={icons.faArrowRight} /></strong>
 
@@ -415,7 +455,7 @@ class TopBar extends React.Component {
 class TopBarAccountOptions extends React.Component {
   render() {
     return <div class={styles.topBarAccountOptions}>
-      <MenuItem text='Settings' icon={icons.faCog} firstInList/>
+      <MenuItem text='Settings' icon={icons.faCog} firstInList />
       <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' clickFn={function () {
         if (!loginRequired) {
           logOut(false)
@@ -441,7 +481,7 @@ class MenuItem extends React.Component {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              <FontAwesomeIcon icon={this.props.icon}/>&nbsp;
+              <FontAwesomeIcon icon={this.props.icon} />&nbsp;
             </div>
           </div>
         </button>
@@ -456,7 +496,7 @@ class MenuItem extends React.Component {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              <FontAwesomeIcon icon={this.props.icon}/>&nbsp;
+              <FontAwesomeIcon icon={this.props.icon} />&nbsp;
             </div>
           </div>
         </button>
@@ -467,12 +507,11 @@ class MenuItem extends React.Component {
 
 class SidebarItem extends React.Component {
   render() {
-    return <a href={this.props.to}>
-      <button class={styles.sidebarItem} style={this.props.styles}>
+    return <Link to={this.props.to} state={{backTo: window.location.href}}>
+      <button style={this.props.styles} class={styles.sidebarItem}>
         <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
           <div style={{ textAlign: 'left' }}>
-            <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon}
-            />
+            <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon} />
           </div>
 
           <div style={{ fontWeight: 500 }}>
@@ -480,7 +519,7 @@ class SidebarItem extends React.Component {
           </div>
         </div>
       </button>
-    </a>
+    </Link>
   }
 }
 
@@ -544,9 +583,9 @@ class LargeBr extends React.Component {
 
 function fadeInElementOnRender(elementForRender, placeForRender, totalFadeInTimeMs) {
   // fades in element by gradually increasing opacity
-  ReactDom.render(<div style={{ opacity: '0', transition: 'opacity 0.5s' }} id='fadingIn'>{elementForRender}</div>, placeForRender)
+  ReactDom.render(<div style={{ opacity: '1', transition: 'opacity 0.5s' }} id='fadingIn'>{elementForRender}</div>, placeForRender)
 
-  document.getElementById('fadingIn').style.opacity = '1'
+  // document.getElementById('fadingIn').style.opacity = '1'
 
   // setTimeout(function(){
   //   ReactDom.render(<div style={{opacity: 0.15}}>{elementForRender}</div>, placeForRender)

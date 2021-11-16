@@ -119,9 +119,24 @@ a{
     z-index: 100;
 }
 
+.columnedLayoutC1TitleBar{
+    top: 0vh;
+    left: 0vw;
+    height: 42px;
+    width: 17vw;
+    position: fixed;
+    padding-top: 13px;
+    padding-left: 25px;
+    overflow: hidden;
+    /* border-bottom: 1px solid rgb(240, 240, 240); */
+    transition: background 0.3s;
+    z-index: 100;
+    font-weight: 100;
+}
+
 .columnedLayoutC2{
     position: absolute;
-    height: 99vh;
+    height: 100vh;
     margin-bottom: 15px;
     padding-left: 16px;
     padding-right: 25px;
@@ -495,8 +510,27 @@ input:focus{
     color: gray;
     transition: color 0.1s;
     width: 100%;
+    margin-bottom: 10px;
+    line-height: 18px;
+    transition: all 0.2s;
+}
+
+.sidebarItemSelected{
+    background-color: transparent;
+    text-align: left;
+    font-size: 14px;
+    border: none;
+    box-shadow: none;
+    padding-left: 12px;
+    height: fit-content;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: gray;
+    transition: color 0.1s;
+    width: 100%;
     margin-bottom: 15px;
     line-height: 18px;
+    color: red !important;
 }
 
 .sidebarItem:hover{

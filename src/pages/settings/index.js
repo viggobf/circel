@@ -13,7 +13,7 @@ class Page extends React.Component{
     return <body>
     <uniUX.Main pageType={'app'} pageName={'Settings'} content={
       <uniUX.ColumnedApp appShortenedName='Settings' themeColour={'var(--gray)'} appTitle='Settings' pageTitle='Home'
-      pageOptionButtons={[['Save changes', icons.faSave, function(){alert('hi')}, true]]} firstColumnPageItems={
+      pageOptionButtons={[]} firstColumnPageItems={
         uniUX.appsAndTheirPages.settings
       } secondColumnContent={
         <span>
