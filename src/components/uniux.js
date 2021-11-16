@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as styles from './style.module.css'
 import * as ReactSpring from 'react-spring'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import ReactDom from 'react-dom'
 import * as firebaseSetup from './firebasesetup.js'
 import { Auth } from '@firebase/auth'
@@ -12,10 +12,16 @@ import LogoImage from '../images/icon.png'
 import Favicon from 'react-favicon'
 
 var accountMenuOpen = false;
+var accountMenuOpened = false
 var userInfo;
 var inDev = false
 var username
 var loginRequired
+var userInfo
+var urlTo
+var openAppSidebarItemRendered
+var sidebarItemDestination
+var columnedAppAppName
 
 // making a random number for variable UIs and other stuff
 const no = Math.random();
@@ -85,7 +91,7 @@ class Main extends React.Component {
     if (this.props.inDev) {
       inDev = true
     }
-    // get if page is app, semiApp (app with no login requirement, app layout), or website (no login requirement, top bar shown) and
+    // get if page is app, custom (app with no login requirement, app layout), or website (no login requirement, top bar shown) and
     // render correct interface from that
     if (this.props.pageType == 'website') {
       loginRequired = false
@@ -108,7 +114,7 @@ class Main extends React.Component {
 
     } else if (this.props.pageType == 'app') {
       loginRequired = true
-      return <div className={styles.page}>
+      return <span><div className={styles.page} style={{ opacity: '1', transition: 'opacity 0.5s' }} id='page'>
         <title>{this.props.pageName} | Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
@@ -117,10 +123,15 @@ class Main extends React.Component {
 
         {this.props.content}
       </div>
+        <div className={styles.loadingScreen} id='loadingScreen'>
+          {/* <CircelLogo scale='1.8'/> */}
+          <div className={styles.pageLoader} />
+        </div>
+      </span>
 
-    } else if (this.props.pageType == 'semiApp') {
+    } else if (this.props.pageType == 'custom') {
       loginRequired = false
-      return <div className={styles.page}>
+      return <span><div className={styles.page}>
         <title>{this.props.pageName} | Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
@@ -129,8 +140,9 @@ class Main extends React.Component {
 
         {this.props.content}
       </div>
+      </span>
     } else {
-      throwUniUXError(`UniUX Error 3: This page's pageType is not 'website', 'semiApp' or 'app', so UniUX.Main couldn't render.
+      throwUniUXError(`UniUX Error 3: This page's pageType is not 'website', 'custom' or 'app', so UniUX.Main couldn't render.
       Please make sure pageType matches one of the stated values.`)
     }
   }
@@ -142,7 +154,7 @@ class Main extends React.Component {
     const auth = firebaseSetup.firebaseAuth.getAuth();
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {
       if (user) {
-        const userInfo = user
+        userInfo = user
         console.log('Welcome, ' + userInfo.email)
         // add the account options box
         try {
@@ -152,11 +164,11 @@ class Main extends React.Component {
             username = 'Account'
           }
           if (this.props.pageType == 'website') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           } else if (this.props.pageType == 'app') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
-          } else if (this.props.pageType == 'semiApp') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseDown={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
+          } else if (this.props.pageType == 'custom') {
+            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           }
         } catch (error) {
           // do nothing cos there's no place to put it
@@ -171,6 +183,10 @@ class Main extends React.Component {
           // do nothing cos there's no place to put it
         }
       }
+
+
+      // finished now. Don't put functions after this to ensure a smooth loading experience.
+
     });
 
     window.onresize = function () {
@@ -190,6 +206,24 @@ class Main extends React.Component {
       }
     }
 
+    window.onkeyup = function (ev) {
+      if (ev.key == 'Escape') {
+        renderNothing(document.getElementById('accountOptionsArea'))
+        accountMenuOpen = false
+      }
+    }
+
+
+
+    // page loading has finished, hide the loading overlay screen. don't put functions after this; please put
+    // them before this comment to ensure a smooth loading experience.
+    try {
+      document.getElementById('page').style.opacity = '1'
+      document.getElementById('loadingScreen').style.opacity = '0'
+      setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+    } catch (e) {
+      // do nothing cos circel loading screen doesn't apply to this page
+    }
   }
 }
 
@@ -210,23 +244,50 @@ class ColumnedApp extends React.Component {
   render() {
     if (this.props.themeColour && this.props.pageTitle && this.props.appShortenedName && this.props.firstColumnPageItems
       && this.props.secondColumnContent && this.props.appTitle) {
-
+      // yey, we've got all the necessary props, lez continue
     } else {
+      // uh oh, we're missing some props
       throwUniUXError(`UniUX Error 1: Some attributes of the app are missing. Please make sure you have included appTitle, pageTitle,
       themeColour, appShortenedName, firstColumnPageItems and secondColumnContent.`)
     }
+
+    // try{  
+    //   if (this.props.backTo) {
+    //     var prevUrl = this.props.backTo.split('//')[1].split('/')[1]
+    //     var backButton = <Link title={'Go back to ' + prevUrl} to={this.props.backTo}><FontAwesomeIcon icon={icons.faChevronLeft} style={{ cursor: 'pointer' }}/> &emsp;</Link>
+    //   } else {
+    //     var backButton = null
+    //   }
+    // } catch (e){
+    //   var backButton = null
+    // }
+
+    // try{  
+    //   if (this.props.forwardTo) {
+    //     var nextUrl = this.props.forwardTo
+    //     var forwardButton = <Link title={'Go forward to ' + nextUrl} to={this.props.forwardTo}><FontAwesomeIcon icon={icons.faChevronRight} style={{ cursor: 'pointer' }}/> &emsp;</Link>
+    //   } else {
+    //     var forwardButton = null
+    //   }
+    // } catch (e){
+    //   var forwardButton = null
+    // }
+
+    var backButton = <Link><FontAwesomeIcon onClick={function(){window.history.back()}} icon={icons.faChevronLeft} style={{ cursor: 'pointer' }}/></Link>
+    var forwardButton = <Link><FontAwesomeIcon onClick={function(){window.history.forward()}} icon={icons.faChevronRight} style={{ cursor: 'pointer' }}/></Link>
+
     return <div className={styles.columnedLayout}>
 
       <div className={styles.columnedLayoutC1}>
         {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/app', '_self')}}><div className={styles.circelLogoSemicircle}></div></div> */}
-        <CircelLogo />
-
-        <br />
-        <h2 style={{ color: this.props.themeColour, marginTop: 10, marginBottom: 0 }}>{this.props.appTitle}</h2>
-
-        <div id='appItemsSidebar'>
-
+        <div className={styles.columnedLayoutC1TitleBar}>
+          {/* <CircelLogo /> */}
+          <h3 style={{ marginTop: 4, marginBottom: 0, width: '50%', float: 'left', textAlign: 'left' }}>
+            {this.props.appTitle}
+          </h3>
         </div>
+
+        <div id='appItemsSidebar' />
       </div>
 
       <div className={styles.columnedLayoutC2} id={'column2'} onScroll={function () {
@@ -238,7 +299,15 @@ class ColumnedApp extends React.Component {
 
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-          <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>{this.props.pageTitle}</h3>
+          <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>
+            <span style={{ fontWeight: '300' }}>
+              {backButton}
+              &emsp;&ensp;
+              {forwardButton}
+            </span>
+            &emsp;
+            {this.props.pageTitle}
+          </h3>
           <div id='appTopBarRightOptions' style={{ marginTop: -4, width: '48%', float: 'left' }}></div>
         </div>
         {this.props.secondColumnContent}
@@ -250,28 +319,49 @@ class ColumnedApp extends React.Component {
   componentDidMount() {
     var listOfApps = []
     var pageTitleMatchesASidebarItem
+    columnedAppAppName = this.props.appTitle
+    listOfApps = []
     this.props.firstColumnPageItems.forEach(appItem => {
-      if (appItem[0] == this.props.pageTitle) {
-        appItem.push(true)
-        pageTitleMatchesASidebarItem = true
-      }
-      if (appItem[2]) {
-        listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)' }} iconColour={'white'} />)
+      urlTo = ""
+      if (appItem[0] == 'Home') {
+        urlTo = '/' + this.props.appTitle
       } else {
-        listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
+        urlTo = '/' + this.props.appTitle + '/' + appItem[0]
+      }
+      if (appItem[0] === this.props.pageTitle) {
+        listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)' }} iconColour={'white'} />)
+        pageTitleMatchesASidebarItem = true
+      } else {
+        listOfApps.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
       }
     });
     if (!pageTitleMatchesASidebarItem) {
       throwUniUXError(`UniUX Error 2: The Page Title does not match a page name in any sidebar item. Please make sure you are using one of the
       items in this page's sidebar as the Page Title.`)
     }
-    ReactDom.render(<span><br /> {listOfApps}</span>, document.getElementById('appItemsSidebar'))
+    ReactDom.render(<span>{listOfApps}</span>, document.getElementById('appItemsSidebar'))
+  }
+
+  componentWillUnmount() {
+    // ReactDom.render(null, document.getElementById('appItemsSidebar'))
+    document.getElementById('page').style.opacity = '0'
+    document.getElementById('loadingScreen').opacity = '1'
   }
 }
 
-class OverviewCard extends React.Component {
+// link, making sure the current page is recorded so we can go back
+class GatsbyLink extends React.Component{
+  render(){
+    return <Link to={this.props.to} state={{backTo: window.location.href}}>
+      {this.props.children}
+    </Link> 
+  }
+}
+
+// a card
+class SmallCard extends React.Component {
   render() {
-    return <div className={styles.overviewCard} style={this.props.styles}>
+    return <div className={styles.smallCard} style={this.props.styles}>
       <strong style={{ marginBottom: 5, fontSize: 'large' }}>{this.props.name}</strong>
       <br /><br />
       {this.props.content}
@@ -279,10 +369,24 @@ class OverviewCard extends React.Component {
   }
 }
 
+// 
+class FullWidthNavCard extends React.Component {
+  render() {
+    const href = this.props.takeTo
+    return <div className={styles.fullWidthNavCard} style={this.props.styles} onClick={function () { navigate(href) }}>
+      <strong style={{ marginBottom: 5, fontSize: '19px', width: '80%', float: 'left' }}>{this.props.name}</strong>
+      <strong style={{ marginBottom: 5, fontSize: 'large', width: '20%', float: 'left', textAlign: 'right' }}><FontAwesomeIcon icon={icons.faArrowRight} /></strong>
+
+      <br /><br />
+      <span className={styles.minorText}>{this.props.content}</span>
+    </div>
+  }
+}
+
 const appsAndTheirPages = {
   // so when sidebar item is added to one page in app, it is added to all for uniformity (and to save a job).
   // AlWAYS add an array here for the app, don't add arrays individually to every page. Reference the array of pages eg appsAndTheirPages.settings
-  settings: [['Overview', icons.faList], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]]
+  settings: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]]
 }
 
 // circel logo with CSS
@@ -343,8 +447,7 @@ class TopBar extends React.Component {
 class TopBarAccountOptions extends React.Component {
   render() {
     return <div class={styles.topBarAccountOptions}>
-      <MenuItem text='My Circel' icon={icons.faHome} firstInList={true} />
-      <MenuItem text='Settings' icon={icons.faCog} />
+      <MenuItem text='Settings' icon={icons.faCog} firstInList />
       <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' clickFn={function () {
         if (!loginRequired) {
           logOut(false)
@@ -370,7 +473,7 @@ class MenuItem extends React.Component {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              {/* <FontAwesomeIcon icon={this.props.icon}/>&nbsp; */}
+              <FontAwesomeIcon icon={this.props.icon} />&nbsp;
             </div>
           </div>
         </button>
@@ -385,7 +488,7 @@ class MenuItem extends React.Component {
             </div>
 
             <div style={{ textAlign: 'right' }}>
-              {/* <FontAwesomeIcon icon={this.props.icon}/>&nbsp; */}
+              <FontAwesomeIcon icon={this.props.icon} />&nbsp;
             </div>
           </div>
         </button>
@@ -396,12 +499,11 @@ class MenuItem extends React.Component {
 
 class SidebarItem extends React.Component {
   render() {
-    return <Link to={'/' + this.props.text}>
-      <button class={styles.sidebarItem} style={this.props.styles}>
-        <div style={{ display: 'grid', gridTemplateColumns: '25px 50px' }}>
+    return <Link to={this.props.to} state={{backTo: window.location.href}}>
+      <button style={this.props.styles} class={styles.sidebarItem}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
           <div style={{ textAlign: 'left' }}>
-            <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon}
-            />
+            <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon} />
           </div>
 
           <div style={{ fontWeight: 500 }}>
@@ -455,13 +557,27 @@ class Hr extends React.Component {
   }
 }
 
+// an element that breaks float:left, so i don't go insane
+
+class FloatBr extends React.Component {
+  render() {
+    return <div style={{ clear: 'both' }} />
+  }
+}
+
+class LargeBr extends React.Component {
+  render() {
+    return <span><div style={{ clear: 'both' }} /><br /></span>
+  }
+}
+
 // visual effect functions
 
 function fadeInElementOnRender(elementForRender, placeForRender, totalFadeInTimeMs) {
   // fades in element by gradually increasing opacity
-  ReactDom.render(<div style={{ opacity: '0', transition: 'opacity 0.5s' }} id='fadingIn'>{elementForRender}</div>, placeForRender)
+  ReactDom.render(<div style={{ opacity: '1', transition: 'opacity 0.5s' }} id='fadingIn'>{elementForRender}</div>, placeForRender)
 
-  document.getElementById('fadingIn').style.opacity = '1'
+  // document.getElementById('fadingIn').style.opacity = '1'
 
   // setTimeout(function(){
   //   ReactDom.render(<div style={{opacity: 0.15}}>{elementForRender}</div>, placeForRender)
@@ -572,8 +688,10 @@ function toggleAccountMenu() {
   }
 }
 
-// Circel Accounts functions
+// Circel Accounts functions. While we name Circel IDs as emails here, 
+// please name them as Circel IDs when the user can see (brand identity :)).
 
+// login/signup
 async function logIn(email, password) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
@@ -604,7 +722,8 @@ async function signUp(email, password) {
   }
 }
 
-async function resetPasswordEmail(email, continueUrl){
+// password reset
+async function resetPasswordEmail(email, continueUrl) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
@@ -612,38 +731,39 @@ async function resetPasswordEmail(email, continueUrl){
       url: continueUrl,
     };
     const passwordResetStatus = await firebaseSetup.firebaseAuth.sendPasswordResetEmail(auth, email, actionCodeSettings)
-    
+
     // password reset email link sent successfully, return that
     return 'success'
   } catch (error) {
+    console.log(error.code)
     return error.code
   }
 }
 
-async function completeResetPassword(email, newPassword, oobCode){
+async function completeResetPassword(email, newPassword, oobCode) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
-      const passwordResetStatus = await firebaseSetup.firebaseAuth.confirmPasswordReset(auth, oobCode, newPassword)
-    
-      // password changed successfully, log them in, then return success
-      const logInAfterResetStatus = await firebaseSetup.firebaseAuth.signInWithEmailAndPassword(auth, email, newPassword)
-      if (logInAfterResetStatus) {
-        // logged in after reset successfully, return that
-        const user = logInAfterResetStatus.user;
-        return 'success'
-      }
+    const passwordResetStatus = await firebaseSetup.firebaseAuth.confirmPasswordReset(auth, oobCode, newPassword)
+
+    // password changed successfully, log them in, then return success
+    const logInAfterResetStatus = await firebaseSetup.firebaseAuth.signInWithEmailAndPassword(auth, email, newPassword)
+    if (logInAfterResetStatus) {
+      // logged in after reset successfully, return that
+      const user = logInAfterResetStatus.user;
+      return 'success'
+    }
   } catch (error) {
     return error.code
   }
 }
 
-async function verifyPasswordResetCode(oobCode){
+async function verifyPasswordResetCode(oobCode) {
   const auth = firebaseSetup.firebaseAuth.getAuth();
 
   try {
     const passwordResetStatus = await firebaseSetup.firebaseAuth.verifyPasswordResetCode(auth, oobCode)
-    
+
     // password changed successfully, return that
     return passwordResetStatus
   } catch (error) {
@@ -651,6 +771,21 @@ async function verifyPasswordResetCode(oobCode){
   }
 }
 
+// circel id (email) verification
+async function completeEmailVerification(email, oobCode) {
+  const auth = firebaseSetup.firebaseAuth.getAuth();
+
+  try {
+    const emailVerifyStatus = await firebaseSetup.firebaseAuth.applyActionCode(auth, oobCode)
+
+    // email verified successfully, return that
+    return 'success'
+  } catch (error) {
+    return error.code
+  }
+}
+
+// log out
 function logOut(takeToLoginPage) {
   firebaseSetup.firebaseAuth.signOut(firebaseSetup.firebaseAuth.getAuth()).then(function () {
     if (takeToLoginPage) {
@@ -689,6 +824,15 @@ async function logInTwitter() {
   }
 }
 
+async function getUserDetails() {
+  const userDetails = firebaseSetup.firebaseAuth.getAuth().currentUser.displayName
+  // const userDetails = 'h'
+
+  return userDetails
+}
+
+
+
 
 async function getDocFromFirestore(collection, documentName) {
   const docRef = firebaseSetup.firestore.doc(firebaseSetup.firestore.getFirestore(firebaseSetup.app), collection, documentName);
@@ -713,15 +857,15 @@ export {
 
 
   // second react components
-  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, OverviewCard, DynamicText, FontAwesomeIcon,
+  TopBar, PrimaryButton, SecondaryButton, CircelLogo, Main, ColumnedApp, SidebarItem, SmallCard, FullWidthNavCard, DynamicText, FontAwesomeIcon,
+  Hr, FloatBr, LargeBr,
 
 
   // third uniUX functions
-  logIn, signUp, logOut, resetPasswordEmail, completeResetPassword, verifyPasswordResetCode, logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
+  logIn, signUp, logOut, resetPasswordEmail, completeResetPassword, verifyPasswordResetCode, getUserDetails,
+  logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
 
   // other variables etc
-  randomNumber, appsAndTheirPages, icons, brandIcons
+  randomNumber, appsAndTheirPages, icons, brandIcons, userInfo,
 
 }
-
-// ReactDom.render

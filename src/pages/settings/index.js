@@ -12,17 +12,27 @@ class Page extends React.Component{
   render(){
     return <body>
     <uniUX.Main pageType={'app'} pageName={'Settings'} content={
-      <uniUX.ColumnedApp appShortenedName='Settings' themeColour={'var(--gray)'} appTitle='Settings' pageTitle='Overview'
-      pageOptionButtons={[['Save changes', icons.faSave, function(){alert('hi')}, true]]} firstColumnPageItems={
+      <uniUX.ColumnedApp appShortenedName='Settings' themeColour={'var(--gray)'} appTitle='Settings' pageTitle='Home'
+      pageOptionButtons={[]} firstColumnPageItems={
         uniUX.appsAndTheirPages.settings
       } secondColumnContent={
         <span>
         <h4>
           Account
         </h4>
-        <uniUX.OverviewCard name='Your Profile' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 100%)'}} content={<span>
-          Name: <span id='settingsName'/><br/>
+        <uniUX.FullWidthNavCard name='Account Settings' takeTo='/settings/account' content={<span>
+          View your user profile, edit your account settings and more.
         </span>}/>
+
+        <uniUX.FloatBr/>
+
+        <h4>
+          Appearance
+        </h4>
+        <uniUX.FullWidthNavCard name='Appearance Settings' takeTo='/settings/appearance' content={<span>
+          Make UniUX yours.
+        </span>}/>
+        
         </span>
       }/>
     }>
