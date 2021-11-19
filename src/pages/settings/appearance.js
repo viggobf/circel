@@ -42,20 +42,20 @@ class Page extends React.Component{
   
   componentDidMount(){
 
-    function tryToRenderUserDetails(){
-      try{
-        currentUser = firebaseSetup.firebaseAuth.getAuth().currentUser
-        reactDom.render(currentUser.displayName, document.getElementById('settingsName'))
-        document.getElementById('settingsPfp').src = currentUser.photoURL
-        uniUX.getDocFromFirestore('userSettings', currentUser.uid).then(function(result){
-          reactDom.render(<span>{'@' + result['username']}</span>, document.getElementById('settingsAcntUsername'))
-       })
-      } catch (error) {
-        setTimeout(tryToRenderUserDetails, 50)
-      }
-    }
+    // function tryToRenderUserDetails(){
+    //   try{
+    //     currentUser = firebaseSetup.firebaseAuth.getAuth().currentUser
+    //     reactDom.render(currentUser.displayName, document.getElementById('settingsName'))
+    //     document.getElementById('settingsPfp').src = currentUser.photoURL
+    //     uniUX.getDocFromFirestore('userSettings', currentUser.uid).then(function(result){
+    //       reactDom.render(<span>{'@' + result['username']}</span>, document.getElementById('settingsAcntUsername'))
+    //    })
+    //   } catch (error) {
+    //     setTimeout(tryToRenderUserDetails, 50)
+    //   }
+    // }
 
-    tryToRenderUserDetails()
+    // tryToRenderUserDetails()
   }
 }
 

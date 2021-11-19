@@ -152,9 +152,27 @@ a{
     overflow-y: scroll;
 }
 
+.appTopBarButton{
+    width: fit-content;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    border-radius: 7px;
+    color: gray;
+    font-weight: 5px;
+}
+
+.appTopBarButton:hover{
+    background-color: rgba(238, 238, 238, 0.5);
+    color: black;
+}
+
 .smallCard{
     width: 300px;
-    height: 150px;
+    height: fit-content;
+    min-height: 140px;
     border-radius: 11px;
     background-color: white;
     padding-top: 14px;
@@ -458,7 +476,6 @@ input:focus{
     top: 19px;
     right: 3vw;
     width: fit-content;
-    /* text-align: right !important; */
     position: fixed;
     height: 44px;
 }
@@ -484,17 +501,18 @@ input:focus{
 .topBarAccountOptions{
     box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
     backdrop-filter: blur(15px);
-    border-radius: 15px;
+    border-radius: 10px;
     position: fixed;
-    padding-top: 9px;
-    padding-left: 9px;
-    padding-right: 9px;
-    padding-bottom: 9px;
+    padding-top: 8px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 8px;
     height: fit-content;
     z-index: 10000;
     background-color: white;
-    right: 2vw;
+    right: 2.4vw;
     top: 50px;
+    width: 220px;
 }
 
 .sidebarItem{
@@ -515,24 +533,6 @@ input:focus{
     transition: all 0.2s;
 }
 
-.sidebarItemSelected{
-    background-color: transparent;
-    text-align: left;
-    font-size: 14px;
-    border: none;
-    box-shadow: none;
-    padding-left: 12px;
-    height: fit-content;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: gray;
-    transition: color 0.1s;
-    width: 100%;
-    margin-bottom: 15px;
-    line-height: 18px;
-    color: red !important;
-}
-
 .sidebarItem:hover{
     background-color: rgba(238, 238, 238, 0.5);
     color: black
@@ -546,12 +546,14 @@ input:focus{
     font-size: 14px;
     border: none;
     box-shadow: none;
-    padding-left: 12px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-left: 5px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     color: gray;
     transition: color 0.1s;
+    border-radius: 0px;
     margin-bottom: 0 !important;
+    line-height: 18px;
 }
 
 .menuItem:hover{

@@ -166,7 +166,7 @@ class Main extends React.Component {
           if (this.props.pageType == 'website') {
             ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           } else if (this.props.pageType == 'app') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('appTopBarRightOptions'))
+            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('appTopBarRightOptions'))
           } else if (this.props.pageType == 'custom') {
             ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
           }
@@ -273,8 +273,8 @@ class ColumnedApp extends React.Component {
     //   var forwardButton = null
     // }
 
-    var backButton = <Link><FontAwesomeIcon onClick={function(){window.history.back()}} icon={icons.faChevronLeft} style={{ cursor: 'pointer' }}/></Link>
-    var forwardButton = <Link><FontAwesomeIcon onClick={function(){window.history.forward()}} icon={icons.faChevronRight} style={{ cursor: 'pointer' }}/></Link>
+    var backButton = <Link><FontAwesomeIcon onClick={function () { window.history.back() }} icon={icons.faChevronLeft} style={{ cursor: 'pointer' }} /></Link>
+    var forwardButton = <Link><FontAwesomeIcon onClick={function () { window.history.forward() }} icon={icons.faChevronRight} style={{ cursor: 'pointer' }} /></Link>
 
     return <div className={styles.columnedLayout}>
 
@@ -299,7 +299,7 @@ class ColumnedApp extends React.Component {
 
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-          <h3 style={{ marginTop: 4, width: '50%', float: 'left', textAlign: 'left' }}>
+          <h3 style={{ marginTop: 4, width: '45%', float: 'left', textAlign: 'left' }}>
             <span style={{ fontWeight: '300' }}>
               {backButton}
               &emsp;&ensp;
@@ -308,7 +308,14 @@ class ColumnedApp extends React.Component {
             &emsp;
             {this.props.pageTitle}
           </h3>
-          <div id='appTopBarRightOptions' style={{ marginTop: -4, width: '48%', float: 'left' }}></div>
+          <div>
+            <span id='appTopBarRightButtons' style={{ marginTop: 4, width: '30%', textAlign: 'right', float: 'left' }} >
+            {/* <Link><FontAwesomeIcon onClick={function () { window.history.back() }} icon={icons.faChevronLeft} className={styles.appTopBarButton} style={{ cursor: 'pointer' }} /></Link> */}
+            {/* <span class={styles.appTopBarButton} style={{fontSize: '14px'}}>Save changes</span> */}
+            </span>
+
+            <span id='appTopBarRightOptions' style={{ marginTop: 4, width: '22%', float: 'left', textAlign: 'right' }} />
+          </div>
         </div>
         {this.props.secondColumnContent}
       </div>
@@ -317,10 +324,11 @@ class ColumnedApp extends React.Component {
   }
 
   componentDidMount() {
-    var listOfApps = []
+    // render the list of page
+    var listOfSidebarPages = []
     var pageTitleMatchesASidebarItem
     columnedAppAppName = this.props.appTitle
-    listOfApps = []
+    listOfSidebarPages = []
     this.props.firstColumnPageItems.forEach(appItem => {
       urlTo = ""
       if (appItem[0] == 'Home') {
@@ -329,17 +337,21 @@ class ColumnedApp extends React.Component {
         urlTo = '/' + this.props.appTitle + '/' + appItem[0]
       }
       if (appItem[0] === this.props.pageTitle) {
-        listOfApps.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)' }} iconColour={'white'} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)' }} iconColour={'white'} />)
         pageTitleMatchesASidebarItem = true
       } else {
-        listOfApps.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
       }
     });
     if (!pageTitleMatchesASidebarItem) {
       throwUniUXError(`UniUX Error 2: The Page Title does not match a page name in any sidebar item. Please make sure you are using one of the
       items in this page's sidebar as the Page Title.`)
     }
-    ReactDom.render(<span>{listOfApps}</span>, document.getElementById('appItemsSidebar'))
+    ReactDom.render(<span>{listOfSidebarPages}</span>, document.getElementById('appItemsSidebar'))
+
+
+    // render the top right custom page buttons
+
   }
 
   componentWillUnmount() {
@@ -350,11 +362,11 @@ class ColumnedApp extends React.Component {
 }
 
 // link, making sure the current page is recorded so we can go back
-class GatsbyLink extends React.Component{
-  render(){
-    return <Link to={this.props.to} state={{backTo: window.location.href}}>
+class GatsbyLink extends React.Component {
+  render() {
+    return <Link to={this.props.to} state={{ backTo: window.location.href }}>
       {this.props.children}
-    </Link> 
+    </Link>
   }
 }
 
@@ -455,7 +467,10 @@ class TopBar extends React.Component {
 class TopBarAccountOptions extends React.Component {
   render() {
     return <div class={styles.topBarAccountOptions}>
-      <MenuItem text='Settings' icon={icons.faCog} firstInList />
+      {/* <span style={{textTransform: 'uppercase', color: 'gray', fontWeight: 500, fontSize: 12, marginLeft: 18}}>Circel Account</span> */}
+      {/* <h3 style={{marginLeft: 18, marginBottom: 0}} id='accountOptsDisplayName'/> */}
+      <MenuItem text='Settings' icon={icons.faCog} clickFn={function(){navigate('/settings')}} firstInList />
+      <Hr />
       <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' clickFn={function () {
         if (!loginRequired) {
           logOut(false)
@@ -473,16 +488,16 @@ class MenuItem extends React.Component {
   render() {
     if (!this.props.firstInList) {
       return <span>
-        <Hr />
-        <button class={styles.menuItem} style={this.props.styles} onMouseUp={this.props.clickFn}>
-          <div style={{ display: 'grid', gridTemplateColumns: '50% 50%', color: this.props.accentColour }}>
+        <button class={styles.menuItem} onMouseUp={this.props.clickFn}>
+          <div style={{ display: 'grid', gridTemplateColumns: '10% 70% 20%', color: this.props.accentColour }}>
+            <div style={{ textAlign: 'left' }}>
+              {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
+            </div>
+            
             <div>
               {this.props.text}
             </div>
 
-            <div style={{ textAlign: 'right' }}>
-              <FontAwesomeIcon icon={this.props.icon} />&nbsp;
-            </div>
           </div>
         </button>
       </span>
@@ -490,14 +505,15 @@ class MenuItem extends React.Component {
     else {
       return <span>
         <button class={styles.menuItem} style={this.props.styles} onClick={this.props.clickFn}>
-          <div style={{ display: 'grid', gridTemplateColumns: '50% 50%' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '10% 70% 20%', color: this.props.accentColour }}>
+            <div style={{ textAlign: 'left' }}>
+              {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
+            </div>
+            
             <div>
               {this.props.text}
             </div>
 
-            <div style={{ textAlign: 'right' }}>
-              <FontAwesomeIcon icon={this.props.icon} />&nbsp;
-            </div>
           </div>
         </button>
       </span>
@@ -507,7 +523,7 @@ class MenuItem extends React.Component {
 
 class SidebarItem extends React.Component {
   render() {
-    return <Link to={this.props.to} state={{backTo: window.location.href}}>
+    return <Link to={this.props.to} state={{ backTo: window.location.href }}>
       <button style={this.props.styles} class={styles.sidebarItem}>
         <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
           <div style={{ textAlign: 'left' }}>
