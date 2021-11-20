@@ -103,7 +103,7 @@ class Main extends React.Component {
         }
       }}>
         <Favicon url={LogoImage} />
-        <title>{this.props.pageName} | Circel</title>
+        <title id='pageTitle'>Loading - Circel</title>
         <TopBar appPage={this.props.appPage} pageName={this.props.pageName} />
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
@@ -115,8 +115,21 @@ class Main extends React.Component {
     } else if (this.props.pageType == 'app') {
       loginRequired = true
       return <span><div className={styles.page} style={{ opacity: '1', transition: 'opacity 0.5s' }} id='page'>
-        <title>{this.props.pageName} | Circel</title>
+        <title id='pageTitle'>Loading - Circel</title>
         <Favicon url={LogoImage} />
+        <div className={styles.circelAppTopBar}>
+          <div style={{float: 'left', width: '5%'}}>
+            <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { window.open('/', '_self') }}><div className={styles.circelLogoSemicircle}></div></div>
+          </div>
+
+          <div style={{float: 'left', width: '55%', paddingTop: '5px', textAlign: 'left'}} id=''>
+            <h3>{this.props.pageName}</h3>
+          </div>
+
+          {/* button zone for sign in etc 
+          */}
+          <div id='accountArea' style={{float: 'left', width: '37.5%', paddingTop: '5px', textAlign: 'right'}}/>
+        </div>
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
         </div>
@@ -132,7 +145,7 @@ class Main extends React.Component {
     } else if (this.props.pageType == 'custom') {
       loginRequired = false
       return <span><div className={styles.page}>
-        <title>{this.props.pageName} | Circel</title>
+        <title id='pageTitle'>Loading - Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
@@ -149,7 +162,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     // basically load page functions etc
-
+    ReactDom.render(<span>{this.props.pageName} - Circel</span>, document.getElementById('pageTitle'))
     // get user info and add options box
     const auth = firebaseSetup.firebaseAuth.getAuth();
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {
@@ -164,11 +177,11 @@ class Main extends React.Component {
             username = 'Account'
           }
           if (this.props.pageType == 'website') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
           } else if (this.props.pageType == 'app') {
-            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('appTopBarRightOptions'))
+            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
           } else if (this.props.pageType == 'custom') {
-            ReactDom.render(<div class={styles.topBarAcntLoggedInZone} onMouseUp={toggleAccountMenu}><DynamicText text={<span className={styles.topBarLink}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>} /></div>, document.getElementById('accountArea'))
+            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
           }
         } catch (error) {
           // do nothing cos there's no place to put it
@@ -280,12 +293,12 @@ class ColumnedApp extends React.Component {
 
       <div className={styles.columnedLayoutC1}>
         {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/app', '_self')}}><div className={styles.circelLogoSemicircle}></div></div> */}
-        <div className={styles.columnedLayoutC1TitleBar}>
-          {/* <CircelLogo /> */}
+        {/* <div className={styles.columnedLayoutC1TitleBar}>
+          <CircelLogo />
           <h3 style={{ marginTop: 4, marginBottom: 0, width: '50%', float: 'left', textAlign: 'left' }}>
             {this.props.appTitle}
           </h3>
-        </div>
+        </div> */}
 
         <div id='appItemsSidebar' />
       </div>
@@ -308,13 +321,10 @@ class ColumnedApp extends React.Component {
             &emsp;
             {this.props.pageTitle}
           </h3>
-          <div>
-            <span id='appTopBarRightButtons' style={{ marginTop: 4, width: '30%', textAlign: 'right', float: 'left' }} >
-            {/* <Link><FontAwesomeIcon onClick={function () { window.history.back() }} icon={icons.faChevronLeft} className={styles.appTopBarButton} style={{ cursor: 'pointer' }} /></Link> */}
-            {/* <span class={styles.appTopBarButton} style={{fontSize: '14px'}}>Save changes</span> */}
-            </span>
-
-            <span id='appTopBarRightOptions' style={{ marginTop: 4, width: '22%', float: 'left', textAlign: 'right' }} />
+          <div style={{ marginTop: 4, width: '52%', textAlign: 'right', float: 'left' }}>
+            <span id='appTopBarRightButtons'/>
+            &emsp;
+            {/* <span id='appTopBarRightOptions'/> */}
           </div>
         </div>
         {this.props.secondColumnContent}
@@ -327,6 +337,7 @@ class ColumnedApp extends React.Component {
     // render the list of page
     var listOfSidebarPages = []
     var pageTitleMatchesASidebarItem
+    var themeColour = this.props.themeColour
     columnedAppAppName = this.props.appTitle
     listOfSidebarPages = []
     this.props.firstColumnPageItems.forEach(appItem => {
@@ -337,7 +348,7 @@ class ColumnedApp extends React.Component {
         urlTo = '/' + this.props.appTitle + '/' + appItem[0]
       }
       if (appItem[0] === this.props.pageTitle) {
-        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white', boxShadow: '0px 4px 15px -4px rgba(0,0,0,0.15)' }} iconColour={'white'} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white' }} iconColour={'white'} />)
         pageTitleMatchesASidebarItem = true
       } else {
         listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
@@ -351,7 +362,17 @@ class ColumnedApp extends React.Component {
 
 
     // render the top right custom page buttons
-
+    var listOfButtons = []
+    this.props.pageOptionButtons.forEach(function(buttonItem){
+      // push to listOfButtons a button, change styling depending on button type
+      if (buttonItem[3] == 'themeColour'){
+        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px', backgroundColor: themeColour, color: 'white'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
+      } else {
+        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
+      }
+    })
+    listOfButtons.reverse()
+    ReactDom.render(<span>{listOfButtons}</span>, document.getElementById('appTopBarRightButtons'))
   }
 
   componentWillUnmount() {
@@ -417,32 +438,27 @@ class TopBar extends React.Component {
     if (!this.props.appPage) {
       return <div className={styles.topBar} id='topbar'>
         {/* CSS Circel logo */}
-        <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { window.open('/', '_self') }}><div className={styles.circelLogoSemicircle}></div></div>
+        <div style={{float: 'left', width: '5%'}}>
+          <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { window.open('/', '_self') }}><div className={styles.circelLogoSemicircle}></div></div>
+        </div>
 
-        {/* since this is an app page */}
-        <div className={styles.topBarNavZone}>
+        <div style={{float: 'left', width: '55%', paddingTop: '5px', textAlign: 'left'}}>
           <Link className={styles.topBarLink} to='/'>Home</Link>
-          &emsp;&emsp;&emsp;&emsp;
-
-          {/* <Link className={styles.topBarLink} to='/products'>Products</Link>
-            &emsp;&emsp;&emsp;&emsp;
-
-            <Link className={styles.topBarLink} to='/contact'>Support</Link>
-            &emsp;&emsp;&emsp;&emsp;
-
-            <Link className={styles.topBarLink} to='/support'>Docs</Link> */}
+          &emsp;&emsp;&emsp;
+          <Link className={styles.topBarLink} to='/'>Design</Link>
+          &emsp;&emsp;&emsp;
         </div>
 
-        {/* button zone for sign in etc */}
-        <div id='accountArea'>
-        </div>
+        {/* button zone for sign in etc 
+        */}
+        <div id='accountArea' style={{float: 'left', width: '37.5%', paddingTop: '5px', textAlign: 'right'}}/>
       </div>
     }
 
 
 
 
-    // top bar for app pages such as Workspace
+    // top bar for app page; uniux apps
     else {
       return <div className={styles.topBar} id='topbar'>
         {/* CSS Circel logo */}

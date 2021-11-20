@@ -77,21 +77,21 @@ a{
     grid-template-columns: var(--sidebarWidth) 81vw; 
     left: 1vw; 
     width: 99vw;
-    height: 100vh;
+    height: calc(100vh - 50px);
     position: absolute; 
     z-index: -100;
     overflow-x: hidden;
     overflow-y: hidden;
-    margin-top: -50px;
+    margin-top: 0px;
 }
 
 .columnedLayoutC1{
     position: absolute;
-    height: 100vh;
+    height: calc(100vh - 50px);
     padding-left: 10px;
     padding-right: 25px;
     padding-bottom: 18px;
-    padding-top: 50px;
+    padding-top: 10px;
     display: block;
     grid-column-start: 1;
     grid-column-end: 2;
@@ -104,23 +104,7 @@ a{
 }
 
 .columnedLayoutC1TitleBar{
-    top: 0vh;
-    left: 0vw;
-    height: 42px;
-    width: 17vw;
-    position: fixed;
-    /* grid-template-columns: 50% 50%; */
-    /* backdrop-filter: blur(15px); */
-    padding-top: 13px;
-    padding-left: 25px;
-    overflow: hidden;
-    /* border-bottom: 1px solid rgb(240, 240, 240); */
-    transition: background 0.3s;
-    z-index: 100;
-}
-
-.columnedLayoutC1TitleBar{
-    top: 0vh;
+    top: 50px;
     left: 0vw;
     height: 42px;
     width: 17vw;
@@ -136,7 +120,7 @@ a{
 
 .columnedLayoutC2{
     position: absolute;
-    height: 100vh;
+    height: calc(100vh - 50px);
     margin-bottom: 15px;
     padding-left: 16px;
     padding-right: 25px;
@@ -152,8 +136,59 @@ a{
     overflow-y: scroll;
 }
 
+.columnedLayoutTopBarTop{
+    top: 50px;
+    left: 19vw;
+    height: 42px;
+    /* border-bottom: 1px solid red; */
+    width: 80vw;
+    position: fixed;
+    backdrop-filter: blur(15px);
+    padding-top: 13px;
+    padding-left: 15px;
+    overflow: hidden;
+    transition: background 0.3s;
+    grid-template-columns: 50% 50%;
+}
+
+.columnedLayoutTopBar{
+    top: 50px;
+    left: 19vw;
+    height: 42px;
+    width: 80vw;
+    position: fixed;
+    grid-template-columns: 50% 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    padding-top: 13px;
+    padding-left: 15px;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(240, 240, 240);
+    transition: background 0.3s;
+    z-index: 100;
+    box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02);
+}
+
+.circelAppTopBar{
+    top: 0px;
+    left: 0vw;
+    height: 42px;
+    /* border-bottom: 1px solid red; */
+    width: 100vw;
+    box-sizing: border-box;
+    position: fixed;
+    backdrop-filter: blur(15px);
+    padding-top: 13px;
+    padding-left: 15px;
+    overflow: hidden;
+    transition: background 0.3s;
+    grid-template-columns: 50% 50%;
+}
+
 .appTopBarButton{
     width: fit-content;
+    height: 10px;
+    box-sizing: border-box;
     padding-left: 12px;
     padding-right: 12px;
     padding-top: 10px;
@@ -161,8 +196,14 @@ a{
     cursor: pointer;
     border-radius: 7px;
     color: gray;
-    font-weight: 5px;
+    margin-left: 10px;
+    margin-top: 0;
 }
+
+/* cursor: poInter;
+    color: gray;
+    text-decoration: none;
+    font-size: 14px; */
 
 .appTopBarButton:hover{
     background-color: rgba(238, 238, 238, 0.5);
@@ -203,39 +244,6 @@ a{
     margin-bottom: 20px;
     float: left;
     cursor: pointer;
-}
-
-.columnedLayoutTopBarTop{
-    top: 0vh;
-    left: 19vw;
-    height: 42px;
-    /* border-bottom: 1px solid red; */
-    width: 80vw;
-    position: fixed;
-    backdrop-filter: blur(15px);
-    padding-top: 13px;
-    padding-left: 15px;
-    overflow: hidden;
-    transition: background 0.3s;
-    grid-template-columns: 50% 50%;
-}
-
-.columnedLayoutTopBar{
-    top: 0vh;
-    left: 19vw;
-    height: 42px;
-    width: 80vw;
-    position: fixed;
-    grid-template-columns: 50% 50%;
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(15px);
-    padding-top: 13px;
-    padding-left: 15px;
-    overflow: hidden;
-    border-bottom: 1px solid rgb(240, 240, 240);
-    transition: background 0.3s;
-    z-index: 100;
-    box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02);
 }
 
 .pfp{
@@ -321,6 +329,7 @@ button{
     transition: background 0.2s;
     display: inline-block;
     box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+    outline: none;
 }
 
 button:active{
@@ -481,7 +490,7 @@ input:focus{
 }
 
 .topBarLink{
-    cursor: poInter;
+    cursor: pointer;
     color: gray;
     text-decoration: none;
     font-size: 14px;
@@ -554,6 +563,7 @@ input:focus{
     border-radius: 0px;
     margin-bottom: 0 !important;
     line-height: 18px;
+    transition: all 0.3s;
 }
 
 .menuItem:hover{
