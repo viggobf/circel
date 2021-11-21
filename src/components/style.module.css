@@ -82,7 +82,7 @@ a{
     z-index: -100;
     overflow-x: hidden;
     overflow-y: hidden;
-    margin-top: 0px;
+    margin-top: -5px;
 }
 
 .columnedLayoutC1{
@@ -91,7 +91,7 @@ a{
     padding-left: 10px;
     padding-right: 25px;
     padding-bottom: 18px;
-    padding-top: 10px;
+    padding-top: 15px;
     display: block;
     grid-column-start: 1;
     grid-column-end: 2;
@@ -137,7 +137,7 @@ a{
 }
 
 .columnedLayoutTopBarTop{
-    top: 50px;
+    top: 42px;
     left: 19vw;
     height: 42px;
     /* border-bottom: 1px solid red; */
@@ -152,7 +152,7 @@ a{
 }
 
 .columnedLayoutTopBar{
-    top: 50px;
+    top: 42px;
     left: 19vw;
     height: 42px;
     width: 80vw;
@@ -170,19 +170,18 @@ a{
 }
 
 .circelAppTopBar{
-    top: 0px;
+    top: 0vh;
     left: 0vw;
-    height: 42px;
-    /* border-bottom: 1px solid red; */
+    height: 45px;
     width: 100vw;
     box-sizing: border-box;
     position: fixed;
+    background-color: rgba(255, 255, 255, .85);
     backdrop-filter: blur(15px);
-    padding-top: 13px;
-    padding-left: 15px;
+    padding-top: 8px;
+    padding-left: 13px;
     overflow: hidden;
-    transition: background 0.3s;
-    grid-template-columns: 50% 50%;
+    box-shadow: 0px 4px 1px -4px rgba(0,0,0,0.15) !important;
 }
 
 .appTopBarButton{
@@ -543,7 +542,7 @@ input:focus{
 }
 
 .sidebarItem:hover{
-    background-color: rgba(238, 238, 238, 0.5);
+    background-color: rgba(245, 243, 243, 0.5);
     color: black
 }
 

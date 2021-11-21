@@ -15,9 +15,9 @@ class Page extends React.Component{
   render(){
     return <body>
     <uniUX.Main pageType={'app'} pageName={'Settings'} content={
-      <uniUX.ColumnedApp appShortenedName='Settings' themeColour={'var(--gray)'} appTitle='Settings' pageTitle='Account'
+      <uniUX.ColumnedApp appConfig={uniUX.appConfigs.settings} pageTitle='Account'
       pageOptionButtons={[['Save Changes', icons.faCheck, function(){alert('hi')}, 'themeColour'], ['Discard Changes', icons.faTimes, function(){alert('hi')}, '']]} firstColumnPageItems={
-        uniUX.appsAndTheirPages.settings
+        uniUX.appConfigs.settings
       } secondColumnContent={
         <span>
         <h4>

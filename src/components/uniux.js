@@ -118,17 +118,16 @@ class Main extends React.Component {
         <title id='pageTitle'>Loading - Circel</title>
         <Favicon url={LogoImage} />
         <div className={styles.circelAppTopBar}>
-          <div style={{float: 'left', width: '5%'}}>
-            <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { window.open('/', '_self') }}><div className={styles.circelLogoSemicircle}></div></div>
+          <div style={{float: 'left', width: '40px'}}>
+            <CircelLogo scale='0.8'/>
           </div>
 
-          <div style={{float: 'left', width: '55%', paddingTop: '5px', textAlign: 'left'}} id=''>
-            <h3>{this.props.pageName}</h3>
+          <div style={{float: 'left', width: 'calc(100% - 24.5% - 40px)', paddingTop: '5px', textAlign: 'left'}} id=''>
+            <h3 style={{marginTop: -1, float: 'left', textAlign: 'left', color: 'gray'}}>{this.props.pageName}</h3>
           </div>
 
-          {/* button zone for sign in etc 
-          */}
-          <div id='accountArea' style={{float: 'left', width: '37.5%', paddingTop: '5px', textAlign: 'right'}}/>
+          {/* button zone for sign in etc */}
+          <div id='accountArea' style={{float: 'left', width: '21.5%', paddingTop: '5px', textAlign: 'right'}}/>
         </div>
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
@@ -136,9 +135,11 @@ class Main extends React.Component {
 
         {this.props.content}
       </div>
+      {/* loading screen, appears until componentDidMount finishes */}
         <div className={styles.loadingScreen} id='loadingScreen'>
           {/* <CircelLogo scale='1.8'/> */}
-          <div className={styles.pageLoader} />
+          <div className={styles.pageLoader} /><br/>
+          <span id='pageLoaderLongTimeText'/>
         </div>
       </span>
 
@@ -161,6 +162,15 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
+    // set a timeout to add some text if loading taking ages, telling users how to get help/fix long load times
+    setTimeout(function(){
+      ReactDom.render(<span className={styles.minorText}>
+        Issues with loading?<br/>
+        <Link to='/support'>Visit Support</Link><br/>
+        <a href='/support'>Check Circel status</a>
+      </span>, document.getElementById('pageLoaderLongTimeText'))
+    }, 8000)
+
     // basically load page functions etc
     ReactDom.render(<span>{this.props.pageName} - Circel</span>, document.getElementById('pageTitle'))
     // get user info and add options box
@@ -255,8 +265,9 @@ function throwUniUXError(errorMsg) {
 
 class ColumnedApp extends React.Component {
   render() {
-    if (this.props.themeColour && this.props.pageTitle && this.props.appShortenedName && this.props.firstColumnPageItems
-      && this.props.secondColumnContent && this.props.appTitle) {
+    var appConfig = this.props.appConfig
+    if (appConfig.themeColour && this.props.pageTitle && appConfig.shortenedName && appConfig.pages
+      && this.props.secondColumnContent && appConfig.name) {
       // yey, we've got all the necessary props, lez continue
     } else {
       // uh oh, we're missing some props
@@ -337,18 +348,18 @@ class ColumnedApp extends React.Component {
     // render the list of page
     var listOfSidebarPages = []
     var pageTitleMatchesASidebarItem
-    var themeColour = this.props.themeColour
-    columnedAppAppName = this.props.appTitle
+    var themeColour = this.props.appConfig.themeColour
+    columnedAppAppName = this.props.appConfig.name
     listOfSidebarPages = []
-    this.props.firstColumnPageItems.forEach(appItem => {
+    this.props.appConfig.pages.forEach(appItem => {
       urlTo = ""
       if (appItem[0] == 'Home') {
-        urlTo = '/' + this.props.appTitle
+        urlTo = '/' + this.props.appConfig.name
       } else {
-        urlTo = '/' + this.props.appTitle + '/' + appItem[0]
+        urlTo = '/' + this.props.appConfig.name + '/' + appItem[0]
       }
       if (appItem[0] === this.props.pageTitle) {
-        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: this.props.themeColour, color: 'white' }} iconColour={'white'} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: 'rgba(245, 243, 243, 0.5)', color: this.props.appConfig.themeColour }} iconColour={this.props.appConfig.themeColour} />)
         pageTitleMatchesASidebarItem = true
       } else {
         listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
@@ -367,7 +378,7 @@ class ColumnedApp extends React.Component {
       // push to listOfButtons a button, change styling depending on button type
       if (buttonItem[3] == 'themeColour'){
         listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px', backgroundColor: themeColour, color: 'white'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
-      } else {
+      } else if (buttonItem[3] == 'success'){
         listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
       }
     })
@@ -416,10 +427,16 @@ class FullWidthNavCard extends React.Component {
   }
 }
 
-const appsAndTheirPages = {
-  // so when sidebar item is added to one page in app, it is added to all for uniformity (and to save a job).
-  // AlWAYS add an array here for the app, don't add arrays individually to every page. Reference the array of pages eg appsAndTheirPages.settings
-  settings: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]]
+const appConfigs = {
+  // app configurations, these are referenced by the individual pages as one prop, ensuring consistency across pages and to make development easier.
+  // always add app configurations here for production apps, consistency is key. You can also define one appConfig object in another file, as long as it's the same one used everywhere.
+  // if you are developing an app, you can provide an object similar to those below for the appConfig.
+  settings: {
+    name: 'Settings',
+    shortenedName: 'Settings',
+    pages: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]],
+    themeColour: 'var(--gray)',
+  }
 }
 
 // circel logo with CSS
@@ -906,6 +923,6 @@ export {
   logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
 
   // other variables etc
-  randomNumber, appsAndTheirPages, icons, brandIcons, userInfo,
+  randomNumber, appConfigs, icons, brandIcons, userInfo,
 
 }
