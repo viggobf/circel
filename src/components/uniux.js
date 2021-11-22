@@ -172,7 +172,7 @@ class Main extends React.Component {
     }, 8000)
 
     // basically load page functions etc
-    ReactDom.render(<span>{this.props.pageName} - Circel</span>, document.getElementById('pageTitle'))
+    ReactDom.render(this.props.pageName + ' - Circel', document.getElementById('pageTitle'))
     // get user info and add options box
     const auth = firebaseSetup.firebaseAuth.getAuth();
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {

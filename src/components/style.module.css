@@ -16,7 +16,7 @@
     --red: rgb(235, 0, 0);
     --green: rgb(0, 179, 0);
     --blue: rgb(0, 0, 236);
-    --sidebarWidth: 18vw;
+    --sidebarWidth: 220px;
 }
 
 .loadingScreen{
@@ -74,8 +74,8 @@ a{
 
 .columnedLayout{
     display: grid; 
-    grid-template-columns: var(--sidebarWidth) 81vw; 
-    left: 1vw; 
+    grid-template-columns: var(--sidebarWidth) calc(100vw - var(--sidebarWidth)); 
+    left: 8px; 
     width: 99vw;
     height: calc(100vh - 50px);
     position: absolute; 
@@ -92,10 +92,11 @@ a{
     padding-right: 25px;
     padding-bottom: 18px;
     padding-top: 15px;
+    box-sizing: border-box;
     display: block;
     grid-column-start: 1;
     grid-column-end: 2;
-    width: 18vw;
+    width: var(--sidebarWidth);
     box-sizing: border-box;
     border-right: 1px solid rgb(240, 240, 240);
     /* box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02); */
@@ -138,10 +139,9 @@ a{
 
 .columnedLayoutTopBarTop{
     top: 42px;
-    left: 19vw;
+    left: calc(var(--sidebarWidth) + 10px);
     height: 42px;
-    /* border-bottom: 1px solid red; */
-    width: 80vw;
+    width: calc(100vw - var(--sidebarWidth) - 10px);
     position: fixed;
     backdrop-filter: blur(15px);
     padding-top: 13px;
@@ -153,9 +153,9 @@ a{
 
 .columnedLayoutTopBar{
     top: 42px;
-    left: 19vw;
+    left: calc(var(--sidebarWidth) + 10px);
     height: 42px;
-    width: 80vw;
+    width: calc(100vw - var(--sidebarWidth) - 10px);
     position: fixed;
     grid-template-columns: 50% 50%;
     background-color: rgba(255, 255, 255, 0.9);
@@ -186,6 +186,8 @@ a{
 
 .appTopBarButton{
     width: fit-content;
+    max-width: 100px;
+    text-overflow: ellipsis;
     height: 10px;
     box-sizing: border-box;
     padding-left: 12px;
@@ -329,6 +331,7 @@ button{
     display: inline-block;
     box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
     outline: none;
+    text-overflow: ellipsis !important;
 }
 
 button:active{
