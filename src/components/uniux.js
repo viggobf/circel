@@ -2,6 +2,8 @@ import * as React from 'react'
 import * as styles from './style.module.css'
 import * as ReactSpring from 'react-spring'
 import { Link, navigate } from 'gatsby'
+import * as reactRouter from '@reach/router'
+import {useHistory} from 'react-router-dom'
 import ReactDom from 'react-dom'
 import * as firebaseSetup from './firebasesetup.js'
 import { Auth } from '@firebase/auth'
@@ -12,20 +14,21 @@ import LogoImage from '../images/icon.png'
 import Favicon from 'react-favicon'
 
 var accountMenuOpen = false;
-var accountMenuOpened = false
+var accountMenuOpened = false;
 var userInfo;
-var inDev = false
-var username
-var loginRequired
-var userInfo
-var urlTo
-var openAppSidebarItemRendered
-var sidebarItemDestination
-var columnedAppAppName
+var inDev = false;
+var username;
+var loginRequired;
+var userInfo;
+var urlTo;
+var openAppSidebarItemRendered;
+var sidebarItemDestination;
+var columnedAppAppName;
 
 // making a random number for variable UIs and other stuff
 const no = Math.random();
 var randomNumber
+
 if (no > 0.9) {
   randomNumber = 10
 } else if (no > 0.8) {
@@ -198,10 +201,10 @@ class Main extends React.Component {
         }
       } else {
         if (loginRequired) {
-          window.open('/login?next=' + window.location.href, '_self')
+          navigate('/login?next=' + window.location.href)
         }
         try {
-          ReactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function () { window.open('/login?next=' + window.location.href, '_self') }} /></div>, document.getElementById('accountArea'))
+          ReactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function () { navigate('/login?next=' + window.location.href) }} /></div>, document.getElementById('accountArea'))
         } catch (error) {
           // do nothing cos there's no place to put it
         }
@@ -303,7 +306,7 @@ class ColumnedApp extends React.Component {
     return <div className={styles.columnedLayout}>
 
       <div className={styles.columnedLayoutC1}>
-        {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){window.open('/app', '_self')}}><div className={styles.circelLogoSemicircle}></div></div> */}
+        {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){navigate('/app')}}><div className={styles.circelLogoSemicircle}></div></div> */}
         {/* <div className={styles.columnedLayoutC1TitleBar}>
           <CircelLogo />
           <h3 style={{ marginTop: 4, marginBottom: 0, width: '50%', float: 'left', textAlign: 'left' }}>
@@ -456,7 +459,7 @@ class TopBar extends React.Component {
       return <div className={styles.topBar} id='topbar'>
         {/* CSS Circel logo */}
         <div style={{float: 'left', width: '5%'}}>
-          <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { window.open('/', '_self') }}><div className={styles.circelLogoSemicircle}></div></div>
+          <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { navigate('/') }}><div className={styles.circelLogoSemicircle}></div></div>
         </div>
 
         <div style={{float: 'left', width: '55%', paddingTop: '5px', textAlign: 'left'}}>
@@ -479,7 +482,7 @@ class TopBar extends React.Component {
     else {
       return <div className={styles.topBar} id='topbar'>
         {/* CSS Circel logo */}
-        <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { window.open('/', '_self') }}><div className={styles.circelLogoSemicircle}></div></div>
+        <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { navigate('/') }}><div className={styles.circelLogoSemicircle}></div></div>
 
         {/* navigation zone for links */}
         <div className={styles.topBarNavZoneApp}>
@@ -846,7 +849,7 @@ async function completeEmailVerification(email, oobCode) {
 function logOut(takeToLoginPage) {
   firebaseSetup.firebaseAuth.signOut(firebaseSetup.firebaseAuth.getAuth()).then(function () {
     if (takeToLoginPage) {
-      window.open('/login', '_self')
+      navigate('/login')
     }
   })
 }
