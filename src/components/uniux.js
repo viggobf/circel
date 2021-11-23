@@ -274,31 +274,9 @@ class ColumnedApp extends React.Component {
       // yey, we've got all the necessary props, lez continue
     } else {
       // uh oh, we're missing some props
-      throwUniUXError(`UniUX Error 1: Some attributes of the app are missing. Please make sure you have included appTitle, pageTitle,
-      themeColour, appShortenedName, firstColumnPageItems and secondColumnContent.`)
+      throwUniUXError(`UniUX Error 1: Some attributes of the app are missing. Please make sure you have included the appConfig, pageTitle,
+      secondColumnContent and optionally pageOptionButtons`)
     }
-
-    // try{  
-    //   if (this.props.backTo) {
-    //     var prevUrl = this.props.backTo.split('//')[1].split('/')[1]
-    //     var backButton = <Link title={'Go back to ' + prevUrl} to={this.props.backTo}><FontAwesomeIcon icon={icons.faChevronLeft} style={{ cursor: 'pointer' }}/> &emsp;</Link>
-    //   } else {
-    //     var backButton = null
-    //   }
-    // } catch (e){
-    //   var backButton = null
-    // }
-
-    // try{  
-    //   if (this.props.forwardTo) {
-    //     var nextUrl = this.props.forwardTo
-    //     var forwardButton = <Link title={'Go forward to ' + nextUrl} to={this.props.forwardTo}><FontAwesomeIcon icon={icons.faChevronRight} style={{ cursor: 'pointer' }}/> &emsp;</Link>
-    //   } else {
-    //     var forwardButton = null
-    //   }
-    // } catch (e){
-    //   var forwardButton = null
-    // }
 
     var backButton = <Link><FontAwesomeIcon onClick={function () { window.history.back() }} icon={icons.faChevronLeft} style={{ cursor: 'pointer' }} /></Link>
     var forwardButton = <Link><FontAwesomeIcon onClick={function () { window.history.forward() }} icon={icons.faChevronRight} style={{ cursor: 'pointer' }} /></Link>
@@ -306,18 +284,10 @@ class ColumnedApp extends React.Component {
     return <div className={styles.columnedLayout}>
 
       <div className={styles.columnedLayoutC1}>
-        {/* <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function(){navigate('/app')}}><div className={styles.circelLogoSemicircle}></div></div> */}
-        {/* <div className={styles.columnedLayoutC1TitleBar}>
-          <CircelLogo />
-          <h3 style={{ marginTop: 4, marginBottom: 0, width: '50%', float: 'left', textAlign: 'left' }}>
-            {this.props.appTitle}
-          </h3>
-        </div> */}
-
         <div id='appItemsSidebar' />
       </div>
 
-      <div className={styles.columnedLayoutC2} id={'column2'} onScroll={function () {
+      <div className={styles.columnedLayoutC2} style={{backgroundColor: this.props.appConfig.themeColour.greyTinted}} id={'column2'} onScroll={function () {
         if (document.getElementById('column2').scrollTop < 1) {
           document.getElementById('column2TopBar').className = styles.columnedLayoutTopBarTop
         } else {
@@ -362,7 +332,7 @@ class ColumnedApp extends React.Component {
         urlTo = '/' + this.props.appConfig.name + '/' + appItem[0]
       }
       if (appItem[0] === this.props.pageTitle) {
-        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: 'rgba(245, 243, 243, 0.5)', color: this.props.appConfig.themeColour }} iconColour={this.props.appConfig.themeColour} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: themeColour.greyTinted, color: themeColour.normal }} iconColour={themeColour.normal} />)
         pageTitleMatchesASidebarItem = true
       } else {
         listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
@@ -380,7 +350,7 @@ class ColumnedApp extends React.Component {
     this.props.pageOptionButtons.forEach(function(buttonItem){
       // push to listOfButtons a button, change styling depending on button type
       if (buttonItem[3] == 'themeColour'){
-        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px', backgroundColor: themeColour, color: 'white'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
+        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px', backgroundColor: themeColour.normal, color: 'white'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
       } else if (buttonItem[3] == 'success'){
         listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
       }
@@ -430,6 +400,17 @@ class FullWidthNavCard extends React.Component {
   }
 }
 
+const colourPacks = {
+  grey: {
+    normal: 'rgb(146,146,146)',
+    greyTinted: 'rgba(243, 243, 243, 0.5)'
+  },
+  red: {
+    normal: 'rgb(235, 0, 0)',
+    greyTinted: 'rgba(250, 243, 243, 0.5)'
+  }
+}
+
 const appConfigs = {
   // app configurations, these are referenced by the individual pages as one prop, ensuring consistency across pages and to make development easier.
   // always add app configurations here for production apps, consistency is key. You can also define one appConfig object in another file, as long as it's the same one used everywhere.
@@ -438,7 +419,7 @@ const appConfigs = {
     name: 'Settings',
     shortenedName: 'Settings',
     pages: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]],
-    themeColour: 'var(--gray)',
+    themeColour: colourPacks.red,
   }
 }
 
