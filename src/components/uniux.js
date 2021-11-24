@@ -126,7 +126,7 @@ class Main extends React.Component {
           </div>
 
           <div style={{float: 'left', width: 'calc(100% - 24.5% - 40px)', paddingTop: '5px', textAlign: 'left'}} id=''>
-            <h3 style={{marginTop: -1, float: 'left', textAlign: 'left', color: 'gray'}}>{this.props.pageName}</h3>
+            <h4 style={{marginTop: 0, float: 'left', textAlign: 'left', color: 'gray'}}>{this.props.pageName}</h4>
           </div>
 
           {/* button zone for sign in etc */}
@@ -287,7 +287,8 @@ class ColumnedApp extends React.Component {
         <div id='appItemsSidebar' />
       </div>
 
-      <div className={styles.columnedLayoutC2} style={{backgroundColor: this.props.appConfig.themeColour.greyTinted}} id={'column2'} onScroll={function () {
+
+      <div className={styles.columnedLayoutC2} style={{backgroundColor: this.props.appConfig.themeColour.mostLight}} id={'column2'} onScroll={function () {
         if (document.getElementById('column2').scrollTop < 1) {
           document.getElementById('column2TopBar').className = styles.columnedLayoutTopBarTop
         } else {
@@ -296,21 +297,21 @@ class ColumnedApp extends React.Component {
 
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-          <h3 style={{ marginTop: 4, width: '45%', float: 'left', textAlign: 'left' }}>
-            <span style={{ fontWeight: '300' }}>
-              {backButton}
-              &emsp;&ensp;
-              {forwardButton}
-            </span>
-            &emsp;
-            {this.props.pageTitle}
-          </h3>
-          <div style={{ marginTop: 4, width: '52%', textAlign: 'right', float: 'left' }}>
-            <span id='appTopBarRightButtons'/>
-            &emsp;
-            {/* <span id='appTopBarRightOptions'/> */}
-          </div>
+        <h3 style={{ marginTop: 1, width: '45%', float: 'left', textAlign: 'left' }}>
+          <span style={{ fontWeight: '300' }}>
+            {backButton}
+            &emsp;&ensp;
+            {forwardButton}
+          </span>
+          &emsp;
+          {this.props.pageTitle}
+        </h3>
+        <div style={{ marginTop: 4, width: '52%', textAlign: 'right', float: 'left' }}>
+          <span id='appTopBarRightButtons'/>
+          &emsp;
+          {/* <span id='appTopBarRightOptions'/> */}
         </div>
+      </div>
         {this.props.secondColumnContent}
       </div>
       <div id='accountOptionsArea'></div>
@@ -332,7 +333,7 @@ class ColumnedApp extends React.Component {
         urlTo = '/' + this.props.appConfig.name + '/' + appItem[0]
       }
       if (appItem[0] === this.props.pageTitle) {
-        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: themeColour.greyTinted, color: themeColour.normal }} iconColour={themeColour.normal} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: themeColour.light, color: themeColour.normal }} iconColour={themeColour.normal} />)
         pageTitleMatchesASidebarItem = true
       } else {
         listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
@@ -403,11 +404,20 @@ class FullWidthNavCard extends React.Component {
 const colourPacks = {
   grey: {
     normal: 'rgb(146,146,146)',
-    greyTinted: 'rgba(243, 243, 243, 0.5)'
+    light: 'rgba(243, 243, 243, 0.5)',
+    mostLight: 'rgba(243, 243, 243, 0.5)'
   },
+
   red: {
     normal: 'rgb(235, 0, 0)',
-    greyTinted: 'rgba(250, 243, 243, 0.5)'
+    light: 'rgba(250, 243, 243, 0.5)',
+    mostLight: 'rgba(248, 243, 243, 0.5)'
+  },
+
+  green: {
+    normal: 'rgb(0, 179, 0)',
+    light: 'rgba(243, 250, 243, 0.5)',
+    mostLight: 'rgba(243, 248, 243, 0.5)'
   }
 }
 
@@ -419,7 +429,7 @@ const appConfigs = {
     name: 'Settings',
     shortenedName: 'Settings',
     pages: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]],
-    themeColour: colourPacks.red,
+    themeColour: colourPacks.grey,
   }
 }
 
