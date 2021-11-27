@@ -80,7 +80,7 @@ class Page extends React.Component {
 
                                         <input placeholder={'New Password'} style={{ width: '30vw' }} type='password' id='resetPasswordNewPassword' /><br /><br /><br />
 
-                                        <uniUX.PrimaryButton text='Reset Password' clickFn={function () {
+                                        <uniUX.PrimaryButton text='Reset Password' onClick={function () {
                                             uniUX.completeResetPassword(result, document.getElementById('resetPasswordNewPassword').value, url.searchParams.get('oobCode')).then(function (result) {
                                                 window.open(continueUrl, '_self')
                                             })
@@ -118,7 +118,7 @@ class Page extends React.Component {
 
                                 <input placeholder='New Password' style={{ width: '30vw' }} type='password' id='resetPasswordNewPassword' /><br /><br /><br />
 
-                                <uniUX.PrimaryButton text='Continue' clickFn={function () {
+                                <uniUX.PrimaryButton text='Continue' onClick={function () {
                                     uniUX.completeResetPassword(document.getElementById('resetPasswordNewPassword').value, url.searchParams.get('oobCode')).then(function (result) {
                                         if (result == 'success') {
                                             if (url.searchParams.get('continueUrl')) {

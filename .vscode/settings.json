@@ -1,8 +1,8 @@
 {
     "workbench.list.fastScrollSensitivity": 10,
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "Visual Studio Dark",
     "window.autoDetectColorScheme": true,
-    "window.title": "${activeEditorShort}${separator}${rootName} (${folderPath})",
+    "window.title": "${activeEditorShort}${separator}${rootName} (${folderPath}) - Visual Studio Code",
     "window.titleSeparator": " - ",
     "window.zoomLevel": 0
 }

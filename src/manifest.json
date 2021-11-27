@@ -1,0 +1,30 @@
+{
+    "name": "Circel",
+    "short_name": "Circel",
+    "icons": [{
+      "src": "images/icon.png",
+        "sizes": "113x113",
+        "type": "image/png"
+      }],
+    "description": "Circel UniUX",
+    "lang": "en-US",
+    "start_url": "https://app.circel.co/",
+    "display": "standalone",
+    "background_color": "white",
+    "orientation": "any",
+    "theme_color": "grey",
+    "shortcuts": [
+        {
+            "name": "Settings",
+            "short_name": "Settings",
+            "description": "Quickly jump to your Settings",
+            "url": "/settings"
+        },
+        {
+            "name": "My Profile",
+            "short_name": "Profile",
+            "description": "Quickly jump to your Profile",
+            "url": "/people/me"
+        }
+    ]
+  }

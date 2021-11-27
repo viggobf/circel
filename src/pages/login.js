@@ -21,7 +21,7 @@ const Page = () => {
 
             <input placeholder='Password' style={{ width: '30vw' }} type='password' id='loginPagePassword' /><br /><br /><br />
 
-            <uniUX.PrimaryButton text='Log in' clickFn={function () {
+            <uniUX.PrimaryButton text='Log in' onClick={function () {
               uniUX.logIn(document.getElementById('loginPageEmail').value, document.getElementById('loginPagePassword').value).then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')
@@ -40,7 +40,7 @@ const Page = () => {
               })
             }} />
 
-            <uniUX.SecondaryButton text='Sign up instead' clickFn={function () { window.open('/signup?next=' + window.location.href.split('=')[1], '_self') }} />
+            <uniUX.SecondaryButton text='Sign up instead' onClick={function () { window.open('/signup?next=' + window.location.href.split('=')[1], '_self') }} />
             <br /><br />
             
             {/* password reset button */}
@@ -65,7 +65,7 @@ const Page = () => {
             <br /><br /><br /><br /><br />
             <h1 className={uniUX.styles.bigPageHeader} style={{ fontSize: 'max(2.5vw, 30px)', color: 'white' }}>Log in a different way</h1>
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () { 
+            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () { 
               uniUX.logInGoogle().then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')
@@ -84,7 +84,7 @@ const Page = () => {
               })
              }} text={<span>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Log in with Google&ensp;</span>} /><br /><br />
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () { 
+            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () { 
               uniUX.logInTwitter().then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')

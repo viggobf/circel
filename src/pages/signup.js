@@ -20,7 +20,7 @@ const Page = () => {
 
             <input placeholder='Password' style={{ width: '30vw' }} type='password' id='signupPagePassword' /><br /><br /><br />
 
-            <uniUX.PrimaryButton text='Sign up' clickFn={function () {
+            <uniUX.PrimaryButton text='Sign up' onClick={function () {
               uniUX.signUp(document.getElementById('signupPageEmail').value, document.getElementById('signupPagePassword').value).then(function (result) {
                 if (result == 'success') {
                   // continue with the signup process
@@ -38,7 +38,7 @@ const Page = () => {
                   //       Note: for now this signup process is a work in progress, please check back soon.
                   //     </p><br /><br /><br />
 
-                  //     <uniUX.PrimaryButton text='Continue' clickFn={function () {
+                  //     <uniUX.PrimaryButton text='Continue' onClick={function () {
                   //       ReactDom.render(
                   //         <span>
                   //           <br /><br />
@@ -52,16 +52,16 @@ const Page = () => {
                   //             Note: for now this signup process is a work in progress, please check back soon.
                   //           </p><br /><br /><br />
 
-                  //           <uniUX.PrimaryButton text='Continue' clickFn={function () { }} />
+                  //           <uniUX.PrimaryButton text='Continue' onClick={function () { }} />
 
-                  //           <uniUX.SecondaryButton text='Skip' clickFn={function () { window.open(window.location.href.split('=')[1], '_self') }} /><br /><br />
+                  //           <uniUX.SecondaryButton text='Skip' onClick={function () { window.open(window.location.href.split('=')[1], '_self') }} /><br /><br />
 
                   //           <p className={uniUX.styles.minorText}>Clicking 'Skip' will take you back to the page you were on before.</p>
                   //         </span>, document.getElementById('halvedPageHalf1')
                   //       )
                   //     }} />
 
-                  //     <uniUX.SecondaryButton text='Skip' clickFn={function () { window.open(window.location.href.split('=')[1], '_self') }} /><br /><br />
+                  //     <uniUX.SecondaryButton text='Skip' onClick={function () { window.open(window.location.href.split('=')[1], '_self') }} /><br /><br />
 
                   //     <p className={uniUX.styles.minorText}>Clicking 'Skip' will take you back to the page you were on before.</p>
                   //   </span>, document.getElementById('halvedPageHalf1')
@@ -80,7 +80,7 @@ const Page = () => {
               })
             }} />
 
-            <uniUX.SecondaryButton text='Log in instead' clickFn={function () { window.open('/login?next=' + window.location.href.split('=')[1], '_self', '_self') }} /><br /><br />
+            <uniUX.SecondaryButton text='Log in instead' onClick={function () { window.open('/login?next=' + window.location.href.split('=')[1], '_self', '_self') }} /><br /><br />
 
             <p className={uniUX.styles.minorText}>By continuing, you confirm you have read and agree to Circel's Terms.</p>
             <br /><br />
@@ -91,7 +91,7 @@ const Page = () => {
             <br /><br /><br /><br /><br />
             <h1 className={uniUX.styles.bigPageHeader} style={{ fontSize: '2.5vw', color: 'white' }}>Sign up a different way</h1>
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () {
+            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () {
               uniUX.logInGoogle().then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')
@@ -110,7 +110,7 @@ const Page = () => {
               })
             }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Sign up with Google&ensp;</p>} /><br /><br />
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} clickFn={function () {
+            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () {
               uniUX.logInTwitter().then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')

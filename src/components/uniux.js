@@ -96,9 +96,9 @@ class Main extends React.Component {
     }
     // get if page is app, custom (app with no login requirement, app layout), or website (no login requirement, top bar shown) and
     // render correct interface from that
-    if (this.props.pageType == 'website') {
+    if (this.props.pageType === 'website') {
       loginRequired = false
-      return <div className={styles.page} id='page' onScroll={function () {
+      return <div className={styles.page} id='page' style={{paddingLeft: '5vw'}} onScroll={function () {
         if (document.getElementById('page').scrollTop < 1) {
           document.getElementById('topbar').className = styles.topBarTop
         } else {
@@ -115,7 +115,7 @@ class Main extends React.Component {
         {this.props.content}
       </div>
 
-    } else if (this.props.pageType == 'app') {
+    } else if (this.props.pageType === 'app') {
       loginRequired = true
       return <span><div className={styles.page} style={{ opacity: '1', transition: 'opacity 0.5s' }} id='page'>
         <title id='pageTitle'>Loading - Circel</title>
@@ -125,12 +125,14 @@ class Main extends React.Component {
             <CircelLogo scale='0.8'/>
           </div>
 
-          <div style={{float: 'left', width: 'calc(100% - 24.5% - 40px)', paddingTop: '5px', textAlign: 'left'}} id=''>
+          <div style={{float: 'left', width: 'fit-content', paddingTop: '5px', textAlign: 'left'}} id=''>
             <h4 style={{marginTop: 0, float: 'left', textAlign: 'left', color: 'gray'}}>{this.props.pageName}</h4>
           </div>
 
           {/* button zone for sign in etc */}
-          <div id='accountArea' style={{float: 'left', width: '21.5%', paddingTop: '5px', textAlign: 'right'}}/>
+          <div id='accountArea' style={{float: 'right', width: 'fit-content', paddingTop: '5px', marginRight: '2.4vw', textAlign: 'right'}}>
+            <span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>Account&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>
+          </div>
         </div>
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
@@ -146,7 +148,7 @@ class Main extends React.Component {
         </div>
       </span>
 
-    } else if (this.props.pageType == 'custom') {
+    } else if (this.props.pageType === 'custom') {
       loginRequired = false
       return <span><div className={styles.page}>
         <title id='pageTitle'>Loading - Circel</title>
@@ -189,11 +191,11 @@ class Main extends React.Component {
           } else {
             username = 'Account'
           }
-          if (this.props.pageType == 'website') {
+          if (this.props.pageType === 'website') {
             ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
-          } else if (this.props.pageType == 'app') {
+          } else if (this.props.pageType === 'app') {
             ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
-          } else if (this.props.pageType == 'custom') {
+          } else if (this.props.pageType === 'custom') {
             ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
           }
         } catch (error) {
@@ -204,7 +206,7 @@ class Main extends React.Component {
           navigate('/login?next=' + window.location.href)
         }
         try {
-          ReactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' clickFn={function () { navigate('/login?next=' + window.location.href) }} /></div>, document.getElementById('accountArea'))
+          ReactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' onClick={function () { navigate('/login?next=' + window.location.href) }} /></div>, document.getElementById('accountArea'))
         } catch (error) {
           // do nothing cos there's no place to put it
         }
@@ -233,7 +235,7 @@ class Main extends React.Component {
     }
 
     window.onkeyup = function (ev) {
-      if (ev.key == 'Escape') {
+      if (ev.key === 'Escape') {
         renderNothing(document.getElementById('accountOptionsArea'))
         accountMenuOpen = false
       }
@@ -257,7 +259,7 @@ class Main extends React.Component {
 
 // error function
 function throwUniUXError(errorMsg) {
-  if (inDev == false) {
+  if (inDev === false) {
     throw Error(errorMsg + ` \n\nIf you are developing your app and do not wish to see these errors at this time, please add the inDev={true} attribute
     to your uniUX.Main component (even with inDev={true}, errors will still be logged to the Console).`)
   } else {
@@ -297,7 +299,7 @@ class ColumnedApp extends React.Component {
 
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-        <h3 style={{ marginTop: 1, width: '45%', float: 'left', textAlign: 'left' }}>
+        <h3 style={{ marginTop: 4, width: 'fit-content', float: 'left', textAlign: 'left' }}>
           <span style={{ fontWeight: '300' }}>
             {backButton}
             &emsp;&ensp;
@@ -306,10 +308,8 @@ class ColumnedApp extends React.Component {
           &emsp;
           {this.props.pageTitle}
         </h3>
-        <div style={{ marginTop: 4, width: '52%', textAlign: 'right', float: 'left' }}>
+        <div style={{ marginTop: 6, width: 'fit-content', textAlign: 'right', marginRight: '2.4vw', float: 'right' }}>
           <span id='appTopBarRightButtons'/>
-          &emsp;
-          {/* <span id='appTopBarRightOptions'/> */}
         </div>
       </div>
         {this.props.secondColumnContent}
@@ -327,7 +327,7 @@ class ColumnedApp extends React.Component {
     listOfSidebarPages = []
     this.props.appConfig.pages.forEach(appItem => {
       urlTo = ""
-      if (appItem[0] == 'Home') {
+      if (appItem[0] === 'Home') {
         urlTo = '/' + this.props.appConfig.name
       } else {
         urlTo = '/' + this.props.appConfig.name + '/' + appItem[0]
@@ -350,9 +350,9 @@ class ColumnedApp extends React.Component {
     var listOfButtons = []
     this.props.pageOptionButtons.forEach(function(buttonItem){
       // push to listOfButtons a button, change styling depending on button type
-      if (buttonItem[3] == 'themeColour'){
+      if (buttonItem[3] === 'themeColour'){
         listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px', backgroundColor: themeColour.normal, color: 'white'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
-      } else if (buttonItem[3] == 'success'){
+      } else if (buttonItem[3] === 'success'){
         listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
       }
     })
@@ -409,16 +409,28 @@ const colourPacks = {
   },
 
   red: {
-    normal: 'rgb(235, 0, 0)',
+    normal: 'var(--red)',
     light: 'rgba(250, 243, 243, 0.5)',
     mostLight: 'rgba(248, 243, 243, 0.5)'
   },
 
   green: {
-    normal: 'rgb(0, 179, 0)',
-    light: 'rgba(243, 250, 243, 0.5)',
-    mostLight: 'rgba(243, 248, 243, 0.5)'
-  }
+    normal: 'var(--green)',
+    light: 'rgba(243, 253, 243, 0.5)',
+    mostLight: 'rgba(243, 250, 243, 0.5)'
+  },
+
+  blue: {
+    normal: 'var(--blue)',
+    light: 'rgba(243, 243, 253, 0.5)',
+    mostLight: 'rgba(243, 243, 250, 0.5)'
+  },
+
+  purple: {
+    normal: 'purple',
+    light: 'rgba(128, 0, 128, 0.2)',
+    mostLight: 'rgba(128, 0, 128, 0.2)'
+  },
 }
 
 const appConfigs = {
@@ -456,7 +468,7 @@ class TopBar extends React.Component {
         <div style={{float: 'left', width: '55%', paddingTop: '5px', textAlign: 'left'}}>
           <Link className={styles.topBarLink} to='/'>Home</Link>
           &emsp;&emsp;&emsp;
-          <Link className={styles.topBarLink} to='/'>Design</Link>
+          <Link className={styles.topBarLink} to='/design'>Design</Link>
           &emsp;&emsp;&emsp;
         </div>
 
@@ -496,9 +508,9 @@ class TopBarAccountOptions extends React.Component {
     return <div class={styles.topBarAccountOptions}>
       {/* <span style={{textTransform: 'uppercase', color: 'gray', fontWeight: 500, fontSize: 12, marginLeft: 18}}>Circel Account</span> */}
       {/* <h3 style={{marginLeft: 18, marginBottom: 0}} id='accountOptsDisplayName'/> */}
-      <MenuItem text='Settings' icon={icons.faCog} clickFn={function(){navigate('/settings')}} firstInList />
+      <MenuItem text='Settings' icon={icons.faCog} onClick={function(){navigate('/settings')}} firstInList />
       <Hr />
-      <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' clickFn={function () {
+      <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' onClick={function () {
         if (!loginRequired) {
           logOut(false)
         } else {
@@ -515,7 +527,7 @@ class MenuItem extends React.Component {
   render() {
     if (!this.props.firstInList) {
       return <span>
-        <button class={styles.menuItem} onMouseUp={this.props.clickFn}>
+        <button class={styles.menuItem} onMouseUp={this.props.onClick}>
           <div style={{ display: 'grid', gridTemplateColumns: '10% 70% 20%', color: this.props.accentColour }}>
             <div style={{ textAlign: 'left' }}>
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
@@ -531,7 +543,7 @@ class MenuItem extends React.Component {
     }
     else {
       return <span>
-        <button class={styles.menuItem} style={this.props.styles} onClick={this.props.clickFn}>
+        <button class={styles.menuItem} style={this.props.styles} onClick={this.props.onClick}>
           <div style={{ display: 'grid', gridTemplateColumns: '10% 70% 20%', color: this.props.accentColour }}>
             <div style={{ textAlign: 'left' }}>
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
@@ -570,13 +582,13 @@ class SidebarItem extends React.Component {
 
 class PrimaryButton extends React.Component {
   render() {
-    return <button className={styles.primaryButton} style={this.props.styles} onClick={this.props.clickFn}>{this.props.text}</button>
+    return <button className={styles.primaryButton} style={this.props.styles} onClick={this.props.onClick}>{this.props.text}</button>
   }
 }
 
 class SecondaryButton extends React.Component {
   render() {
-    return <button className={styles.secondaryButton} style={this.props.styles} onClick={this.props.clickFn}>{this.props.text}</button>
+    return <button className={styles.secondaryButton} style={this.props.styles} onClick={this.props.onClick}>{this.props.text}</button>
   }
 }
 
