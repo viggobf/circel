@@ -11,7 +11,7 @@ module.exports = {
         name: "Circel",
         short_name: "Circel",
         icons: [{
-          src: '/icon.png',
+          src: 'static/icon.png',
             sizes: "150x150",
             type: "image/png"
           }],
