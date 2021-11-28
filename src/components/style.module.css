@@ -528,7 +528,7 @@ input:focus{
     padding-bottom: 8px;
     height: fit-content;
     z-index: 10000;
-    background-color: rgba(128, 0, 128, 0.5);
+    background-color: white;
     right: 2.4vw;
     top: 50px;
     width: 220px;

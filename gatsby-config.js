@@ -11,17 +11,17 @@ module.exports = {
         name: "Circel",
         short_name: "Circel",
         icons: [{
-          src: "images/icon.png",
-            sizes: "113x113",
+          src: '/icon.png',
+            sizes: "150x150",
             type: "image/png"
           }],
-        description: "Circel UniUX",
+        description: "Circel UniUX - Progressive Web App",
         lang: "en-US",
         start_url: "/",
-        display: "standalone",
+        display: "fullscreen",
         background_color: "white",
         orientation: "any",
-        theme_color: "grey",
+        theme_color: "white",
         shortcuts: [
             {
                 name: "Settings",
