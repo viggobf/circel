@@ -21,9 +21,28 @@ class Page extends React.Component{
         <h4>
           Coming Soon
         </h4>
+        {/* <h4>
+          Progressive Web App (PWA) Mode
+        </h4>
 
-        <p>This page is still being worked on.<br/><br/>Please check back soon!
+        <p>
+          Use PWA Mode when an app setting is detected
         </p>
+
+        <p className={uniUX.styles.minorText}>
+          When this setting is on, PWA Mode adapts UniUX for use in an app setting, as opposed to on the normal website. 
+          When off, UniUX will instead keep the default settings when it detects you're in an app setting.
+        </p>
+        <br/><br/>
+
+        <p>
+          Override PWA Mode
+        </p>
+
+        <p className={uniUX.styles.minorText}>
+          Overrides the automatic activation for PWA Mode (not recommended). When on, PWA Mode will always be on no matter the setting.
+
+        </p> */}
         
         </span>
       }/>

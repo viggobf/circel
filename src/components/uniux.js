@@ -176,8 +176,12 @@ class Main extends React.Component {
       </span>, document.getElementById('pageLoaderLongTimeText'))
     }, 8000)
 
-    // basically load page functions etc
-    ReactDom.render(this.props.pageName + ' - Circel', document.getElementById('pageTitle'))
+    // load page functions etc
+    if (window.matchMedia('(display-mode: standalone)').matches){
+      ReactDom.render(this.props.pageName, document.getElementById('pageTitle'))
+    } else {
+      ReactDom.render(this.props.pageName + ' - Circel', document.getElementById('pageTitle'))
+    }
     // get user info and add options box
     const auth = firebaseSetup.firebaseAuth.getAuth();
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {
