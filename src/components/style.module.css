@@ -174,7 +174,6 @@ a{
     border-bottom: 1px solid rgb(240, 240, 240);
     transition: background 0.3s;
     z-index: 100;
-    box-shadow: 2px 0px 18px 0px rgba(0,0,0,0.02);
 }
 
 .circelAppTopBar{

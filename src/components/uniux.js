@@ -24,6 +24,7 @@ var urlTo;
 var openAppSidebarItemRendered;
 var sidebarItemDestination;
 var columnedAppAppName;
+var userEmail;
 
 // making a random number for variable UIs and other stuff
 const no = Math.random();
@@ -187,6 +188,7 @@ class Main extends React.Component {
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {
       if (user) {
         userInfo = user
+        userEmail = user.email
         console.log('Welcome, ' + userInfo.email)
         // add the account options box
         try {
@@ -204,6 +206,47 @@ class Main extends React.Component {
           }
         } catch (error) {
           // do nothing cos there's no place to put it
+        }
+
+
+        const pageUrl = new URL(window.location.href)
+        const pageOriginUrl = pageUrl.origin.split('//')[1]
+        // get if the page is being viewed on the beta sites, if so, only allow CBP-enrolled email addresses
+        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co'){
+          // this page is a beta page - get if the user is CBP-enrolled or not
+            if (user.email === 'viggobryantfrost@gmail.com' || user.email.split('@')[1] === 'circel.co') {
+              try {
+                  document.getElementById('page').style.opacity = '1'
+                  document.getElementById('loadingScreen').style.opacity = '0'
+                  setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+              } catch (e) {
+                // do nothing cos circel loading screen doesn't apply to this page
+              }
+            } else {
+              // user not CBP-enrolled, don't allow them to view the beta page and show a get lost *cough cough* error message
+              try{
+                document.getElementById('loadingScreen').style.opacity = '0'
+              } catch (err){
+                // do nothing, again no loading screen
+              }
+              // render a message - they aren't CBP-enrolled so can't view page
+              ReactDom.render(<div>
+                <br/><br/>
+                <h1 className={welcomeHeadingStyles} style={{fontSize: '8vw'}}>This is a Closed Beta page.</h1>
+                <p className={styles.minorText}>
+                  Unfortunately only members of the Closed Beta Programme can access pages on <em>beta.circel.co</em> and <em>beta.app.circel.co</em>.
+                  If you want to apply to join, you can do so <a href='https://forms.gle/bFQB5e3PKE9y8Nk86'>here</a>.
+                </p>
+              </div>, document.getElementById('page'))
+            }
+        } else {
+          try {
+            document.getElementById('page').style.opacity = '1'
+            document.getElementById('loadingScreen').style.opacity = '0'
+            setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+          } catch (e) {
+            // do nothing cos circel loading screen doesn't apply to this page
+          }
         }
       } else {
         if (loginRequired) {
@@ -238,7 +281,7 @@ class Main extends React.Component {
       }
     }
 
-    window.onkeyup = function (ev) {
+    window.onkeydown = function (ev) {
       if (ev.key === 'Escape') {
         renderNothing(document.getElementById('accountOptionsArea'))
         accountMenuOpen = false
@@ -249,13 +292,7 @@ class Main extends React.Component {
 
     // page loading has finished, hide the loading overlay screen. don't put functions after this; please put
     // them before this comment to ensure a smooth loading experience.
-    try {
-      document.getElementById('page').style.opacity = '1'
-      document.getElementById('loadingScreen').style.opacity = '0'
-      setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
-    } catch (e) {
-      // do nothing cos circel loading screen doesn't apply to this page
-    }
+    
   }
 }
 
