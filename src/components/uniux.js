@@ -257,6 +257,23 @@ class Main extends React.Component {
         } catch (error) {
           // do nothing cos there's no place to put it
         }
+        
+        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co'){
+          try{
+            document.getElementById('loadingScreen').style.opacity = '0'
+          } catch (err){
+            // do nothing, again no loading screen
+          }
+          // render a message - they aren't CBP-enrolled so can't view page
+          ReactDom.render(<div>
+            <br/><br/>
+            <h1 className={welcomeHeadingStyles} style={{fontSize: '8vw'}}>This is a Closed Beta page.</h1>
+            <p className={styles.minorText}>
+              Unfortunately only members of the Closed Beta Programme can access pages on <em>beta.circel.co</em> and <em>beta.app.circel.co</em>.
+              If you want to apply to join, you can do so <a href='https://forms.gle/bFQB5e3PKE9y8Nk86'>here</a>.
+            </p>
+          </div>, document.getElementById('page'))
+        }
       }
 
 
