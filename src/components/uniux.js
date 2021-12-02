@@ -119,9 +119,14 @@ class Main extends React.Component {
         {this.props.content}
       </div>
 
+
+
+
+
+
     } else if (this.props.pageType === 'app') {
       loginRequired = true
-      return <span><div className={styles.page} style={{ opacity: '1', transition: 'opacity 0.5s' }} id='page'>
+      return <span><div className={styles.page} style={{ opacity: '0', transition: 'opacity 0.5s' }} id='page'>
         <title id='pageTitle'>Loading - Circel</title>
         <Favicon url={LogoImage} />
         <div className={styles.circelAppTopBar}>
@@ -152,9 +157,13 @@ class Main extends React.Component {
         </div>
       </span>
 
+
+
+
+
     } else if (this.props.pageType === 'custom') {
       loginRequired = false
-      return <span><div className={styles.page}>
+      return <span><div className={styles.page} style={{opacity: '0', transition: 'opacity 0.5s'}} id='page'>
         <title id='pageTitle'>Loading - Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
@@ -163,6 +172,13 @@ class Main extends React.Component {
 
         {this.props.content}
       </div>
+
+      {/* loading overlay screen */}
+      <div className={styles.loadingScreen} id='loadingScreen'>
+          {/* <CircelLogo scale='1.8'/> */}
+          <div className={styles.pageLoader} /><br/>
+          <span id='pageLoaderLongTimeText'/>
+        </div>
       </span>
     } else {
       throwUniUXError(`UniUX Error 3: This page's pageType is not 'website', 'custom' or 'app', so UniUX.Main couldn't render.
@@ -850,7 +866,7 @@ async function signUp(email, password) {
     if (signupStatus) {
       // signed up successfully, return that
       const user = signupStatus.user;
-      return 'success'
+      return ['success', user]
     }
   } catch (error) {
     return error.code
@@ -974,13 +990,18 @@ async function getDocFromFirestore(collection, documentName) {
   const docGotten = await firebaseSetup.firestore.getDoc(docRef);
 
   if (docGotten.exists()) {
-    console.log("Document data:", docGotten.data())
     return docGotten.data()
   } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
+    // oop document unexistant
     return 'No such document'
   }
+}
+
+async function writeDocToFirestore(collection, documentName, newData) {
+  const docRef = firebaseSetup.firestore.doc(firebaseSetup.firestore.getFirestore(firebaseSetup.app), collection, documentName);
+
+  await firebaseSetup.firestore.setDoc(docRef, newData)
+
 }
 
 
@@ -998,7 +1019,7 @@ export {
 
   // third uniUX functions
   logIn, signUp, logOut, resetPasswordEmail, completeResetPassword, verifyPasswordResetCode, getUserDetails,
-  logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, fadeInElementOnRender,
+  logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, writeDocToFirestore, fadeInElementOnRender,
 
   // other variables etc
   randomNumber, appConfigs, icons, brandIcons, userInfo,

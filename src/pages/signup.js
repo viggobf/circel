@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ReactDom from 'react-dom'
 import * as uniUX from '../components/uniux.js'
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import * as firebaseSetup from '../components/firebasesetup.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
@@ -22,51 +22,35 @@ const Page = () => {
 
             <uniUX.PrimaryButton text='Sign up' onClick={function () {
               uniUX.signUp(document.getElementById('signupPageEmail').value, document.getElementById('signupPagePassword').value).then(function (result) {
-                if (result == 'success') {
+                if (result[0] === 'success') {
                   // continue with the signup process
-                  window.open(window.location.href.split('=')[1])
-                  // ReactDom.render(
-                  //   <span>
-                  //     <br /><br />
-                  //     <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Welcome to Circel</h1>
-                  //     <p className={uniUX.styles.minorText}>
-                  //       Thanks for signing up for your Circel account!
-                  //       <br /><br />
-                  //       Click 'Continue' to start the Circel account setup process, or if you'd prefer to do this later, just
-                  //       click 'Skip' below. All of the settings you'll configure can be edited in Settings later.
-                  //       <br /><br />
-                  //       Note: for now this signup process is a work in progress, please check back soon.
-                  //     </p><br /><br /><br />
+                  // render the next stage of process - setup settings
+                  ReactDom.render(
+                    <span>
+                      <br /><br />
+                      <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Setting things up...</h1>
+                      <p className={uniUX.styles.minorText}>
+                        Just a moment
+                      </p><br /><br /><br />
+                    </span>, document.getElementById('halvedPageHalf1')
+                  )
+                  document.getElementById('halvedPageSignUp2').style.display = 'none'
+                  uniUX.writeDocToFirestore('userInfo', result[1].uid, {
+                    username: result[1].email.split('@')[0]
+                  }).then(function(){
+                    ReactDom.render(
+                    <span>
+                      <br /><br />
+                      <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Welcome to Circel</h1>
+                      <p className={uniUX.styles.minorText}>
+                        We've set everything up for you!
+                        <br/><br/><br/>
 
-                  //     <uniUX.PrimaryButton text='Continue' onClick={function () {
-                  //       ReactDom.render(
-                  //         <span>
-                  //           <br /><br />
-                  //           <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Set up </h1>
-                  //           <p className={uniUX.styles.minorText}>
-                  //             Thanks for signing up for your Circel account!
-                  //             <br /><br />
-                  //             Click 'Continue' to start the Circel account setup process, or if you'd prefer to do this later, just
-                  //             click 'Skip' below. All of the settings you'll configure can be edited in Settings later.
-                  //             <br /><br />
-                  //             Note: for now this signup process is a work in progress, please check back soon.
-                  //           </p><br /><br /><br />
-
-                  //           <uniUX.PrimaryButton text='Continue' onClick={function () { }} />
-
-                  //           <uniUX.SecondaryButton text='Skip' onClick={function () { window.open(window.location.href.split('=')[1], '_self') }} /><br /><br />
-
-                  //           <p className={uniUX.styles.minorText}>Clicking 'Skip' will take you back to the page you were on before.</p>
-                  //         </span>, document.getElementById('halvedPageHalf1')
-                  //       )
-                  //     }} />
-
-                  //     <uniUX.SecondaryButton text='Skip' onClick={function () { window.open(window.location.href.split('=')[1], '_self') }} /><br /><br />
-
-                  //     <p className={uniUX.styles.minorText}>Clicking 'Skip' will take you back to the page you were on before.</p>
-                  //   </span>, document.getElementById('halvedPageHalf1')
-                  // )
-                  // document.getElementById('halvedPageSignUp2').style.display = 'none'
+                        <uniUX.PrimaryButton text='Continue to Circel (Settings)' onClick={function(){navigate('/settings')}}/>
+                      </p><br /><br /><br />
+                    </span>, document.getElementById('halvedPageHalf1')
+                  )
+                  })
                 } else {
                   console.log(result)
                   if (result == 'auth/email-already-in-use') {
