@@ -3,7 +3,7 @@ import * as styles from './style.module.css'
 import * as ReactSpring from 'react-spring'
 import { Link, navigate } from 'gatsby'
 import * as reactRouter from '@reach/router'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import ReactDom from 'react-dom'
 import * as firebaseSetup from './firebasesetup.js'
 import { Auth } from '@firebase/auth'
@@ -102,7 +102,7 @@ class Main extends React.Component {
     // render correct interface from that
     if (this.props.pageType === 'website') {
       loginRequired = false
-      return <div className={styles.page} id='page' style={{paddingLeft: '5vw'}} onScroll={function () {
+      return <div className={styles.page} id='page' style={{ paddingLeft: '5vw' }} onScroll={function () {
         if (document.getElementById('page').scrollTop < 1) {
           document.getElementById('topbar').className = styles.topBarTop
         } else {
@@ -110,7 +110,7 @@ class Main extends React.Component {
         }
       }}>
         <Favicon url={LogoImage} />
-        <title id='pageTitle'>Loading - Circel</title>
+        <title id='pageTitle'>Loading &#8226; Circel</title>
         <TopBar appPage={this.props.appPage} pageName={this.props.pageName} />
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
@@ -127,33 +127,41 @@ class Main extends React.Component {
     } else if (this.props.pageType === 'app') {
       loginRequired = true
       return <span><div className={styles.page} style={{ opacity: '0', transition: 'opacity 0.5s' }} id='page'>
-        <title id='pageTitle'>Loading - Circel</title>
+        <title id='pageTitle'>Loading &#8226; Circel</title>
         <Favicon url={LogoImage} />
         <div className={styles.circelAppTopBar}>
-          <div style={{float: 'left', width: '40px'}}>
-            <CircelLogo scale='0.8'/>
+          <div style={{ float: 'left', width: '40px' }}>
+            <CircelLogo scale='0.8' />
           </div>
 
-          <div style={{float: 'left', width: 'fit-content', paddingTop: '5px', textAlign: 'left'}} id=''>
-            <h4 style={{marginTop: 0, float: 'left', textAlign: 'left', color: 'gray'}}>{this.props.pageName}</h4>
+          <div style={{ float: 'left', width: 'fit-content', paddingTop: '5px', textAlign: 'left' }} id=''>
+            <h4 style={{ marginTop: 0, float: 'left', textAlign: 'left', color: 'gray' }}>{this.props.pageName}</h4>
           </div>
 
           {/* button zone for sign in etc */}
-          <div id='accountArea' style={{float: 'right', width: 'fit-content', paddingTop: '5px', marginRight: '2.4vw', textAlign: 'right'}}>
-            <span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>Account&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>
+          <div id='accountArea' style={{ float: 'right', width: 'fit-content', paddingTop: '5px', marginRight: '2.4vw', textAlign: 'right' }}>
+            <span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{ fontSize: '14px' }}>Account&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>
           </div>
         </div>
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
         </div>
+        <div id='dialogArea'>
+
+          {/* <div className={styles.blurOverlay}/> */}
+          {/* dialogs, alerts etc rendered here */}
+          {/* <div className={styles.dialogBox}>
+            <h3>Edit Profile Picture</h3>
+          </div> */}
+        </div>
 
         {this.props.content}
       </div>
-      {/* loading screen, appears until componentDidMount finishes */}
+        {/* loading screen, appears until componentDidMount finishes */}
         <div className={styles.loadingScreen} id='loadingScreen'>
           {/* <CircelLogo scale='1.8'/> */}
-          <div className={styles.pageLoader} /><br/>
-          <span id='pageLoaderLongTimeText'/>
+          <div className={styles.pageLoader} /><br />
+          <span id='pageLoaderLongTimeText' />
         </div>
       </span>
 
@@ -163,8 +171,8 @@ class Main extends React.Component {
 
     } else if (this.props.pageType === 'custom') {
       loginRequired = false
-      return <span><div className={styles.page} style={{opacity: '0', transition: 'opacity 0.5s'}} id='page'>
-        <title id='pageTitle'>Loading - Circel</title>
+      return <span><div className={styles.page} style={{ opacity: '0', transition: 'opacity 0.5s' }} id='page'>
+        <title id='pageTitle'>Loading &#8226; Circel</title>
         <Favicon url={LogoImage} />
         <div id='accountOptionsArea'>
           {/* account options box rendered here */}
@@ -173,11 +181,11 @@ class Main extends React.Component {
         {this.props.content}
       </div>
 
-      {/* loading overlay screen */}
-      <div className={styles.loadingScreen} id='loadingScreen'>
+        {/* loading overlay screen */}
+        <div className={styles.loadingScreen} id='loadingScreen'>
           {/* <CircelLogo scale='1.8'/> */}
-          <div className={styles.pageLoader} /><br/>
-          <span id='pageLoaderLongTimeText'/>
+          <div className={styles.pageLoader} /><br />
+          <span id='pageLoaderLongTimeText' />
         </div>
       </span>
     } else {
@@ -188,20 +196,15 @@ class Main extends React.Component {
 
   componentDidMount() {
     // set a timeout to add some text if loading taking ages, telling users how to get help/fix long load times
-    setTimeout(function(){
+    setTimeout(function () {
       ReactDom.render(<span className={styles.minorText}>
-        Issues with loading?<br/>
-        <Link to='/support'>Visit Support</Link><br/>
+        Issues with loading?<br />
+        <Link to='/support'>Visit Support</Link><br />
         <a href='/support'>Check Circel status</a>
       </span>, document.getElementById('pageLoaderLongTimeText'))
     }, 8000)
 
     // load page functions etc
-    if (window.matchMedia('(display-mode: standalone)').matches){
-      ReactDom.render(this.props.pageName, document.getElementById('pageTitle'))
-    } else {
-      ReactDom.render(this.props.pageName + ' - Circel', document.getElementById('pageTitle'))
-    }
     // get user info and add options box
     const auth = firebaseSetup.firebaseAuth.getAuth();
     firebaseSetup.firebaseAuth.onAuthStateChanged(auth, (user) => {
@@ -217,11 +220,11 @@ class Main extends React.Component {
             username = 'Account'
           }
           if (this.props.pageType === 'website') {
-            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
+            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{ fontSize: '14px' }}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
           } else if (this.props.pageType === 'app') {
-            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
+            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{ fontSize: '14px' }}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
           } else if (this.props.pageType === 'custom') {
-            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{fontSize: '14px'}}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
+            ReactDom.render(<span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{ fontSize: '14px' }}>{username}&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>, document.getElementById('accountArea'))
           }
         } catch (error) {
           // do nothing cos there's no place to put it
@@ -230,45 +233,52 @@ class Main extends React.Component {
 
         pageUrl = new URL(window.location.href)
         pageOriginUrl = pageUrl.origin.split('//')[1]
-        pagePathUrl = pageUrl.pathName
+        pagePathUrl = pageUrl.pathname
         // get if the page is being viewed on the beta sites, if so, only allow CBP-enrolled email addresses
-        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co'){
+        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co' || pageOriginUrl === 'localhost:8000') {
           // this page is a beta page - get if the user is CBP-enrolled or not
-            if (pagePathUrl !== '/login'){
-              if (user.email === 'viggobryantfrost@gmail.com' || user.email.split('@')[1] === 'circel.co') {
-                try {
-                    document.getElementById('page').style.opacity = '1'
-                    document.getElementById('loadingScreen').style.opacity = '0'
-                    setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
-                } catch (e) {
-                  // do nothing cos circel loading screen doesn't apply to this page
-                }
-              } else {
-                // user not CBP-enrolled, don't allow them to view the beta page and show a get lost *cough cough* error message
-                try{
-                  document.getElementById('loadingScreen').style.opacity = '0'
-                } catch (err){
-                  // do nothing, again no loading screen
-                }
-                // render a message - they aren't CBP-enrolled so can't view page
-                ReactDom.render(<div>
-                  <br/><br/>
-                  <h1 className={welcomeHeadingStyles} style={{fontSize: '8vw'}}>This is a Closed Beta page.</h1>
-                  <p className={styles.minorText}>
-                    Unfortunately only members of the Closed Beta Programme can access pages on <em>beta.circel.co</em> and <em>beta.app.circel.co</em>.
-                    If you want to apply to join, you can do so <a href='https://forms.gle/bFQB5e3PKE9y8Nk86'>here</a>.
-                  </p>
-                </div>, document.getElementById('page'))
+          if (pagePathUrl === '/login/' || pagePathUrl === '/signup/') {
+            try {
+              document.getElementById('page').style.opacity = '1'
+              document.getElementById('loadingScreen').style.opacity = '0'
+              setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+            } catch (e) {
+              // do nothing cos circel loading screen doesn't apply to this page
+            }
+          }
+
+
+
+          else {
+            if (user.email === 'viggobryantfrost@gmail.com' || user.email.split('@')[1] === 'circel.co') {
+              try {
+                document.getElementById('page').style.opacity = '1'
+                document.getElementById('loadingScreen').style.opacity = '0'
+                setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+              } catch (e) {
+                // do nothing cos circel loading screen doesn't apply to this page
               }
             } else {
+              // user not CBP-enrolled, don't allow them to view the beta page and show a get lost *cough cough* error message
               try {
-                    document.getElementById('page').style.opacity = '1'
-                    document.getElementById('loadingScreen').style.opacity = '0'
-                    setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
-                } catch (e) {
-                  // do nothing cos circel loading screen doesn't apply to this page
-                }
+                document.getElementById('loadingScreen').style.opacity = '0'
+                document.getElementById('page').style.opacity = '1'
+              } catch (err) {
+                // do nothing, again no loading screen
+              }
+              // render a message - they aren't CBP-enrolled so can't view page
+              ReactDom.render(<div>
+                <br /><br />
+                <h1 className={welcomeHeadingStyles} style={{ fontSize: '8vw' }}>This is a Closed Beta page.</h1>
+                <p className={styles.minorText}>
+                  Unfortunately only members of the Closed Beta Programme can access pages on <em>beta.circel.co</em> and <em>beta.app.circel.co</em>.
+                  If you want to apply to join, you can do so <a href='https://forms.gle/bFQB5e3PKE9y8Nk86'>here</a>. If you're
+                  already enrolled, make sure you're logged in with your enrolled account to access this site - log in <Link to='/login'>here</Link>.
+                </p>
+              </div>, document.getElementById('page'))
             }
+          }
+
         } else {
           try {
             document.getElementById('page').style.opacity = '1'
@@ -287,17 +297,17 @@ class Main extends React.Component {
         } catch (error) {
           // do nothing cos there's no place to put it
         }
-        
-        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co'){
-          try{
+
+        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co') {
+          try {
             document.getElementById('loadingScreen').style.opacity = '0'
-          } catch (err){
+          } catch (err) {
             // do nothing, again no loading screen
           }
           // render a message - they aren't CBP-enrolled so can't view page
           ReactDom.render(<div>
-            <br/><br/>
-            <h1 className={welcomeHeadingStyles} style={{fontSize: '8vw'}}>This is a Closed Beta page.</h1>
+            <br /><br />
+            <h1 className={welcomeHeadingStyles} style={{ fontSize: '8vw' }}>This is a Closed Beta page.</h1>
             <p className={styles.minorText}>
               Unfortunately only members of the Closed Beta Programme can access pages on <em>beta.circel.co</em> and <em>beta.app.circel.co</em>.
               If you want to apply to join, you can do so <a href='https://forms.gle/bFQB5e3PKE9y8Nk86'>here</a>.
@@ -339,7 +349,7 @@ class Main extends React.Component {
 
     // page loading has finished, hide the loading overlay screen. don't put functions after this; please put
     // them before this comment to ensure a smooth loading experience.
-    
+
   }
 }
 
@@ -378,7 +388,7 @@ class ColumnedApp extends React.Component {
       </div>
 
 
-      <div className={styles.columnedLayoutC2} style={{backgroundColor: this.props.appConfig.themeColour.mostLight}} id={'column2'} onScroll={function () {
+      <div className={styles.columnedLayoutC2} style={{ backgroundColor: this.props.appConfig.themeColour.mostLight }} id={'column2'} onScroll={function () {
         if (document.getElementById('column2').scrollTop < 1) {
           document.getElementById('column2TopBar').className = styles.columnedLayoutTopBarTop
         } else {
@@ -387,19 +397,19 @@ class ColumnedApp extends React.Component {
 
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-        <h3 style={{ marginTop: 4, width: 'fit-content', float: 'left', textAlign: 'left' }}>
-          <span style={{ fontWeight: '300' }}>
-            {backButton}
-            &emsp;&ensp;
-            {forwardButton}
-          </span>
-          &emsp;
-          {this.props.pageTitle}
-        </h3>
-        <div style={{ marginTop: 6, width: 'fit-content', textAlign: 'right', marginRight: '2.4vw', float: 'right' }}>
-          <span id='appTopBarRightButtons'/>
+          <h3 style={{ marginTop: 4, width: 'fit-content', float: 'left', textAlign: 'left' }}>
+            <span style={{ fontWeight: '300' }}>
+              {backButton}
+              &emsp;&ensp;
+              {forwardButton}
+            </span>
+            &emsp;
+            {this.props.pageTitle}
+          </h3>
+          <div style={{ marginTop: 6, width: 'fit-content', textAlign: 'right', marginRight: '2.4vw', float: 'right' }}>
+            <span id='appTopBarRightButtons' />
+          </div>
         </div>
-      </div>
         {this.props.secondColumnContent}
       </div>
       <div id='accountOptionsArea'></div>
@@ -412,6 +422,11 @@ class ColumnedApp extends React.Component {
     var pageTitleMatchesASidebarItem
     var themeColour = this.props.appConfig.themeColour
     columnedAppAppName = this.props.appConfig.name
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      ReactDom.render(this.props.pageName, document.getElementById('pageTitle'))
+    } else {
+      ReactDom.render('Circel • ' + this.props.appConfig.name + ' / ' + this.props.pageTitle, document.getElementById('pageTitle'))
+    }
     listOfSidebarPages = []
     this.props.appConfig.pages.forEach(appItem => {
       urlTo = ""
@@ -421,7 +436,7 @@ class ColumnedApp extends React.Component {
         urlTo = '/' + this.props.appConfig.name + '/' + appItem[0]
       }
       if (appItem[0] === this.props.pageTitle) {
-        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: themeColour.light, color: themeColour.normal }} iconColour={themeColour.normal} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: themeColour.normal, color: 'white' }} iconColour={'white'} />)
         pageTitleMatchesASidebarItem = true
       } else {
         listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
@@ -436,12 +451,12 @@ class ColumnedApp extends React.Component {
 
     // render the top right custom page buttons
     var listOfButtons = []
-    this.props.pageOptionButtons.forEach(function(buttonItem){
+    this.props.pageOptionButtons.forEach(function (buttonItem) {
       // push to listOfButtons a button, change styling depending on button type
-      if (buttonItem[3] === 'themeColour'){
-        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px', backgroundColor: themeColour.normal, color: 'white'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
-      } else if (buttonItem[3] === 'success'){
-        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{fontSize: '14px'}}><FontAwesomeIcon icon={buttonItem[1]}/>&ensp;{buttonItem[0]}</span>)
+      if (buttonItem[3] === 'themeColour') {
+        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{ fontSize: '14px', backgroundColor: themeColour.normal, color: 'white' }}><FontAwesomeIcon icon={buttonItem[1]} />&ensp;{buttonItem[0]}</span>)
+      } else if (buttonItem[3] === 'success') {
+        listOfButtons.push(<span onClick={buttonItem[2]} class={styles.appTopBarButton} style={{ fontSize: '14px' }}><FontAwesomeIcon icon={buttonItem[1]} />&ensp;{buttonItem[0]}</span>)
       }
     })
     listOfButtons.reverse()
@@ -529,7 +544,7 @@ const appConfigs = {
     name: 'Settings',
     shortenedName: 'Settings',
     pages: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]],
-    themeColour: colourPacks.grey,
+    themeColour: colourPacks.blue,
   }
 }
 
@@ -549,11 +564,11 @@ class TopBar extends React.Component {
     if (!this.props.appPage) {
       return <div className={styles.topBar} id='topbar'>
         {/* CSS Circel logo */}
-        <div style={{float: 'left', width: '5%'}}>
+        <div style={{ float: 'left', width: '5%' }}>
           <div className={styles.circelLogoCircle} title='Go to the Circel homepage' onClick={function () { navigate('/') }}><div className={styles.circelLogoSemicircle}></div></div>
         </div>
 
-        <div style={{float: 'left', width: '55%', paddingTop: '5px', textAlign: 'left'}}>
+        <div style={{ float: 'left', width: '55%', paddingTop: '5px', textAlign: 'left' }}>
           <Link className={styles.topBarLink} to='/'>Home</Link>
           &emsp;&emsp;&emsp;
           <Link className={styles.topBarLink} to='/design'>Design</Link>
@@ -562,7 +577,7 @@ class TopBar extends React.Component {
 
         {/* button zone for sign in etc 
         */}
-        <div id='accountArea' style={{float: 'left', width: '37.5%', paddingTop: '5px', textAlign: 'right'}}/>
+        <div id='accountArea' style={{ float: 'left', width: '37.5%', paddingTop: '5px', textAlign: 'right' }} />
       </div>
     }
 
@@ -596,7 +611,7 @@ class TopBarAccountOptions extends React.Component {
     return <div class={styles.topBarAccountOptions}>
       {/* <span style={{textTransform: 'uppercase', color: 'gray', fontWeight: 500, fontSize: 12, marginLeft: 18}}>Circel Account</span> */}
       {/* <h3 style={{marginLeft: 18, marginBottom: 0}} id='accountOptsDisplayName'/> */}
-      <MenuItem text='Settings' icon={icons.faCog} onClick={function(){navigate('/settings')}} firstInList />
+      <MenuItem text='Settings' icon={icons.faCog} onClick={function () { navigate('/settings') }} firstInList />
       <Hr />
       <MenuItem text='Log out' icon={icons.faSignOutAlt} accentColour='red' onClick={function () {
         if (!loginRequired) {
@@ -620,7 +635,7 @@ class MenuItem extends React.Component {
             <div style={{ textAlign: 'left' }}>
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
             </div>
-            
+
             <div>
               {this.props.text}
             </div>
@@ -636,7 +651,7 @@ class MenuItem extends React.Component {
             <div style={{ textAlign: 'left' }}>
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
             </div>
-            
+
             <div>
               {this.props.text}
             </div>
@@ -839,6 +854,18 @@ function toggleAccountMenu() {
   }
 }
 
+function dialog(title, primaryButton, secondaryButton, tertiaryButton){
+  ReactDom.render(<span>
+    {/* the blur overlay */}
+    <div className={styles.blurOverlay}/>
+    
+    {/* the dialog box */}
+    <div className={styles.dialogBox}>
+      <h3>{title}</h3>
+    </div>
+  </span>)
+}
+
 // Circel Accounts functions. While we name Circel IDs as emails here, 
 // please name them as Circel IDs when the user can see (brand identity :)).
 
@@ -1020,6 +1047,7 @@ export {
   // third uniUX functions
   logIn, signUp, logOut, resetPasswordEmail, completeResetPassword, verifyPasswordResetCode, getUserDetails,
   logInGoogle, logInTwitter, toggleAccountMenu, getDocFromFirestore, writeDocToFirestore, fadeInElementOnRender,
+  dialog,
 
   // other variables etc
   randomNumber, appConfigs, icons, brandIcons, userInfo,
