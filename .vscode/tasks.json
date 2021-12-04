@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "develop",
+			"problemMatcher": [],
+			"label": "Start Development Server",
+			"detail": "gatsby develop"
+		},
+		{
+			"type": "npm",
+			"script": "build",
+			"problemMatcher": [],
+			"label": "Start a production-optimized build",
+			"detail": "gatsby build"
+		},
+		{
+			"type": "npm",
+			"script": "install",
+			"problemMatcher": [],
+			"label": "Install a package",
+			"detail": "install dependencies from package"
+		}
+	]
+}

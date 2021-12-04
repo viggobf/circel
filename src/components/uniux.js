@@ -425,7 +425,7 @@ class ColumnedApp extends React.Component {
     if (window.matchMedia('(display-mode: standalone)').matches) {
       ReactDom.render(this.props.pageName, document.getElementById('pageTitle'))
     } else {
-      ReactDom.render('Circel • ' + this.props.appConfig.name + ' / ' + this.props.pageTitle, document.getElementById('pageTitle'))
+      ReactDom.render(this.props.appConfig.name + ' / ' + this.props.pageTitle +  ' • Circel', document.getElementById('pageTitle'))
     }
     listOfSidebarPages = []
     this.props.appConfig.pages.forEach(appItem => {
@@ -439,7 +439,7 @@ class ColumnedApp extends React.Component {
         listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: themeColour.normal, color: 'white' }} iconColour={'white'} />)
         pageTitleMatchesASidebarItem = true
       } else {
-        listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'rgba(146,146,146)'} />)
+        listOfSidebarPages.push(<SidebarItem text={appItem[0]} to={urlTo.toLowerCase()} icon={appItem[1]} iconColour={'gray'} />)
       }
     });
     if (!pageTitleMatchesASidebarItem) {
@@ -544,14 +544,14 @@ const appConfigs = {
     name: 'Settings',
     shortenedName: 'Settings',
     pages: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]],
-    themeColour: colourPacks.blue,
+    themeColour: colourPacks.red,
   }
 }
 
 // circel logo with CSS
 class CircelLogo extends React.Component {
   render() {
-    return <div className={styles.circelLogoCircle} style={{ transform: 'scale(' + this.props.scale + ') rotate(225deg)', border: '1.2px solid ' + this.props.colour }}><div style={{ backgroundColor: this.props.colour }} className={styles.circelLogoSemicircle}></div></div>
+    return <div className={styles.circelLogoCircle} style={{ transform: 'scale(' + this.props.scale + ') rotate(225deg)', border: '1.2px solid ' + this.props.configs }}><div style={{ backgroundColor: this.props.colour }} className={styles.circelLogoSemicircle}></div></div>
   }
 }
 
@@ -666,13 +666,13 @@ class MenuItem extends React.Component {
 class SidebarItem extends React.Component {
   render() {
     return <Link to={this.props.to} state={{ backTo: window.location.href }}>
-      <button style={this.props.styles} class={styles.sidebarItem}>
+      <button style={this.props.styles} className={styles.sidebarItem}>
         <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
           <div style={{ textAlign: 'left' }}>
-            <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon} />
+            <FontAwesomeIcon style={{color: this.props.iconColour}} icon={this.props.icon} className={styles.sidebarItemIcon} />
           </div>
 
-          <div style={{ fontWeight: 500 }}>
+          <div style={{ fontWeight: 500 }} className={styles.sidebarItemText}>
             {this.props.text}
           </div>
         </div>
@@ -864,6 +864,10 @@ function dialog(title, primaryButton, secondaryButton, tertiaryButton){
       <h3>{title}</h3>
     </div>
   </span>)
+}
+
+function closeDialog(){
+  ReactDom.render(<Nothing/>)
 }
 
 // Circel Accounts functions. While we name Circel IDs as emails here, 

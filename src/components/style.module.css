@@ -21,6 +21,61 @@
 }
 
 /* responsiveness */
+@media only screen and (max-width: /* mobile */ 480px){
+    /* show dialog coming from bottom of screen (mimics iOS) */
+    .dialogBox{
+        box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+        backdrop-filter: blur(15px);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        position: fixed;
+        padding-top: 0px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 8px;
+        height: 100vh !important;
+        z-index: 10000;
+        background-color: white;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: 96vw;
+    }
+
+    /* move C1 to bottom of screen then style the sidebar items appropriately for the now bottom bar */
+    .columnedLayout{
+        grid-template-columns: 0vw 100vw !important;
+    }
+
+    .columnedLayoutC1{
+        left: 0 !important;
+        bottom: 0 !important;
+        padding-top: 5px !important;
+        width: 100vw !important;
+        height: 50px !important;
+        background-color: white !important;
+        border-top: 1px solid rgb(240, 240, 240) !important;
+    }
+
+    .columnedLayoutTopBar{
+        left: 0vw !important;
+    }
+    .columnedLayoutTopBarTop{
+        left: 0vw !important
+    }
+
+    .columnedLayoutC2{
+        width: 100vw;
+    }
+
+    .sidebarItem{
+        width: 10px !important;
+        float: left !important;
+    }
+
+    .sidebarItemText{
+        display: none !important;
+    }
+}
 
 .loadingScreen{
     position: fixed;
@@ -43,7 +98,7 @@
     padding-top: 49vh;
     left: 0;
     top: 0;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(3px);
     transition: opacity 0.5s;
 }
 
@@ -195,7 +250,7 @@ a{
     padding-top: 8px;
     padding-left: 13px;
     overflow: hidden;
-    box-shadow: 0px 4px 1px -4px rgba(0,0,0,0.15) !important;
+    border-bottom: 1px solid rgb(240, 240, 240);
 }
 
 .appTopBarButton{
@@ -563,6 +618,10 @@ input:focus{
     color: black
 }
 
+.sidebarItem:hover .sidebarItemIcon{
+    color: black;
+}
+
 /* context menu/other menu items */
 
 .menuItem{
@@ -620,25 +679,7 @@ input:focus{
 }
 
 /* show modal coming from bottom of screen on mobile devices */
-@media only screen and (max-width: 480px){
-    .dialogBox{
-        box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
-        backdrop-filter: blur(15px);
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        position: fixed;
-        padding-top: 0px;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-bottom: 8px;
-        height: 100vh !important;
-        z-index: 10000;
-        background-color: white;
-        left: 0 !important;
-        bottom: 0 !important;
-        width: 96vw;
-    }
-}
+
 
 /* two half window (title takes up left half in card, content in right half). Usage: use for sharing menu/login window, not
 content-rich windows */
