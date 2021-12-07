@@ -651,12 +651,6 @@ class TopBarAccountOptions extends React.Component {
 
 class MenuItem extends React.Component {
   render() {
-    var itemFontWeight;
-    if (this.props.primaryItem === true){
-      itemFontWeight = 'bold'
-    } else {
-      itemFontWeight = '700'
-    }
     if (!this.props.firstInList) {
       return <span>
         <button class={styles.menuItem} onMouseUp={this.props.onClick}>
@@ -665,7 +659,7 @@ class MenuItem extends React.Component {
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
             </div>
 
-            <div style={{fontWeight: itemFontWeight}}>
+            <div>
               {this.props.text}
             </div>
 
@@ -681,7 +675,7 @@ class MenuItem extends React.Component {
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
             </div>
 
-            <div style={{fontWeight: itemFontWeight}}>
+            <div>
               {this.props.text}
             </div>
 
@@ -701,7 +695,7 @@ class SidebarItem extends React.Component {
       // open the context menu
       contextMenu(ev, [
         ["Open Page", function () { navigate(thisProps.to) }, true, true],
-        ["Open in new tab", function () { window.open(thisProps.to, '_blank') }, false],
+        ["Open in new tab", function () { window.open(thisProps.to, '_blank') }, false, false],
       ])
     }} onClick={function () { navigate(thisProps.to) }}>
       <div className={styles.sidebarItemInner}>

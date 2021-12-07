@@ -51,7 +51,7 @@
         padding-left: 15px;
         padding-right: 15px;
         padding-bottom: 8px;
-        height: 100vh !important;
+        height: fit-content !important;
         z-index: 10000;
         background-color: white;
         left: 0 !important;
