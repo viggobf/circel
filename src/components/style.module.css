@@ -56,7 +56,7 @@
         background-color: white;
         left: 0 !important;
         bottom: 0 !important;
-        width: 96vw;
+        width: 96vw !important;
     }
 
     /* move C1 to bottom of screen then style the sidebar items appropriately for the now bottom bar */
