@@ -15,8 +15,8 @@ class Page extends React.Component{
   render(){
     return <body>
     <uniUX.Main pageType={'app'} pageName={'Settings'} content={
-      <uniUX.ColumnedApp appConfig={uniUX.appConfigs.settings} pageTitle='Appearance'
-      pageOptionButtons={[['Save changes', icons.faSave, function(){alert('hi')}, true]]} secondColumnContent={
+      <uniUX.ColumnedApp appConfig={uniUX.appConfigs.settings} page={uniUX.appConfigs.settings.pageConfigs.appearance}
+      pageOptionButtons={[['Save changes', icons.faSave, function(){alert('hi')}, true]]} pageContent={
         <span>
         <h4>
           Coming Soon

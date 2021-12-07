@@ -13,6 +13,7 @@ import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 import LogoImage from '../images/icon.png'
 import Favicon from 'react-favicon'
 
+
 var accountMenuOpen = false;
 var accountMenuOpened = false;
 var userInfo;
@@ -112,7 +113,7 @@ class Main extends React.Component {
         <Favicon url={LogoImage} />
         <title id='pageTitle'>Loading &#8226; Circel</title>
         <TopBar appPage={this.props.appPage} pageName={this.props.pageName} />
-        <div id='accountOptionsArea'>
+        <div id='dialogArea'>
           {/* account options box rendered here */}
         </div>
 
@@ -143,16 +144,8 @@ class Main extends React.Component {
             <span class={styles.appTopBarButton} onMouseUp={toggleAccountMenu} style={{ fontSize: '14px' }}>Account&ensp;<FontAwesomeIcon icon={icons.faChevronDown} /></span>
           </div>
         </div>
-        <div id='accountOptionsArea'>
-          {/* account options box rendered here */}
-        </div>
         <div id='dialogArea'>
-
-          {/* <div className={styles.blurOverlay}/> */}
-          {/* dialogs, alerts etc rendered here */}
-          {/* <div className={styles.dialogBox}>
-            <h3>Edit Profile Picture</h3>
-          </div> */}
+          {/* account options box etc rendered here */}
         </div>
 
         {this.props.content}
@@ -174,7 +167,7 @@ class Main extends React.Component {
       return <span><div className={styles.page} style={{ opacity: '0', transition: 'opacity 0.5s' }} id='page'>
         <title id='pageTitle'>Loading &#8226; Circel</title>
         <Favicon url={LogoImage} />
-        <div id='accountOptionsArea'>
+        <div id='dialogArea'>
           {/* account options box rendered here */}
         </div>
 
@@ -289,6 +282,36 @@ class Main extends React.Component {
           }
         }
       } else {
+        pageUrl = new URL(window.location.href)
+        pageOriginUrl = pageUrl.origin.split('//')[1]
+        pagePathUrl = pageUrl.pathname
+        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co' || pageOriginUrl === 'localhost:8000') {
+          if (pagePathUrl === '/login/' || pagePathUrl === '/signup/') {
+            try {
+              document.getElementById('page').style.opacity = '1'
+              document.getElementById('loadingScreen').style.opacity = '0'
+              setTimeout(function () { document.getElementById('loadingScreen').style.display = 'none' }, 500)
+            } catch (e) {
+              // do nothing cos circel loading screen doesn't apply to this page
+            }
+          } else {
+            // render a message - they aren't CBP-enrolled so can't view page
+            try {
+              document.getElementById('page').style.opacity = '1'
+              document.getElementById('loadingScreen').style.opacity = '0'
+            } catch (e) {
+              // no loading screen
+            }
+            ReactDom.render(<div>
+              <br /><br />
+              <h1 className={welcomeHeadingStyles} style={{ fontSize: '8vw' }}>This is a Closed Beta page.</h1>
+              <p className={styles.minorText}>
+                Unfortunately only members of the Closed Beta Programme can access pages on <em>beta.circel.co</em> and <em>beta.app.circel.co</em>.
+                If you want to apply to join, you can do so <a href='https://forms.gle/bFQB5e3PKE9y8Nk86'>here</a>.
+              </p>
+            </div>, document.getElementById('page'))
+          }
+        }
         if (loginRequired) {
           navigate('/login?next=' + window.location.href)
         }
@@ -296,23 +319,6 @@ class Main extends React.Component {
           ReactDom.render(<div class={styles.topBarBtnZone}><PrimaryButton text='Log in' onClick={function () { navigate('/login?next=' + window.location.href) }} /></div>, document.getElementById('accountArea'))
         } catch (error) {
           // do nothing cos there's no place to put it
-        }
-
-        if (pageOriginUrl === 'beta.circel.co' || pageOriginUrl === 'beta.app.circel.co') {
-          try {
-            document.getElementById('loadingScreen').style.opacity = '0'
-          } catch (err) {
-            // do nothing, again no loading screen
-          }
-          // render a message - they aren't CBP-enrolled so can't view page
-          ReactDom.render(<div>
-            <br /><br />
-            <h1 className={welcomeHeadingStyles} style={{ fontSize: '8vw' }}>This is a Closed Beta page.</h1>
-            <p className={styles.minorText}>
-              Unfortunately only members of the Closed Beta Programme can access pages on <em>beta.circel.co</em> and <em>beta.app.circel.co</em>.
-              If you want to apply to join, you can do so <a href='https://forms.gle/bFQB5e3PKE9y8Nk86'>here</a>.
-            </p>
-          </div>, document.getElementById('page'))
         }
       }
 
@@ -325,7 +331,7 @@ class Main extends React.Component {
       if (accountMenuOpen) {
         fadeInElementOnRender(
           <TopBarAccountOptions />,
-          document.getElementById('accountOptionsArea')
+          document.getElementById('dialogArea')
         )
       }
 
@@ -333,14 +339,14 @@ class Main extends React.Component {
 
     window.onclick = function () {
       if (accountMenuOpen) {
-        renderNothing(document.getElementById('accountOptionsArea'))
+        renderNothing(document.getElementById('dialogArea'))
         accountMenuOpen = false
       }
     }
 
     window.onkeydown = function (ev) {
       if (ev.key === 'Escape') {
-        renderNothing(document.getElementById('accountOptionsArea'))
+        renderNothing(document.getElementById('dialogArea'))
         accountMenuOpen = false
       }
     }
@@ -369,13 +375,13 @@ function throwUniUXError(errorMsg) {
 class ColumnedApp extends React.Component {
   render() {
     var appConfig = this.props.appConfig
-    if (appConfig.themeColour && this.props.pageTitle && appConfig.shortenedName && appConfig.pages
-      && this.props.secondColumnContent && appConfig.name) {
+    if (appConfig.themeColour && this.props.page && appConfig.shortenedName && appConfig.pageConfigs
+      && this.props.pageContent && appConfig.name) {
       // yey, we've got all the necessary props, lez continue
     } else {
       // uh oh, we're missing some props
-      throwUniUXError(`UniUX Error 1: Some attributes of the app are missing. Please make sure you have included the appConfig, pageTitle,
-      secondColumnContent and optionally pageOptionButtons`)
+      throwUniUXError(`UniUX Error 1: Some attributes of the app and/or page configuration are missing. Please make sure you have included the appConfig, pageTitle,
+      pageContent and optionally pageOptionButtons in your page configuration, and for the app configuration, name, shortenedName, pageConfigs and themeColour.`)
     }
 
     var backButton = <Link><FontAwesomeIcon onClick={function () { window.history.back() }} icon={icons.faChevronLeft} style={{ cursor: 'pointer' }} /></Link>
@@ -387,7 +393,6 @@ class ColumnedApp extends React.Component {
         <div id='appItemsSidebar' />
       </div>
 
-
       <div className={styles.columnedLayoutC2} style={{ backgroundColor: this.props.appConfig.themeColour.mostLight }} id={'column2'} onScroll={function () {
         if (document.getElementById('column2').scrollTop < 1) {
           document.getElementById('column2TopBar').className = styles.columnedLayoutTopBarTop
@@ -397,45 +402,47 @@ class ColumnedApp extends React.Component {
 
       }}>
         <div className={styles.columnedLayoutTopBarTop} id={'column2TopBar'}>
-          <h3 style={{ marginTop: 4, width: 'fit-content', float: 'left', textAlign: 'left' }}>
-            <span style={{ fontWeight: '300' }}>
-              {backButton}
-              &emsp;&ensp;
-              {forwardButton}
-            </span>
+          <h3 style={{ marginTop: 4 }}>
+            <FontAwesomeIcon icon={this.props.page.icon} style={{ fontSize: 'medium' }} />
             &emsp;
-            {this.props.pageTitle}
+            {this.props.page.name}
           </h3>
           <div style={{ marginTop: 6, width: 'fit-content', textAlign: 'right', marginRight: '2.4vw', float: 'right' }}>
             <span id='appTopBarRightButtons' />
           </div>
         </div>
-        {this.props.secondColumnContent}
+        {this.props.pageContent}
       </div>
-      <div id='accountOptionsArea'></div>
+      <div id='dialogArea'></div>
     </div>
   }
 
   componentDidMount() {
-    // render the list of page
+    // render the list of pages
     var listOfSidebarPages = []
+
+    // turn our delivered object of page configurations into an array so we can cycle through it
+    var pagesArray = []
+
+    Object.values(this.props.appConfig.pageConfigs).forEach(function (value) {
+      pagesArray.push([value.name, value.icon, value.url])
+    })
+    console.log(pagesArray)
     var pageTitleMatchesASidebarItem
     var themeColour = this.props.appConfig.themeColour
     columnedAppAppName = this.props.appConfig.name
     if (window.matchMedia('(display-mode: standalone)').matches) {
-      ReactDom.render(this.props.pageName, document.getElementById('pageTitle'))
+      ReactDom.render(this.props.page.name, document.getElementById('pageTitle'))
     } else {
-      ReactDom.render(this.props.appConfig.name + ' / ' + this.props.pageTitle +  ' • Circel', document.getElementById('pageTitle'))
+      ReactDom.render(this.props.appConfig.name + ' / ' + this.props.page.name + ' • Circel', document.getElementById('pageTitle'))
     }
     listOfSidebarPages = []
-    this.props.appConfig.pages.forEach(appItem => {
-      urlTo = ""
-      if (appItem[0] === 'Home') {
-        urlTo = '/' + this.props.appConfig.name
-      } else {
-        urlTo = '/' + this.props.appConfig.name + '/' + appItem[0]
-      }
-      if (appItem[0] === this.props.pageTitle) {
+    var thisProps = this.props
+    pagesArray.forEach(function (appItem) {
+      // make a URL for the sidebar item using the app's name and last bit of slug for this sidebar item
+      urlTo = '/' + thisProps.appConfig.name.toLowerCase() + appItem[2]
+
+      if (appItem[0] === thisProps.page.name) {
         listOfSidebarPages.push(<SidebarItem text={appItem[0]} icon={appItem[1]} styles={{ backgroundColor: themeColour.normal, color: 'white' }} iconColour={'white'} />)
         pageTitleMatchesASidebarItem = true
       } else {
@@ -543,8 +550,24 @@ const appConfigs = {
   settings: {
     name: 'Settings',
     shortenedName: 'Settings',
-    pages: [['Home', icons.faHome], ['Account', icons.faUser], ['Appearance', icons.faPaintBrush]],
-    themeColour: colourPacks.red,
+    pageConfigs: {
+      home: {
+        name: 'Home',
+        icon: icons.faHome,
+        url: '/'
+      },
+      account: {
+        name: 'Account',
+        icon: icons.faUser,
+        url: '/account'
+      },
+      appearance: {
+        name: 'Appearance',
+        icon: icons.faPaintBrush,
+        url: '/appearance'
+      },
+    },
+    themeColour: colourPacks.grey,
   }
 }
 
@@ -628,6 +651,12 @@ class TopBarAccountOptions extends React.Component {
 
 class MenuItem extends React.Component {
   render() {
+    var itemFontWeight;
+    if (this.props.primaryItem){
+      itemFontWeight = 'bold'
+    } else {
+      itemFontWeight = '700'
+    }
     if (!this.props.firstInList) {
       return <span>
         <button class={styles.menuItem} onMouseUp={this.props.onClick}>
@@ -636,7 +665,7 @@ class MenuItem extends React.Component {
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
             </div>
 
-            <div>
+            <div style={{fontWeight: itemFontWeight}}>
               {this.props.text}
             </div>
 
@@ -652,7 +681,7 @@ class MenuItem extends React.Component {
               {/* <FontAwesomeIcon icon={this.props.icon} />&nbsp; */}
             </div>
 
-            <div>
+            <div style={{fontWeight: itemFontWeight}}>
               {this.props.text}
             </div>
 
@@ -665,10 +694,29 @@ class MenuItem extends React.Component {
 
 class SidebarItem extends React.Component {
   render() {
-    return <Link to={this.props.to} state={{ backTo: window.location.href }}>
-      <button style={this.props.styles} className={styles.sidebarItem}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'min(20%, 25px) 80%' }}>
-          <div style={{ textAlign: 'left' }}>
+    var thisProps = this.props
+    return <button style={thisProps.styles} className={styles.sidebarItem} onContextMenu={function (ev) {
+      // prevent the default context menu urrggghhhh
+      ev.preventDefault();
+      // open the context menu
+      contextMenu(ev, [
+        ["Open Page", function () { navigate(thisProps.to) }, false, true],
+        ["Open in new tab", function () { window.open(thisProps.to, '_blank') }, true],
+      ])
+    }} onClick={function () { navigate(thisProps.to) }}>
+      <div className={styles.sidebarItemInner}>
+        <div className={styles.sidebarItemIcon}>
+          <FontAwesomeIcon style={{ color: this.props.iconColour }} icon={this.props.icon} className={styles.sidebarItemIcon} />
+        </div>
+
+        <div style={{ fontWeight: 500 }} className={styles.sidebarItemText}>
+          {this.props.text}
+        </div>
+      </div>
+
+      {/* <span>
+        <div className={styles.sidebarItemInner}>
+          <div className={styles.sidebarItemIcon}>
             <FontAwesomeIcon style={{color: this.props.iconColour}} icon={this.props.icon} className={styles.sidebarItemIcon} />
           </div>
 
@@ -676,8 +724,8 @@ class SidebarItem extends React.Component {
             {this.props.text}
           </div>
         </div>
-      </button>
-    </Link>
+        </span> */}
+    </button>
   }
 }
 
@@ -838,7 +886,7 @@ function toggleAccountMenu() {
     setTimeout(function () {
       fadeInElementOnRender(
         <TopBarAccountOptions />,
-        document.getElementById('accountOptionsArea'), 140
+        document.getElementById('dialogArea'), 140
       )
       accountMenuOpen = true
 
@@ -848,29 +896,68 @@ function toggleAccountMenu() {
     // close it
     ReactDom.render(
       <Nothing />,
-      document.getElementById('accountOptionsArea')
+      document.getElementById('dialogArea')
     )
     accountMenuOpen = false
   }
 }
 
-function dialog(title, primaryButton, secondaryButton, tertiaryButton){
+function dialog(title, primaryButton, secondaryButton, tertiaryButton) {
   ReactDom.render(<span>
     {/* the blur overlay */}
-    <div className={styles.blurOverlay}/>
-    
+    <div className={styles.blurOverlay} />
+
     {/* the dialog box */}
     <div className={styles.dialogBox}>
       <h3>{title}</h3>
     </div>
-  </span>)
+  </span>, document.getElementById('dialogArea'))
 }
 
-function closeDialog(){
-  ReactDom.render(<Nothing/>)
+function contextMenu(event, items) {
+  // get a React-usable array of the menu items
+  var menuItems = []
+  items.forEach(function (menuItem) {
+    menuItems.push(<MenuItem text={menuItem[0]} onClick={function () {
+      menuItem[1]();
+      closeContextMenu()
+    }} primaryItem={menuItem[3]} />)
+    // if wanted, render a line (Hr) underneath the menu item
+    if (menuItem[2] === true){
+      menuItems.push(<Hr/>)
+    }
+  })
+  ReactDom.render(
+    <span>
+      {/* the context menu with its item array */}
+      <div className={styles.contextMenuBox} style={{ left: event.pageX, top: event.pageY }}>
+        {menuItems}
+      </div>
+    </span>, document.getElementById('dialogArea'))
 }
 
-// Circel Accounts functions. While we name Circel IDs as emails here, 
+function closeContextMenu() {
+  ReactDom.render(<Nothing/>, document.getElementById('dialogArea'))
+}
+
+function closeDialog() {
+  ReactDom.render(<Nothing />)
+}
+
+
+// JS additional functions
+async function getInnerArrayByFirstItem(array, item) {
+  array.forEach(function (arrayItem) {
+    if (arrayItem[0] === item) {
+      // that inner array begins with the right item
+      return arrayItem
+    } else {
+      // not the right inner array
+    }
+  })
+}
+
+// Circel Accounts functions. While we name Circel IDs as emails here,
 // please name them as Circel IDs when the user can see (brand identity :)).
 
 // login/signup

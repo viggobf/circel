@@ -21,9 +21,27 @@
 }
 
 /* responsiveness */
-@media only screen and (max-width: /* mobile */ 480px){
+@media only screen and (max-width: /* mobile */ 500px){
     /* show dialog coming from bottom of screen (mimics iOS) */
     .dialogBox{
+        box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+        backdrop-filter: blur(15px);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        position: fixed;
+        padding-top: 0px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 8px;
+        height: 100vh !important;
+        z-index: 10000;
+        background-color: white;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: 96vw;
+    }
+
+    .contextMenuBox{
         box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
         backdrop-filter: blur(15px);
         border-top-left-radius: 10px;
@@ -49,18 +67,22 @@
     .columnedLayoutC1{
         left: 0 !important;
         bottom: 0 !important;
-        padding-top: 5px !important;
+        padding-top: 7px !important;
         width: 100vw !important;
         height: 50px !important;
         background-color: white !important;
         border-top: 1px solid rgb(240, 240, 240) !important;
+        position: fixed;
+        text-align: center;
     }
 
     .columnedLayoutTopBar{
         left: 0vw !important;
+        width: 98vw !important;
     }
     .columnedLayoutTopBarTop{
-        left: 0vw !important
+        left: 0vw !important;
+        width: 98vw !important;
     }
 
     .columnedLayoutC2{
@@ -68,12 +90,25 @@
     }
 
     .sidebarItem{
-        width: 10px !important;
-        float: left !important;
+        width: 5px !important;
+        max-width: 5px !important;
+        padding-right: 0 !important;
+        float: none !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .sidebarItemInner{
+        display: grid; 
+        grid-template-columns: 1px 0 !important;
     }
 
     .sidebarItemText{
         display: none !important;
+    }
+
+    .sidebarItemIcon{
+        text-align: center !important;
     }
 }
 
@@ -232,6 +267,7 @@ a{
     backdrop-filter: blur(15px);
     padding-top: 13px;
     padding-left: 15px;
+    padding-right: 15px;
     overflow: hidden;
     border-bottom: 1px solid rgb(240, 240, 240);
     transition: background 0.3s;
@@ -257,12 +293,12 @@ a{
     width: fit-content;
     max-width: 100px;
     text-overflow: ellipsis;
-    height: 10px;
+    height: 8px;
     box-sizing: border-box;
     padding-left: 12px;
     padding-right: 12px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 9px;
+    padding-bottom: 9px;
     cursor: pointer;
     border-radius: 7px;
     color: gray;
@@ -613,6 +649,12 @@ input:focus{
     transition: all 0.2s;
 }
 
+.sidebarItemInner{
+    display: grid; 
+    grid-template-columns: min(20%, 25px) 80%
+}
+
+
 .sidebarItem:hover{
     background-color: rgba(245, 243, 243, 0.5);
     color: black
@@ -639,6 +681,7 @@ input:focus{
     margin-bottom: 0 !important;
     line-height: 18px;
     transition: all 0.1s;
+    width: 100%;
 }
 
 .menuItem:hover{
@@ -673,9 +716,24 @@ input:focus{
     height: fit-content;
     z-index: 10000;
     background-color: white;
-    left: 40vw;
+    left: 30vw;
     top: 40vh;
-    width: 600px;
+    width: 40vw;
+}
+
+.contextMenuBox{
+    box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    position: fixed;
+    padding-top: 8px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 8px;
+    height: fit-content;
+    z-index: 10000;
+    background-color: white;
+    min-width: 220px;
+    width: fit-content
 }
 
 /* show modal coming from bottom of screen on mobile devices */

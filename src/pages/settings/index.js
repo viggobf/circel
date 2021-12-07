@@ -12,10 +12,10 @@ class Page extends React.Component{
   render(){
     return <body>
     <uniUX.Main pageType={'app'} pageName={'Settings'} content={
-      <uniUX.ColumnedApp appConfig={uniUX.appConfigs.settings} pageTitle='Home'
+      <uniUX.ColumnedApp appConfig={uniUX.appConfigs.settings} page={uniUX.appConfigs.settings.pageConfigs.home}
       pageOptionButtons={[['Save Changes', icons.faCheck, function(){alert('hi')}, 'themeColour'], ['Discard Changes', icons.faTimes, function(){alert('hi')}, '']]} firstColumnPageItems={
         uniUX.appConfigs.settings
-      } secondColumnContent={
+      } pageContent={
         <span>
         <h4>
           Account

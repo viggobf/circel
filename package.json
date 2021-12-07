@@ -1,7 +1,7 @@
 {
   "name": "circel",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "Circel",
   "author": "Viggo Bryant-Frost",
   "keywords": [
