@@ -568,6 +568,24 @@ const appConfigs = {
       },
     },
     themeColour: colourPacks.grey,
+  },
+
+  home: {
+    name: 'Home',
+    shortenedName: 'Home',
+    pageConfigs: {
+      home: {
+        name: 'Home',
+        icon: icons.faHome,
+        url: '/'
+      },
+      // go: {
+      //   name: 'Go',
+      //   icon: icons.faRocket,
+      //   url: '/go'
+      // },
+    },
+    themeColour: colourPacks.blue,
   }
 }
 

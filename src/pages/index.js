@@ -1,95 +1,42 @@
 import * as React from 'react'
+import reactDom from 'react-dom'
 import * as uniUX from '../components/uniux.js'
+import { Link } from 'gatsby'
 import * as firebaseSetup from '../components/firebasesetup.js'
-import { Timeline } from 'react-twitter-widgets'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import * as IonIcons from 'react-ionicons'
+import * as icons from '@fortawesome/free-solid-svg-icons'
+import * as brandIcons from '@fortawesome/free-brands-svg-icons'
 
-const Page = () => {
-  return (
-    <body>
-    <uniUX.Main pageType={'website'} pageName={'Home'} content={
-      <div>
-        <div className={uniUX.styles.homepageWorkspaceCard}>
-          <h1 style={uniUX.welcomeHeadingStyles}><span style={{color: 'rgb(109, 109, 109)'}}>12/11/21 18:00</span><br/><span style={{fontSize: '9vw', textShadow: 'color: #131313'}}>CIRCELR21</span></h1>
-          <p className={uniUX.styles.minorText}>Circel's annual event, premiering on YouTube. You're invited. Nov 12 18:00 GMT. #circelr21</p><br/><br/>
-          <uniUX.PrimaryButton text='Subscribe to Circel' onClick={function(){window.open('https://www.youtube.com/channel/UClWJCTCgs8AnvgHtms5ei6Q', '_self')}}/>
-          <uniUX.SecondaryButton text='Follow @circelnews for more' styles={{width: '200px'}} onClick={function(){window.open('https://twitter.com/intent/follow?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Efollow%7Ctwgr%5Ecircelnews&screen_name=circelnews', '_self')}}/>
-        </div>
-        <br/><br/><br/><br/><br/><br/><br/>
-
-        <h1 style={uniUX.welcomeHeadingStyles}>Here's what's happening at Circel.</h1>
-        <p className={uniUX.styles.minorText}></p>
-        <h2>Need to know</h2>
-          <span className={uniUX.styles.pageTileRow}>
-            <uniUX.SmallCard name='CIRCELR21' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
-            <p className={uniUX.styles.minorText}>
-              The 2021 Circel event - it's happening.<br/><br/>Watch the live event keynote at 18:00 on November 12.
-            </p>
-            </span>}/>
-
-            <uniUX.SmallCard name='Circel on social' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
-            <p className={uniUX.styles.minorText}>
-              Follow us @circelofficial, @circelnews, @circeldesign, @circelsupport on Twitter.<br/><br/> Subscribe to us <a href='https://www.youtube.com/channel/UClWJCTCgs8AnvgHtms5ei6Q'>here on YouTube</a>.
-            </p>
-            </span>}/>
-            
-            <uniUX.SmallCard name='The Circel Discord server' styles={{background: 'linear-gradient(5deg, rgba(250,250,250,1) 0%, rgba(255,255,255,1) 70%)'}} content={<span>
-            <p className={uniUX.styles.minorText}>
-              Join our brand new Discord server for chat, meeting the team, and news straight through Discord.<br/><br/><a href='https://discord.gg/2fN7FfWZ6P'>Join today!</a>
-            </p>
-            </span>}/>
-          </span>
-
-
-        <h2>Circel on Twitter</h2> 
-        <div className={uniUX.styles.pageTileRow}>
-          <Timeline
-          dataSource={{
-            sourceType: 'profile',
-            screenName: 'circelofficial'
-          }}
-          options={{
-            height: '400',
-            width: '400'
-          }}
-          /> 
-          <Timeline
-          dataSource={{
-            sourceType: 'profile',
-            screenName: 'circelnews'
-          }}
-          options={{
-            height: '400',
-            width: '400'
-          }}
-          /> 
-          <Timeline
-          dataSource={{
-            sourceType: 'profile',
-            screenName: 'circeldesign'
-          }}
-          options={{
-            height: '400',
-            width: '400'
-          }}
-          /> 
-          <Timeline
-          dataSource={{
-            sourceType: 'profile',
-            screenName: 'circelsupport'
-          }}
-          options={{
-            height: '400',
-            width: '400'
-          }}
-          /> 
-          <br/>
-        </div>
+class Page extends React.Component{
+  render(){
+    return <body>
+    <uniUX.Main pageType={'app'} pageName={'Home'} content={
+      <uniUX.ColumnedApp appConfig={uniUX.appConfigs.home} page={uniUX.appConfigs.home.pageConfigs.home}
+      pageOptionButtons={[]} pageContent={
+        <span>
+        <h4>
+          More coming soon
+        </h4>
+        <p>
+          This page is yet to be worked on, but in the meantime here's some pages that have more to them that you might want to visit.
+        </p>
+        <uniUX.FullWidthNavCard name='Visit your Settings' takeTo='/settings/' content={<span>
+          Edit Account info, change Appearance (coming soon), plus more to come.
+        </span>}/>
         
-      </div>
+        </span>
+      }/>
     }>
     </uniUX.Main>
     </body>
-  )
+  }
+  
+  componentDidMount(){
+    const userAndSettings = uniUX.getDocFromFirestore('users', 'viggobf').then(function(result){
+      // reactDom.render(<span>{result['name']}</span>, document.getElementById('settingsName'))
+    })
+  }
 }
 
 export default Page
