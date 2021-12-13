@@ -8,6 +8,7 @@
     "gatsby"
   ],
   "scripts": {
+    "d": "gatsby develop",
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "build": "gatsby build",
@@ -35,6 +36,7 @@
     "react-ionicons": "^4.2.0",
     "react-router-dom": "^6.0.2",
     "react-spring": "^9.3.0",
-    "react-twitter-widgets": "^1.10.0"
+    "react-twitter-widgets": "^1.10.0",
+    "uniux": "^3.2.14"
   }
 }

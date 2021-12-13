@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ReactDom from 'react-dom'
-import * as uniUX from '../components/uniux.js'
+import * as uniUX from 'uniux'
 import { Link, navigate } from 'gatsby'
 import * as firebaseSetup from '../components/firebasesetup.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -35,18 +35,19 @@ const Page = () => {
                     </span>, document.getElementById('halvedPageHalf1')
                   )
                   document.getElementById('halvedPageSignUp2').style.display = 'none'
-                  uniUX.writeDocToFirestore('userInfo', result[1].uid, {
-                    username: result[1].email.split('@')[0]
-                  }).then(function(){
+                  uniUX.completeSignup(result).then(function(){
                     ReactDom.render(
                     <span>
                       <br /><br />
                       <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Welcome to Circel</h1>
                       <p className={uniUX.styles.minorText}>
-                        We've set everything up for you!
+                        We've set things up for you - want to add some profile information?
                         <br/><br/><br/>
 
-                        <uniUX.PrimaryButton text='Continue to Circel (Settings)' onClick={function(){navigate('/settings')}}/>
+                        <input placeholder='Add your full name' style={{ width: '30vw' }} id='signupPageDisplayName' /><br /><br /><br />
+
+                        <uniUX.PrimaryButton text='Update info' onClick={function(){navigate('/settings')}}/>
+                        <uniUX.SecondaryButton text='Skip for now' onClick={function () { navigate('/login?next=' + window.location.href.split('=')[1]) }} />
                       </p><br /><br /><br />
                     </span>, document.getElementById('halvedPageHalf1')
                   )

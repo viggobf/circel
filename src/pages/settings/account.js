@@ -1,13 +1,14 @@
 
 import * as React from 'react'
 import reactDom from 'react-dom'
-import * as uniUX from '../../components/uniux.js'
+import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 import * as firebaseSetup from '../../components/firebasesetup.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
+import { appConfig } from './config.js' 
 
 var currentUser
 
@@ -15,7 +16,7 @@ class Page extends React.Component{
   render(){
     return <body>
     <uniUX.Main pageType={'app'} pageName={'Settings'} content={
-      <uniUX.ColumnedApp appConfig={uniUX.appConfigs.settings} page={uniUX.appConfigs.settings.pageConfigs.account}
+      <uniUX.ColumnedApp appConfig={appConfig} page={appConfig.pageConfigs.account}
       pageOptionButtons={[['Save Changes', icons.faCheck, function(){alert('hi')}, 'themeColour'], ['Discard Changes', icons.faTimes, function(){alert('hi')}, '']]} firstColumnPageItems={
         uniUX.appConfigs.settings
       } pageContent={
