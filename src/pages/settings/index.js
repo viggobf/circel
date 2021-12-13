@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
-import {appConfig} from './config.js'
+import {appConfig} from '../../components/appConfigs/settings.js'
 
 class Page extends React.Component{
   render(){

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import * as uniUX from '../components/uniux.js'
+import * as uniUX from 'uniux'
 
 
 const Page = () => {
