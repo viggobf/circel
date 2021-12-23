@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import reactDom from 'react-dom'
 import * as uniUX from 'uniux'
@@ -8,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
-import { appConfig } from '../../components/appConfigs/settings.js' 
+import { appConfig } from '../../components/appConfigs/settings.js'
 
 var currentUser
 
