@@ -8,40 +8,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
-import { appConfig } from './config.js' 
+import { appConfig } from '../../components/appConfigs/settings.js' 
 
 var currentUser
 
 class Page extends React.Component{
   render(){
     return <body>
-    <uniUX.Main pageType={'app'} pageName={'Settings'} content={
-      <uniUX.ColumnedApp appConfig={appConfig} page={appConfig.pageConfigs.account}
-      pageOptionButtons={[['Save Changes', icons.faCheck, function(){alert('hi')}, 'themeColour'], ['Discard Changes', icons.faTimes, function(){alert('hi')}, '']]} firstColumnPageItems={
-        uniUX.appConfigs.settings
-      } pageContent={
-        <span>
-        <h4>
-          Your Profile
-        </h4>
+    <uniUX.Main pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.account}>
+      <h4>
+        Your Profile
+      </h4>
 
-        <img className={uniUX.styles.pfp} id='settingsPfp' style={{float: 'left', width: '70px', height: '70px', marginRight: '15px', cursor: 'pointer'}}
-          title='Profile Picture - click to edit'
-        />
-        <span style={{float: 'left'}}>
-          <h3 id='settingsName' style={{marginTop: '8px', marginBottom: '8px'}}/>
-          <span className={uniUX.styles.minorText} id='settingsAcntUsername' style={{}}/>
-        </span>
+      <img className={uniUX.styles.pfp} id='settingsPfp' style={{float: 'left', width: '70px', height: '70px', marginRight: '15px', cursor: 'pointer'}}
+        title='Profile Picture - click to edit'
+      />
+      <span style={{float: 'left'}}>
+        <h3 id='settingsName' style={{marginTop: '8px', marginBottom: '8px'}}/>
+        <span className={uniUX.styles.minorText} id='settingsAcntUsername' style={{}}/>
+      </span>
 
-        <uniUX.LargeBr/>
+      <uniUX.LargeBr/>
 
-        <h4>
-          Profile Settings
-        </h4>
-        
-        </span>
-      }/>
-    }>
+      <h4>
+        Profile Settings
+      </h4>
     </uniUX.Main>
     </body>
   }

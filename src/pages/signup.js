@@ -6,11 +6,12 @@ import * as firebaseSetup from '../components/firebasesetup.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
+import {appConfig} from '../components/appConfigs/website-pages.js'
 
 const Page = () => {
   return (
     <body>
-      <uniUX.Main pageType={'custom'} pageName={'Sign up'} content={
+      <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Sign up'} content={
         <div className={uniUX.styles.halvedPageGrid}>
           <div className={uniUX.styles.halvedPageHalf} id='halvedPageHalf1' style={{ backgroundColor: 'white' }}>
             <br /><br />

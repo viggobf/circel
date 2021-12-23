@@ -1,19 +1,19 @@
 import * as React from 'react'
 import ReactDom from 'react-dom'
-import * as ReactSpring from 'react-spring'
-import * as uniUX from '../components/uniux.js'
+import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 import * as firebaseSetup from '../components/firebasesetup.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
+import { appConfig } from '../components/appConfigs/uniux/website-pages.js'
 
 var url;
 
 class Page extends React.Component {
     render() {
         return (<body id='authActionRenderSpace'>
-            <uniUX.Main pageType={'custom'} pageName={'Reset Password'} content={
+            <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} content={
                 <div className={uniUX.styles.halvedPageGrid}>
                     <div className={uniUX.styles.halvedPageHalf}>
                         <br /><br />
@@ -45,7 +45,7 @@ class Page extends React.Component {
             uniUX.verifyPasswordResetCode(url.searchParams.get('oobCode')).then(function (result) {
                 if (result == 'error') {
                     ReactDom.render(<body>
-                        <uniUX.Main pageType={'custom'} pageName={'Reset Password'} content={
+                        <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} content={
                             <div className={uniUX.styles.halvedPageGrid}>
                                 <div className={uniUX.styles.halvedPageHalf}>
                                     <br /><br />
@@ -67,7 +67,7 @@ class Page extends React.Component {
                 } else {
                     ReactDom.render(
                         <body>
-                            <uniUX.Main pageType={'custom'} pageName={'Reset Password'} content={
+                            <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} content={
                                 <div className={uniUX.styles.halvedPageGrid}>
                                     <div className={uniUX.styles.halvedPageHalf}>
                                         <br /><br />
@@ -110,7 +110,7 @@ class Page extends React.Component {
         else if (url.searchParams.get('mode') == 'verifyEmail') {
             ReactDom.render(
                 <body>
-                    <uniUX.Main pageType={'custom'} pageName={'Verify your Circel ID'} content={
+                    <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Verify your Circel ID'} content={
                         <div className={uniUX.styles.halvedPageGrid}>
                             <div className={uniUX.styles.halvedPageHalf}>
                                 <br /><br />
