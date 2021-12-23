@@ -17,7 +17,7 @@ const appConfig = {
       messagingSenderId: "121186697586",
       appId: "1:121186697586:web:93874da3a21c182b219deb",
       measurementId: "G-72PCDLGBEL"
-    }
+  }
   },
   pageConfigs: {
     home: {
