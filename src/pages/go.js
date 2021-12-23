@@ -2,7 +2,7 @@ import * as React from 'react'
 import reactDom from 'react-dom'
 import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
-import * as firebaseSetup from '../components/firebasesetup.js'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
 import * as icons from '@fortawesome/free-solid-svg-icons'

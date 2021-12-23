@@ -3,7 +3,7 @@ import ReactDom from 'react-dom'
 import * as ReactSpring from 'react-spring'
 import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
-import * as firebaseSetup from '../components/firebasesetup.js'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
