@@ -2,7 +2,6 @@ import * as React from 'react'
 import reactDom from 'react-dom'
 import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
 import * as icons from '@fortawesome/free-solid-svg-icons'
@@ -28,9 +27,6 @@ class Page extends React.Component {
   }
 
   componentDidMount() {
-    const userAndSettings = uniUX.getDocFromFirestore('users', 'viggobf').then(function (result) {
-      // reactDom.render(<span>{result['name']}</span>, document.getElementById('settingsName'))
-    })
   }
 }
 

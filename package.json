@@ -17,6 +17,7 @@
     "uniuxUpdate": "npm update uniux; cd ../website/website; npm update uniux"
   },
   "dependencies": {
+    "@firebase/app": "^0.7.11",
     "@fontsource/inter": "^4.5.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
@@ -41,4 +42,3 @@
     "uniux": "^3.2.14"
   }
 }
-  

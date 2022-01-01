@@ -50,7 +50,7 @@ class Page extends React.Component {
     //   }
     // }
 
-    tryToRenderUserDetails()
+    // tryToRenderUserDetails()
   }
 }
 
