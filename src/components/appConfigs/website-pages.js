@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 var appConfig = {
     loginRequired: false,
     overrideCBPBarring: true,
-    firebase: {
+    autoFirebase: {
         enable: true,
         config: {
             apiKey: "AIzaSyDGFdDCD1ZwvOzbvtWNxseRpSfOOz5dAro",

@@ -17,9 +17,10 @@ const app = initializeApp(firebaseConfig);
 const appConfig = {
     name: 'Home',
     shortenedName: 'Home',
+    loginRequired: true,
     rootURL: '',
     sections: [],
-    firebase: {
+    autoFirebase: {
         enable: true,
         config: {
             apiKey: "AIzaSyDGFdDCD1ZwvOzbvtWNxseRpSfOOz5dAro",

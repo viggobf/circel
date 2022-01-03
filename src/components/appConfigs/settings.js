@@ -20,7 +20,7 @@ const appConfig = {
   rootURL: 'settings',
   loginRequired: true,
   sections: [],
-  firebase: {
+  autoFirebase: {
     enable: true,
     config: {
       apiKey: "AIzaSyDGFdDCD1ZwvOzbvtWNxseRpSfOOz5dAro",
