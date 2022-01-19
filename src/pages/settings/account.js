@@ -1,12 +1,13 @@
 import * as React from 'react'
 import reactDom from 'react-dom'
+import { appConfig } from '../../components/appConfigs/settings.js'
 import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
 import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as brandIcons from '@fortawesome/free-brands-svg-icons'
-import { appConfig } from '../../components/appConfigs/settings.js'
+
 
 var currentUser
 
@@ -18,7 +19,12 @@ class Page extends React.Component {
           Your Profile
         </h4>
 
-        <img className={uniUX.styles.pfp} id='settingsPfp' style={{ float: 'left', width: '70px', height: '70px', marginRight: '15px', cursor: 'pointer' }}
+        <img onClick={function () {
+          uniUX.dialog('Edit Profile Picture', <div>
+            <label for='pfpUrlInput'>Paste your new profile picture's URL</label><br />
+            <input placeholder='Image URL' id='pfpUrlInput' />
+          </div>, ['Save Profile Picture', function () { uniUX.updateUserProfilePicture(document.getElementById('pfpUrlInput').value) }])
+        }} className={uniUX.styles.pfp} id='settingsPfp' style={{ float: 'left', width: '70px', height: '70px', marginRight: '15px', cursor: 'pointer' }}
           title='Profile Picture - click to edit'
         />
         <span style={{ float: 'left' }}>
@@ -37,14 +43,9 @@ class Page extends React.Component {
 
   componentDidMount() {
 
-    // function tryToRenderUserDetails(){
-    //   try{
-    //     currentUser = firebaseSetup.firebaseAuth.getAuth().currentUser
-    //     reactDom.render(currentUser.displayName, document.getElementById('settingsName'))
-    //     document.getElementById('settingsPfp').src = currentUser.photoURL
-    //     uniUX.getDocFromFirestore('userInfo', currentUser.uid).then(function(result){
-    //       reactDom.render(<span>{'@' + result['username']}</span>, document.getElementById('settingsAcntUsername'))
-    //    })
+    // function tryToRenderUserDetails() {
+    //   try {
+        
     //   } catch (error) {
     //     setTimeout(tryToRenderUserDetails, 50)
     //   }
@@ -54,4 +55,4 @@ class Page extends React.Component {
   }
 }
 
-export default Page
+export default Page  
