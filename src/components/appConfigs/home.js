@@ -22,7 +22,7 @@ const appConfig = {
     sections: [],
     circel: {
         circelApp: true
-    }
+    },
     autoFirebase: {
         enable: true,
         config: {
