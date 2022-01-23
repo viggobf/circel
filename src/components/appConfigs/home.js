@@ -20,6 +20,9 @@ const appConfig = {
     loginRequired: true,
     rootURL: '',
     sections: [],
+    circel: {
+        circelApp: true
+    }
     autoFirebase: {
         enable: true,
         config: {
