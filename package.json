@@ -40,6 +40,6 @@
     "react-router-dom": "^6.0.2",
     "react-spring": "^9.3.0",
     "react-twitter-widgets": "^1.10.0",
-    "uniux": "^3.6.6"
+    "uniux": "^3.6.7"
   }
 }
