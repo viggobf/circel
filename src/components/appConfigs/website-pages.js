@@ -1,5 +1,5 @@
 import * as icons from '@fortawesome/free-solid-svg-icons'
-import { colourPacks } from 'uniux'
+import { colourPacks } from 'cuniux'
 import { initializeApp } from '@firebase/app'
 
 const firebaseConfig = {

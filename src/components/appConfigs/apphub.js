@@ -1,4 +1,4 @@
-import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; 
 
 const appConfig = {
     name: 'AppHub',

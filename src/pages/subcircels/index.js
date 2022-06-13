@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as cUniUX from 'cuniux';
-import * as uniUX from 'uniux'
+
 import { appConfig } from "../../components/appConfigs/subcircels.js";
 
-const orgContextMenu = [['Stream App', function () { uniUX.dialog('Apps of the Year 2021', <div>Hiya!</div>, ['Close', function () { alert('hi') }]) }],
+const orgContextMenu = [['Stream App', function () { cUniUX.dialog('Apps of the Year 2021', <div>Hiya!</div>, ['Close', function () { alert('hi') }]) }],
 ['Configure Stream...', function () { alert('hi') }, true],
 ['Like', function () { alert('hi') }],
 ['Write a review...', function () { alert('hi') }],
@@ -59,24 +59,24 @@ class Page extends React.Component {
 
           Vitae ultricies leo integer malesuada. Ut placerat orci nulla pellentesque. Integer vitae justo eget magna fermentum iaculis eu non. Libero justo laoreet sit amet. Lectus urna duis convallis convallis tellus. Eget magna fermentum iaculis eu non. Eget egestas purus viverra accumsan in. Arcu risus quis varius quam quisque id. Volutpat odio facilisis mauris sit amet massa vitae tortor. Elit ut aliquam purus sit amet luctus venenatis lectus magna. Nec nam aliquam sem et tortor consequat id.
 
-          <uniUX.SmallCard style={{ background: 'linear-gradient(180deg, rgba(0,160,231,0.6) 0%, rgba(0,160,231,1) 100%)', color: 'white' }} children={<span>
-            <h1><uniUX.FontAwesomeIcon style={{ fontSize: 50 }} icon={uniUX.brandIcons.faTwitter} /></h1>
+          <cUniUX.SmallCard style={{ background: 'linear-gradient(180deg, rgba(0,160,231,0.6) 0%, rgba(0,160,231,1) 100%)', color: 'white' }} children={<span>
+            <h1><cUniUX.FontAwesomeIcon style={{ fontSize: 50 }} icon={cUniUX.brandIcons.faTwitter} /></h1>
             <h3 style={{ float: 'left', marginTop: '8px' }}>@viggobf</h3>
-            <uniUX.Button type='custom' style={{ color: 'black', backgroundColor: 'white', float: 'right' }} text='Follow'></uniUX.Button>
+            <cUniUX.Button type='custom' style={{ color: 'black', backgroundColor: 'white', float: 'right' }} text='Follow'></cUniUX.Button>
 
           </span>} />
 
-          <uniUX.SmallCard style={{ background: 'linear-gradient(180deg, rgba(233, 77, 135, 0.6) 0%, rgba(233, 77, 135, 1) 100%)', color: 'white' }} children={<span>
-            <h1><uniUX.FontAwesomeIcon style={{ fontSize: 50 }} icon={uniUX.brandIcons.faDribbble} /></h1>
+          <cUniUX.SmallCard style={{ background: 'linear-gradient(180deg, rgba(233, 77, 135, 0.6) 0%, rgba(233, 77, 135, 1) 100%)', color: 'white' }} children={<span>
+            <h1><cUniUX.FontAwesomeIcon style={{ fontSize: 50 }} icon={cUniUX.brandIcons.faDribbble} /></h1>
             <h3 style={{ float: 'left', marginTop: '8px' }}>@viggobf</h3>
-            <uniUX.Button type='custom' style={{ color: 'black', backgroundColor: 'white', float: 'right' }} text='Follow'></uniUX.Button>
+            <cUniUX.Button type='custom' style={{ color: 'black', backgroundColor: 'white', float: 'right' }} text='Follow'></cUniUX.Button>
 
           </span>} />
 
-          <uniUX.SmallCard style={{ background: 'linear-gradient(180deg, rgba(41, 41, 41, 0.6) 0%, rgb(41, 41, 41) 100%)', color: 'white' }} children={<span>
-            <h1><uniUX.FontAwesomeIcon style={{ fontSize: 50 }} icon={uniUX.brandIcons.faMedium} /></h1>
+          <cUniUX.SmallCard style={{ background: 'linear-gradient(180deg, rgba(41, 41, 41, 0.6) 0%, rgb(41, 41, 41) 100%)', color: 'white' }} children={<span>
+            <h1><cUniUX.FontAwesomeIcon style={{ fontSize: 50 }} icon={cUniUX.brandIcons.faMedium} /></h1>
             <h3 style={{ float: 'left', marginTop: '8px' }}>@viggobf</h3>
-            <uniUX.Button type='custom' style={{ color: 'black', backgroundColor: 'white', float: 'right' }} text='Follow'>Follow</uniUX.Button>
+            <cUniUX.Button type='custom' style={{ color: 'black', backgroundColor: 'white', float: 'right' }} text='Follow'>Follow</cUniUX.Button>
 
           </span>} />
           Eu ultrices vitae auctor eu augue ut. Vitae aliquet nec ullamcorper sit amet. Aliquam sem fringilla ut morbi tincidunt augue interdum velit. Ac ut consequat semper viverra nam libero justo laoreet sit. Nam libero justo laoreet sit amet cursus sit amet dictum. Donec ultrices tincidunt arcu non. Ultrices tincidunt arcu non sodales. Vel pretium lectus quam id. Purus in massa tempor nec feugiat. Mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus. Nunc pulvinar sapien et ligula. Pellentesque habitant morbi tristique senectus et. Malesuada fames ac turpis egestas maecenas pharetra. Tristique senectus et netus et malesuada fames ac turpis egestas. Turpis in eu mi bibendum neque egestas congue. Volutpat maecenas volutpat blandit aliquam etiam erat velit. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. Amet risus nullam eget felis eget nunc. Eu augue ut lectus arcu bibendum.<br /><br />

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import LogoImage from '../pages/icon.png'
-import { icons } from 'uniux'
+import { icons } from 'cuniux'
 
 const projectConfig = {
     name: 'Circel',

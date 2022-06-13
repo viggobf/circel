@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as cUniUX from 'cuniux';
-import * as uniUX from 'uniux'
+
 import { appConfig } from "../../components/appConfigs/admin/cdsAdminCtr";
 
 

@@ -2,7 +2,7 @@ import * as React from 'react'
 import reactDom from 'react-dom'
 import { appConfig } from '../../components/appConfigs/settings.js'
 import * as cUniUX from 'cuniux';
-import * as uniUX from 'uniux'
+
 import { Link } from 'gatsby'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'

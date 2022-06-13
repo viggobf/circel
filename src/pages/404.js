@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; 
 
 
 const Page = () => {

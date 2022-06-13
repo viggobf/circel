@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ReactDom from 'react-dom'
 import * as ReactSpring from 'react-spring'
-import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; 
 import { Link } from 'gatsby'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
