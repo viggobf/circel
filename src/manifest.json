@@ -2,14 +2,15 @@
     "name": "Circel",
     "short_name": "Circel",
     "icons": [{
-      "src": "images/icon.png",
+      "src": "static/icon.png",
         "sizes": "113x113",
         "type": "image/png"
       }],
     "description": "Circel UniUX",
     "lang": "en-US",
     "start_url": "https://app.circel.co/",
-    "display": "standalone",
+    "display": "fullscreen",
+    "display_override": "window-controls-overlay",
     "background_color": "white",
     "orientation": "any",
     "theme_color": "grey",

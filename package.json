@@ -19,6 +19,7 @@
   "dependencies": {
     "@firebase/app": "^0.7.12",
     "@fontsource/inter": "^4.5.0",
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
@@ -31,15 +32,16 @@
     "gatsby-plugin-offline": "^5.2.0",
     "install": "^0.13.0",
     "jsx-node": "^0.3.1",
+    "next": "^12.1.6",
     "npm": "^7.24.1",
     "react": "^17.0.1",
+    "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "^17.0.1",
     "react-fade-in": "^2.0.1",
     "react-favicon": "^0.0.25",
     "react-ionicons": "^4.2.0",
     "react-router-dom": "^6.0.2",
     "react-spring": "^9.3.0",
-    "react-twitter-widgets": "^1.10.0",
-    "uniux": "^3.6.8"
+    "react-twitter-widgets": "^1.10.0"
   }
 }

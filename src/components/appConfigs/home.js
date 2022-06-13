@@ -1,6 +1,7 @@
-import * as icons from '@fortawesome/free-solid-svg-icons'
-import { colourPacks } from 'uniux'
+import { colourPacks, icons, FullWidthNavCard, getCFile, alertDialog } from 'cuniux'
 import { initializeApp } from '@firebase/app'
+import { projectConfig } from '../projectConfig.js'
+import React from 'react';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDGFdDCD1ZwvOzbvtWNxseRpSfOOz5dAro",
@@ -15,14 +16,34 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const appConfig = {
+    parentProject: projectConfig,
+
     name: 'Home',
-    shortenedName: 'Home',
+    appCode: 'HOM',
     loginRequired: true,
+    icon: icons.faHome,
     rootURL: '',
     sections: [],
-    circel: {
-        circelApp: true
+    design: {
+        // themeColour:{
+        //     normal: 'rgb(13, 69, 100)',
+        //     light: 'rgb(13, 69, 100)',
+        //     mostLight: 'rgb(13, 69, 100)',
+        // },
+        themeColour: colourPacks.black,
+        enableDarkMode: 'system'
     },
+    keyBinds: [
+        {
+            key: 'F',
+            cmdOrCtrlKey: true,
+            altKey: true,
+            // shiftKey: false,
+            callbackFunction: function () {
+                alertDialog('Keyboard Shortcut bound', "Your keyboard shortcut has been successfully bound. Yey!")
+            }
+        }
+    ],
     autoFirebase: {
         enable: true,
         config: {
@@ -36,18 +57,39 @@ const appConfig = {
         }
     },
     pageConfigs: {
-        home: {
+        indexPage: {
             name: 'Home',
             icon: icons.faHome,
-            url: '/'
+            url: '/',
+            pageOptionButtons: [['New Workspace', icons.faPlus, 'themeColour', function(){alertDialog('Coming soon', "Still working on Workspaces. Check back in a later Alpha version.")}], 
+            ['Circel Store', icons.faShoppingBag, 'normal', function(){alertDialog('Coming soon', "Still working on the Circel Store. Check back in a later Alpha version.")}],
+            ['Circel Store', icons.faShoppingBag, 'normal', function(){alertDialog('Coming soon', "Still working on the Circel Store. Check back in a later Alpha version.")}],
+            ['Circel Store', icons.faShoppingBag, 'normal', function(){alertDialog('Coming soon', "Still working on the Circel Store. Check back in a later Alpha version.")}]],
+            autoFirebase: {
+                callbackFunction: function (app, auth, currentUser) {
+                    try {
+                        getCFile('circel/circel', function (docData) {
+                            alertDialog('Data', docData.info.name)
+                        })
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }
+            },
+
+            content: <span>
+                <h4>
+                    More coming soon
+                </h4>
+                <p>
+                    This page is yet to be worked on, but in the meantime here's some pages that have more to them that you might want to visit.
+                </p>
+                <FullWidthNavCard name='Visit your Settings' takeTo='/settings/' children={<span>
+                    Edit Account info, change Appearance (coming soon), plus more to come.
+                </span>} />
+            </span>
         },
-        go: {
-            name: 'Go',
-            icon: icons.faRocket,
-            url: '/go'
-        }
     },
-    themeColour: colourPacks.blue,
 }
 
 export { appConfig }

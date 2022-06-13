@@ -1,4 +1,4 @@
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 
 const appConfig = {
     name: 'AppHub',
@@ -21,16 +21,19 @@ const appConfig = {
     pageConfigs: {
         home: {
             name: 'Today',
-            icon: uniUX.icons.faHome,
+            icon: cUniUX.icons.faHome,
             url: '/'
         },
         anotherTest: {
             name: 'All Apps',
-            icon: uniUX.icons.faRocket,
+            icon: cUniUX.icons.faRocket,
             url: '/anothertest'
         }
     },
-    themeColour: uniUX.colourPacks.blue,
+
+    design: {
+        themeColour: cUniUX.colourPacks.blue
+    }
 }
 
 export {appConfig}

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ReactDom from 'react-dom'
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 import { Link, navigate } from 'gatsby'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,44 +11,44 @@ import {appConfig} from '../components/appConfigs/website-pages.js'
 const Page = () => {
   return (
     <body>
-      <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Sign up'} content={
-        <div className={uniUX.styles.halvedPageGrid}>
-          <div className={uniUX.styles.halvedPageHalf} id='halvedPageHalf1' style={{ backgroundColor: 'white' }}>
+      <cUniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Sign up'} children={
+        <div className={cUniUX.styles.halvedPageGrid}>
+          <div className={cUniUX.styles.halvedPageHalf} id='halvedPageHalf1' style={{ backgroundColor: 'white' }}>
             <br /><br />
-            <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Sign up</h1>
+            <h1 className={cUniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Sign up</h1>
 
             <input placeholder='Email (will be your Circel ID)' style={{ width: '30vw' }} type='email' id='signupPageEmail' /><br /><br />
 
             <input placeholder='Password' style={{ width: '30vw' }} type='password' id='signupPagePassword' /><br /><br /><br />
 
-            <uniUX.PrimaryButton text='Sign up' onClick={function () {
-              uniUX.signUp(document.getElementById('signupPageEmail').value, document.getElementById('signupPagePassword').value).then(function (result) {
+            <cUniUX.Button type='primary' text='Sign up' onClick={function () {
+              cUniUX.signUp(document.getElementById('signupPageEmail').value, document.getElementById('signupPagePassword').value).then(function (result) {
                 if (result[0] === 'success') {
                   // continue with the signup process
                   // render the next stage of process - setup settings
                   ReactDom.render(
                     <span>
                       <br /><br />
-                      <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Setting things up...</h1>
-                      <p className={uniUX.styles.minorText}>
+                      <h1 className={cUniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Setting things up...</h1>
+                      <p className={cUniUX.styles.minorText}>
                         Just a moment
                       </p><br /><br /><br />
                     </span>, document.getElementById('halvedPageHalf1')
                   )
                   document.getElementById('halvedPageSignUp2').style.display = 'none'
-                  uniUX.completeSignup(result).then(function(){
+                  cUniUX.completeSignup(result).then(function(){
                     ReactDom.render(
                     <span>
                       <br /><br />
-                      <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Welcome to Circel</h1>
-                      <p className={uniUX.styles.minorText}>
+                      <h1 className={cUniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Welcome to Circel</h1>
+                      <p className={cUniUX.styles.minorText}>
                         We've set things up for you - want to add some profile information?
                         <br/><br/><br/>
 
                         <input placeholder='Add your full name' style={{ width: '30vw' }} id='signupPageDisplayName' /><br /><br /><br />
 
-                        <uniUX.PrimaryButton text='Update info' onClick={function(){navigate('/settings')}}/>
-                        <uniUX.SecondaryButton text='Skip for now' onClick={function () { navigate('/login?next=' + window.location.href.split('=')[1]) }} />
+                        <cUniUX.Button type='primary' text='Update info' onClick={function(){navigate('/settings')}}/>
+                        <cUniUX.SecondaryButton text='Skip for now' onClick={function () { navigate('/login?next=' + window.location.href.split('=')[1]) }} />
                       </p><br /><br /><br />
                     </span>, document.getElementById('halvedPageHalf1')
                   )
@@ -66,19 +66,19 @@ const Page = () => {
               })
             }} />
 
-            <uniUX.SecondaryButton text='Log in instead' onClick={function () { window.open('/login?next=' + window.location.href.split('=')[1], '_self', '_self') }} /><br /><br />
+            <cUniUX.SecondaryButton text='Log in instead' onClick={function () { window.open('/login?next=' + window.location.href.split('=')[1], '_self', '_self') }} /><br /><br />
 
-            <p className={uniUX.styles.minorText}>By continuing, you confirm you have read and agree to Circel's Terms.</p>
+            <p className={cUniUX.styles.minorText}>By continuing, you confirm you have read and agree to Circel's Terms.</p>
             <br /><br />
-            <span id='errorRenderSpace' className={uniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
+            <span id='errorRenderSpace' className={cUniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
           </div>
 
-          <div className={uniUX.styles.halvedPageHalfSignup1} id='halvedPageSignUp2'>
+          <div className={cUniUX.styles.halvedPageHalfSignup1} id='halvedPageSignUp2'>
             <br /><br /><br /><br /><br />
-            <h1 className={uniUX.styles.bigPageHeader} style={{ fontSize: '2.5vw', color: 'white' }}>Sign up a different way</h1>
+            <h1 className={cUniUX.styles.bigPageHeader} style={{ fontSize: '2.5vw', color: 'white' }}>Sign up a different way</h1>
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () {
-              uniUX.logInGoogle().then(function (result) {
+            <cUniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () {
+              cUniUX.logInGoogle().then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')
                 } else {
@@ -96,8 +96,8 @@ const Page = () => {
               })
             }} text={<p>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Sign up with Google&ensp;</p>} /><br /><br />
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () {
-              uniUX.logInTwitter().then(function (result) {
+            <cUniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () {
+              cUniUX.logInTwitter().then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')
                 } else {
@@ -117,7 +117,7 @@ const Page = () => {
           </div>
         </div>
       }>
-      </uniUX.Main>
+      </cUniUX.Main>
     </body>
   )
 }

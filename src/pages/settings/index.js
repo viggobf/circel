@@ -1,6 +1,6 @@
 import * as React from 'react'
 import reactDom from 'react-dom'
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,30 +12,27 @@ import { appConfig } from '../../components/appConfigs/settings.js'
 class Page extends React.Component {
   render() {
     return <body>
-      <uniUX.Main pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.home} pageName={'Settings'}>
-        <h4>
+      <cUniUX.App pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.home} pageName={'Settings'}>
+        {/* <h4>
           Account
         </h4>
-        <uniUX.FullWidthNavCard name='Account Settings' takeTo='/settings/account' content={<span>
+        <cUniUX.FullWidthNavCard name='Account Settings' takeTo='/settings/account' children={<span>
           View your user profile, edit your account settings and more.
         </span>} />
 
-        <uniUX.FloatBr />
+        <cUniUX.FloatBr />
 
         <h4>
           Appearance
         </h4>
-        <uniUX.FullWidthNavCard name='Appearance Settings' takeTo='/settings/appearance' content={<span>
+        <cUniUX.FullWidthNavCard name='Appearance Settings' takeTo='/settings/appearance' children={<span>
           Make UniUX yours.
-        </span>} />
-      </uniUX.Main>
+        </span>} /> */}
+      </cUniUX.App>
     </body>
   }
 
   componentDidMount() {
-    const userAndSettings = uniUX.getDocFromFirestore('users', 'viggobf').then(function (result) {
-      // reactDom.render(<span>{result['name']}</span>, document.getElementById('settingsName'))
-    })
   }
 }
 

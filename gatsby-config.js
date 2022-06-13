@@ -18,6 +18,7 @@ module.exports = {
         description: "Circel UniUX - Progressive Web App",
         lang: "en-US",
         start_url: "/",
+        display_override: ["fullscreen", "window-controls-overlay"],
         display: "fullscreen",
         background_color: "white",
         orientation: "any",
@@ -38,12 +39,6 @@ module.exports = {
         ]
       }
     },
-    // {
-    //   resolve: `gatsby-plugin-offline`,
-    //   options: {
-    //     precachePages: [`/settings/*`],
-    //   },
-    // },
     'gatsby-plugin-offline',
   ],
 };

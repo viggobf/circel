@@ -1,6 +1,6 @@
 import * as React from 'react'
 import reactDom from 'react-dom'
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import * as IonIcons from 'react-ionicons'
@@ -25,18 +25,7 @@ import {appConfig} from '../components/appConfigs/home.js'
 class Page extends React.Component {
   render() {
     return <body>
-      <uniUX.Main pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.home}>
-        <h4>
-          More coming soon
-        </h4>
-        <p>
-          This page is yet to be worked on, but in the meantime here's some pages that have more to them that you might want to visit.
-        </p>
-        <uniUX.FullWidthNavCard name='Visit your Settings' takeTo='/settings/' content={<span>
-          Edit Account info, change Appearance (coming soon), plus more to come.
-        </span>} />
-
-      </uniUX.Main>
+      <cUniUX.App pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.home}/>
     </body>
   }
 

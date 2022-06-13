@@ -1,0 +1,28 @@
+import * as React from 'react'
+import reactDom from 'react-dom'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
+import { Link } from 'gatsby'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import * as IonIcons from 'react-ionicons'
+import * as icons from '@fortawesome/free-solid-svg-icons'
+import * as brandIcons from '@fortawesome/free-brands-svg-icons'
+import { appConfig } from '../../components/appConfigs/settings.js'
+
+var currentUser;
+
+
+class Page extends React.Component{
+  render(){
+    return <body>
+    <cUniUX.App pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.appearance} pageName={'Settings'}>
+        
+    </cUniUX.App>
+    </body>
+  }
+  
+  componentDidMount(){
+  }
+}
+
+export default Page

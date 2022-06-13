@@ -1,6 +1,6 @@
 import * as React from 'react'
 import reactDom from 'react-dom'
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,7 +12,7 @@ import { appConfig } from '../components/appConfigs/home.js'
 class Page extends React.Component {
   render() {
     return <body>
-      <uniUX.Main pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.go}>
+      <cUniUX.Main pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.go}>
         <h4>
           Coming soon
         </h4>
@@ -20,12 +20,12 @@ class Page extends React.Component {
           This page is yet to be worked on.
         </p>
 
-      </uniUX.Main>
+      </cUniUX.Main>
     </body>
   }
 
   componentDidMount() {
-    // const userAndSettings = uniUX.getDocFromFirestore('users', 'viggobf').then(function (result) {
+    // const userAndSettings = cUniUX.getCFile('users', 'viggobf').then(function (result) {
     //   reactDom.render(<span>{result['name']}</span>, document.getElementById('settingsName'))
     // })
   }

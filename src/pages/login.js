@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ReactDom from 'react-dom'
 import * as ReactSpring from 'react-spring'
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,18 +12,18 @@ import {appConfig} from '../components/appConfigs/website-pages.js'
 const Page = () => {
   return (
     <body>
-      <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Log in'} content={
-        <div className={uniUX.styles.halvedPageGrid}>
-          <div className={uniUX.styles.halvedPageHalf}>
+      <cUniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Log in'} children={
+        <div className={cUniUX.styles.halvedPageGrid}>
+          <div className={cUniUX.styles.halvedPageHalf}>
             <br /><br />
-            <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Log in</h1>
+            <h1 className={cUniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Log in</h1>
 
             <input placeholder='Circel ID' style={{ width: '30vw' }} type='email' id='loginPageEmail' /><br /><br />
 
             <input placeholder='Password' style={{ width: '30vw' }} type='password' id='loginPagePassword' /><br /><br /><br />
 
-            <uniUX.PrimaryButton text='Log in' onClick={function () {
-              uniUX.logIn(document.getElementById('loginPageEmail').value, document.getElementById('loginPagePassword').value).then(function (result) {
+            <cUniUX.Button type='primary' text='Log in' onClick={function () {
+              cUniUX.logIn(document.getElementById('loginPageEmail').value, document.getElementById('loginPagePassword').value).then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')
                 } else {
@@ -41,13 +41,13 @@ const Page = () => {
               })
             }} />
 
-            <uniUX.SecondaryButton text='Sign up instead' onClick={function () { window.open('/signup?next=' + window.location.href.split('=')[1], '_self') }} />
+            <cUniUX.SecondaryButton text='Sign up instead' onClick={function () { window.open('/signup?next=' + window.location.href.split('=')[1], '_self') }} />
             <br /><br />
             
             {/* password reset button */}
-            <span id='resetPasswordBtn' style={{cursor: 'pointer'}} className={uniUX.styles.minorText} onClick={function(){
+            <span id='resetPasswordBtn' style={{cursor: 'pointer'}} className={cUniUX.styles.minorText} onClick={function(){
               ReactDom.render(<span>Loading...</span>, document.getElementById('resetPasswordBtn'))
-              uniUX.resetPasswordEmail(document.getElementById('loginPageEmail').value, window.location.href.split('=')[1]).then(function(result){
+              cUniUX.resetPasswordEmail(document.getElementById('loginPageEmail').value, window.location.href.split('=')[1]).then(function(result){
                 if(result == 'success'){  
                   ReactDom.render(<span>Password reset link sent to <em>{document.getElementById('loginPageEmail').value}</em>. Click to send again.</span>, document.getElementById('resetPasswordBtn'))
                 } else {
@@ -58,16 +58,16 @@ const Page = () => {
             <br/><br/>
 
             {/* place where errors are rendered */}
-            <span id='errorRenderSpace' className={uniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
+            <span id='errorRenderSpace' className={cUniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
             
           </div>
 
-          <div className={uniUX.styles.halvedPageHalfSignup1}>
+          <div className={cUniUX.styles.halvedPageHalfSignup1}>
             <br /><br /><br /><br /><br />
-            <h1 className={uniUX.styles.bigPageHeader} style={{ fontSize: 'max(2.5vw, 30px)', color: 'white' }}>Log in a different way</h1>
+            <h1 className={cUniUX.styles.bigPageHeader} style={{ fontSize: 'max(2.5vw, 30px)', color: 'white' }}>Log in a different way</h1>
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () { 
-              uniUX.logInGoogle().then(function (result) {
+            <cUniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () { 
+              cUniUX.logInGoogle().then(function (result) {
                 if (result == 'success') {
                   const pageNextUrl = new URL(window.location.href).searchParams.get('next')
                   window.open(window.location.href.split('=')[1], '_self')
@@ -86,8 +86,8 @@ const Page = () => {
               })
              }} text={<span>&ensp;<FontAwesomeIcon icon={brandIcons.faGoogle} />&emsp;Log in with Google&ensp;</span>} /><br /><br />
 
-            <uniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () { 
-              uniUX.logInTwitter().then(function (result) {
+            <cUniUX.SecondaryButton styles={{ width: '25vw', textAlign: 'left', color: 'white' }} onClick={function () { 
+              cUniUX.logInTwitter().then(function (result) {
                 if (result == 'success') {
                   window.open(window.location.href.split('=')[1], '_self')
                 } else {
@@ -107,7 +107,7 @@ const Page = () => {
           </div>
         </div>
       }>
-      </uniUX.Main>
+      </cUniUX.Main>
     </body>
   )
 }

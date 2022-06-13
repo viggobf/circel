@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ReactDom from 'react-dom'
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,19 +13,19 @@ var url;
 class Page extends React.Component {
     render() {
         return (<body id='authActionRenderSpace'>
-            <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} content={
-                <div className={uniUX.styles.halvedPageGrid}>
-                    <div className={uniUX.styles.halvedPageHalf}>
+            <cUniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} children={
+                <div className={cUniUX.styles.halvedPageGrid}>
+                    <div className={cUniUX.styles.halvedPageHalf}>
                         <br /><br />
                         {/* loading it up */}
-                        <span className={uniUX.styles.minorText}>
+                        <span className={cUniUX.styles.minorText}>
                             Loading...
                         </span>
 
                     </div>
                 </div>
             }>
-            </uniUX.Main>
+            </cUniUX.Main>
         </body>
         )
     }
@@ -42,16 +42,16 @@ class Page extends React.Component {
             continueUrl = 'https://circel.co/'
         }
         if (url.searchParams.get('mode') == 'resetPassword') {
-            uniUX.verifyPasswordResetCode(url.searchParams.get('oobCode')).then(function (result) {
+            cUniUX.verifyPasswordResetCode(url.searchParams.get('oobCode')).then(function (result) {
                 if (result == 'error') {
                     ReactDom.render(<body>
-                        <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} content={
-                            <div className={uniUX.styles.halvedPageGrid}>
-                                <div className={uniUX.styles.halvedPageHalf}>
+                        <cUniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} children={
+                            <div className={cUniUX.styles.halvedPageGrid}>
+                                <div className={cUniUX.styles.halvedPageHalf}>
                                     <br /><br />
-                                    <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Reset Password</h1>
+                                    <h1 className={cUniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Reset Password</h1>
                                     {/* uh oh, that link's invalid! */}
-                                    <span className={uniUX.styles.minorText}>
+                                    <span className={cUniUX.styles.minorText}>
                                         This password reset link is invalid. It may have expired, or may have already been used.<br /><br />
 
                                         You can get a new link by entering your Circel ID and clicking 'Forgot Password' at <Link to='/login'>Log In</Link>.
@@ -60,42 +60,42 @@ class Page extends React.Component {
                                 </div>
                             </div>
                         }>
-                        </uniUX.Main>
+                        </cUniUX.Main>
                     </body>,
                     document.getElementById('authActionRenderSpace')
                     )
                 } else {
                     ReactDom.render(
                         <body>
-                            <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} content={
-                                <div className={uniUX.styles.halvedPageGrid}>
-                                    <div className={uniUX.styles.halvedPageHalf}>
+                            <cUniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Reset Password'} children={
+                                <div className={cUniUX.styles.halvedPageGrid}>
+                                    <div className={cUniUX.styles.halvedPageHalf}>
                                         <br /><br />
-                                        <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Reset Password</h1>
+                                        <h1 className={cUniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Reset Password</h1>
 
-                                        <span className={uniUX.styles.minorText}>
+                                        <span className={cUniUX.styles.minorText}>
                                             You're resetting the password for the Circel account with the Circel ID <em>{result}</em>.
                                         </span><br/><br/>
 
 
                                         <input placeholder={'New Password'} style={{ width: '30vw' }} type='password' id='resetPasswordNewPassword' /><br /><br /><br />
 
-                                        <uniUX.PrimaryButton text='Reset Password' onClick={function () {
-                                            uniUX.completeResetPassword(result, document.getElementById('resetPasswordNewPassword').value, url.searchParams.get('oobCode')).then(function (result) {
+                                        <cUniUX.Button type='primary' text='Reset Password' onClick={function () {
+                                            cUniUX.completeResetPassword(result, document.getElementById('resetPasswordNewPassword').value, url.searchParams.get('oobCode')).then(function (result) {
                                                 window.open(continueUrl, '_self')
                                             })
                                         }} /><br /><br />
-                                        <span className={uniUX.styles.minorText}>
+                                        <span className={cUniUX.styles.minorText}>
                                             Clicking 'Continue' will also log you in and then take you to <em>{continueUrl}</em>.
                                         </span><br /><br />
 
                                         {/* place where errors are rendered */}
-                                        <span id='errorRenderSpace' className={uniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
+                                        <span id='errorRenderSpace' className={cUniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
 
                                     </div>
                                 </div>
                             }>
-                            </uniUX.Main>
+                            </cUniUX.Main>
                         </body>,
                         document.getElementById('authActionRenderSpace')
                     )
@@ -110,16 +110,16 @@ class Page extends React.Component {
         else if (url.searchParams.get('mode') == 'verifyEmail') {
             ReactDom.render(
                 <body>
-                    <uniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Verify your Circel ID'} content={
-                        <div className={uniUX.styles.halvedPageGrid}>
-                            <div className={uniUX.styles.halvedPageHalf}>
+                    <cUniUX.Main appConfig={appConfig} pageType={'custom'} pageName={'Verify your Circel ID'} children={
+                        <div className={cUniUX.styles.halvedPageGrid}>
+                            <div className={cUniUX.styles.halvedPageHalf}>
                                 <br /><br />
-                                <h1 className={uniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Verify your Circel ID</h1>
+                                <h1 className={cUniUX.styles.bigPageHeader} style={{ textAlign: 'left' }}>Verify your Circel ID</h1>
 
                                 <input placeholder='New Password' style={{ width: '30vw' }} type='password' id='resetPasswordNewPassword' /><br /><br /><br />
 
-                                <uniUX.PrimaryButton text='Continue' onClick={function () {
-                                    uniUX.completeResetPassword(document.getElementById('resetPasswordNewPassword').value, url.searchParams.get('oobCode')).then(function (result) {
+                                <cUniUX.Button type='primary' text='Continue' onClick={function () {
+                                    cUniUX.completeResetPassword(document.getElementById('resetPasswordNewPassword').value, url.searchParams.get('oobCode')).then(function (result) {
                                         if (result == 'success') {
                                             if (url.searchParams.get('continueUrl')) {
                                                 window.open(url.searchParams.get('continueUrl'), '_self')
@@ -138,17 +138,17 @@ class Page extends React.Component {
                                         }
                                     })
                                 }} /><br /><br />
-                                <span className={uniUX.styles.minorText}>
+                                <span className={cUniUX.styles.minorText}>
                                     Clicking 'Continue' will take you to <em>{continueUrl}</em>.
                                 </span><br /><br />
 
                                 {/* place where errors are rendered */}
-                                <span id='errorRenderSpace' className={uniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
+                                <span id='errorRenderSpace' className={cUniUX.styles.minorText} style={{ color: 'var(--red)' }}></span>
 
                             </div>
                         </div>
                     }>
-                    </uniUX.Main>
+                    </cUniUX.Main>
                 </body>,
                 document.getElementById('authActionRenderSpace')
             )

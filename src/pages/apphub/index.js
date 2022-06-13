@@ -3,15 +3,15 @@ import * as firebaseAuth from '@firebase/auth'
 import { initializeApp } from "@firebase/app";
 import * as firestore from '@firebase/firestore'
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from '@firebase/auth'
-import * as uniUX from 'uniux'
+import * as cUniUX from 'cuniux'; import * as uniUX from 'uniux'
 import { appConfig } from "../../components/appConfigs/apphub";
 
 const IndexPage = () => {
   return (
-    <uniUX.Main appConfig={appConfig} page={appConfig.pageConfigs.home} pageType='columnedApp'>
-      <uniUX.SmallCard title='Title' content={<div onContextMenu={function (event) {
-        uniUX.contextMenu(event, [
-          ['Stream App', function () { uniUX.dialog('Apps of the Year 2021', <div>Hiya!</div>, ['Close', function () { alert('hi') }]) }],
+    <cUniUX.Main appConfig={appConfig} page={appConfig.pageConfigs.home} pageType='columnedApp'>
+      <cUniUX.SmallCard title='Title' children={<div onContextMenu={function (event) {
+        cUniUX.contextMenu(event, [
+          ['Stream App', function () { cUniUX.dialog('Apps of the Year 2021', <div>Hiya!</div>, ['Close', function () { alert('hi') }]) }],
           ['Configure Stream...', function () { alert('hi') }, true],
           ['Like', function () { alert('hi') }],
           ['Write a review...', function () { alert('hi') }],
@@ -25,8 +25,8 @@ const IndexPage = () => {
         </p>
       </div>}>
         heya
-      </uniUX.SmallCard>
-      <uniUX.SmallCard title='Title' content={<div><strong>
+      </cUniUX.SmallCard>
+      <cUniUX.SmallCard title='Title' children={<div><strong>
         <h2>New Year, New Apps</h2>
       </strong>
         <p>
@@ -34,8 +34,8 @@ const IndexPage = () => {
         </p>
       </div>}>
         heya
-      </uniUX.SmallCard>
-      <uniUX.SmallCard title='Title' content={<div><strong>
+      </cUniUX.SmallCard>
+      <cUniUX.SmallCard title='Title' children={<div><strong>
         <h2>Hot Today</h2>
       </strong>
         <p>
@@ -43,8 +43,8 @@ const IndexPage = () => {
         </p>
       </div>}>
         heya
-      </uniUX.SmallCard>
-    </uniUX.Main>
+      </cUniUX.SmallCard>
+    </cUniUX.Main>
   )
 }
 

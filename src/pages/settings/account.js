@@ -1,6 +1,7 @@
 import * as React from 'react'
 import reactDom from 'react-dom'
 import { appConfig } from '../../components/appConfigs/settings.js'
+import * as cUniUX from 'cuniux';
 import * as uniUX from 'uniux'
 import { Link } from 'gatsby'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,66 +15,31 @@ var currentUser
 class Page extends React.Component {
   render() {
     return <body>
-      <uniUX.Main pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.account}>
-        <uniUX.EventWrapper onLongPress={function(){alert('hey')}} onShiftClick={function(){alert('hi')}}>
-          <h4>
-            Your Profile
-          </h4>
-        </uniUX.EventWrapper>
-        <img onClick={function () {
-          uniUX.dialog('Edit Profile Picture', <div>
-            <label for='pfpUrlInput'>Paste your new profile picture's URL</label><br />
-            <input placeholder='Image URL' id='pfpUrlInput' />
-          </div>, ['Save Profile Picture', function () { uniUX.updateUserProfilePicture(document.getElementById('pfpUrlInput').value) }])
-        }} className={uniUX.styles.pfp} id='settingsPfp' style={{ float: 'left', width: '70px', height: '70px', marginRight: '15px', cursor: 'pointer' }}
-          title='Profile Picture - click to edit'
-        />
+      <cUniUX.App pageType={'columnedApp'} appConfig={appConfig} page={appConfig.pageConfigs.account}>
+        <h4>
+          Your Profile
+        </h4>
+
+        <cUniUX.EventWrapper contextMenuOnLongPress={true} contextMenu={[['Change Profile Picture...', function () {
+          cUniUX.dialog('Change Profile Picture', <div>
+            <input placeholder='Paste an image URL' id='pfpUrlInput' />
+          </div>, [['Save Profile Picture', function () { cUniUX.updateUserProfilePicture(document.getElementById('pfpUrlInput').value); document.getElementById('settingsPfp').src = document.getElementById('pfpUrlInput').value }, true]])
+        }], ['Remove Profile Picture', function () { cUniUX.updateUserProfilePicture('https://www.inspirations.boutique/wp-content/uploads/2019/10/blank-person-profile.png') }]]}>
+          <img onClick={function () {
+            cUniUX.dialog('Edit Profile Picture', <div>
+              <input placeholder='Paste an image URL' id='pfpUrlInput' />
+            </div>, [['Save Profile Picture', function () { cUniUX.updateUserProfilePicture(document.getElementById('pfpUrlInput').value); document.getElementById('settingsPfp').src = document.getElementById('pfpUrlInput').value }, true]])
+          }} className={cUniUX.styles.pfp} id='settingsPfp' style={{ float: 'left', width: '70px', height: '70px', marginRight: '15px', cursor: 'pointer' }}
+            title='Profile Picture - click to edit'
+          />
+        </cUniUX.EventWrapper>
         <span style={{ float: 'left' }}>
           <h3 id='settingsName' style={{ marginTop: '8px', marginBottom: '8px' }} />
-          <span className={uniUX.styles.minorText} id='settingsAcntUsername' style={{}} />
+          <span className={cUniUX.styles.minorText} onClick={function(){cUniUX.dialog('Edit Name', <div>
+            <input placeholder='Type a new name' id='newDisplayName'/>
+          </div>)}} id='settingsAcntUsername' style={{}} />
         </span>
-
-        {/* <uniUX.LargeBr />
-
-        <h4>
-          Profile Settings
-        </h4>
-
-        <uniUX.SmallCard title='Title' content={<div><strong>
-          <h2>New Year, New Apps</h2>
-        </strong>
-          <p>
-            The apps we're hyped for in 2022.
-          </p>
-        </div>}>
-          heya
-        </uniUX.SmallCard>
-
-
-        <uniUX.LargeBr />
-
-        <h4>
-          Circel Connect
-        </h4>
-
-        <uniUX.FullWidthNavCard name={'Join Circel Connect'} content={
-          <span>
-            A network where everyone is productive in their own way.
-          </span>
-        } />
-
-        <uniUX.FullWidthNavCard name={'Join Circel Connect'} content={
-          <span>
-            A network where everyone is productive in their own way.
-          </span>
-        } />
-
-        <uniUX.FullWidthNavCard name={'Join Circel Connect'} content={
-          <span>
-            A network where everyone is productive in their own way.
-          </span>
-        } /> */}
-      </uniUX.Main>
+      </cUniUX.App>
     </body>
   }
 
