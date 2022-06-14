@@ -84,6 +84,11 @@ const appConfig = {
                         </td>
                     </tr>
                 </table>
+
+                <br/><br/>
+
+
+                <cUniUX.SettingItem name='Allow User Reports' description='Allow users to submit bug reports through the Circel platform.' action='toggle' enabled={false} toggleFunction={function(status){alert(status)}}/>
             </span>
         }
     }
