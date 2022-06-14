@@ -30,7 +30,7 @@ const appConfig = {
                 </span> */}
 
                 <table style={{width: '100%'}}>
-                    <tr className={cUniUX.styles.tableHeaderRow}>
+                    <tr>
                         <th style={{textAlign: 'left'}}>
                             Bug Name
                         </th>
