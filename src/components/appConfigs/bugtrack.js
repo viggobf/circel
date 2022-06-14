@@ -44,7 +44,7 @@ const appConfig = {
 
                     <tr>
                         <td>
-                            Fix problems with hiding sidebar
+                            Fix problems with hiding sidebar.
                         </td>
 
                         <td style={{textAlign: 'right'}}>
