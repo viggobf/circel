@@ -69,6 +69,20 @@ const appConfig = {
                             Low
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>
+                            Another test bug
+                        </td>
+
+                        <td style={{textAlign: 'right'}}>
+                            29/5/22
+                        </td>
+
+                        <td style={{textAlign: 'right'}}> 
+                            Low
+                        </td>
+                    </tr>
                 </table>
             </span>
         }
