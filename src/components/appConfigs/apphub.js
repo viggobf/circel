@@ -7,7 +7,7 @@ const appConfig = {
     parentProject: projectConfig,
 
     name: 'AppHub',
-    shortenedName: 'Home',
+    appCode: 'APH',
     loginRequired: true,
     rootURL: '',
     sections: [],
@@ -24,7 +24,7 @@ const appConfig = {
         }
     },
     pageConfigs: {
-        home: {
+        indexPage: {
             name: 'Today',
             icon: cUniUX.icons.faHome,
             url: '/',
