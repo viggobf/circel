@@ -1,5 +1,7 @@
 import * as cUniUX from 'cuniux'; 
 import { projectConfig } from '../projectConfig';
+import ReactDom from 'react-dom'
+import * as React from 'react'
 
 const appConfig = {
     parentProject: projectConfig,
@@ -25,7 +27,11 @@ const appConfig = {
         home: {
             name: 'Today',
             icon: cUniUX.icons.faHome,
-            url: '/'
+            url: '/',
+
+            content: <span>
+                <cUniUX.PrimaryActionCard name='Best of 2021'/>
+            </span>
         },
         anotherTest: {
             name: 'All Apps',
