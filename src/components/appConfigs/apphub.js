@@ -1,6 +1,9 @@
 import * as cUniUX from 'cuniux'; 
+import { projectConfig } from '../projectConfig';
 
 const appConfig = {
+    parentProject: projectConfig,
+
     name: 'AppHub',
     shortenedName: 'Home',
     loginRequired: true,
