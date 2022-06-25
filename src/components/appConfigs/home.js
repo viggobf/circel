@@ -61,19 +61,10 @@ const appConfig = {
             name: 'Home',
             icon: icons.faHome,
             url: '/',
-            pageOptionButtons: [['New Workspace', icons.faPlus, 'themeColour', function(){alertDialog('Coming soon', "Still working on Workspaces. Check back in a later Alpha version.")}], 
-            ['Circel Store', icons.faShoppingBag, 'normal', function(){alertDialog('Coming soon', "Still working on the Circel Store. Check back in a later Alpha version.")}],
-            ['Circel Store', icons.faShoppingBag, 'normal', function(){alertDialog('Coming soon', "Still working on the Circel Store. Check back in a later Alpha version.")}],
+            pageOptionButtons: [['New Workspace', icons.faPlus, 'themeColour', function(){alertDialog('Coming soon', "Still working on Workspaces. In fact, am still working on just about everything. Check back in a later Alpha version.")}], 
             ['Circel Store', icons.faShoppingBag, 'normal', function(){alertDialog('Coming soon', "Still working on the Circel Store. Check back in a later Alpha version.")}]],
             autoFirebase: {
                 callbackFunction: function (app, auth, currentUser) {
-                    try {
-                        getCFile('circel/circel', function (docData) {
-                            alertDialog('Data', docData.info.name)
-                        })
-                    } catch (e) {
-                        console.log(e)
-                    }
                 }
             },
 

@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as cUniUX from 'cuniux';
 
-import { appConfig } from "../../components/appConfigs/admin/cdsAdminCtr";
+import { appConfig } from "../../components/appConfigs/admin.js";
 
 
 class Page extends React.Component {

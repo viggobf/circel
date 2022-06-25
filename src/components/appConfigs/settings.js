@@ -59,7 +59,7 @@ const appConfig = {
         <h4>
           Account
         </h4>
-        <cUniUX.FullWidthNavCard name='Account Settings' takeTo='/settings/account' children={<span>
+        <cUniUX.FullWidthNavCard name='Account Settings' takeToPage='account' children={<span>
           View your user profile, edit your account settings and more.
         </span>} />
 
@@ -68,7 +68,7 @@ const appConfig = {
         <h4>
           Appearance
         </h4>
-        <cUniUX.FullWidthNavCard name='Appearance Settings' takeTo='/settings/appearance' children={<span>
+        <cUniUX.FullWidthNavCard name='Appearance Settings' takeToPage='appearance' children={<span>
           Make UniUX yours.
         </span>} />
       </span>
@@ -80,15 +80,63 @@ const appConfig = {
       pageOptionButtons: [['Save changes', icons.faSave, 'themeColour', function () { alert('hi') }, true]],
       autoFirebase: {
         callbackFunction: function (app, auth, currentUser) {
-          try {
+          if (currentUser.displayName) {
             ReactDom.render(currentUser.displayName, document.getElementById('settingsName'))
-            document.getElementById('settingsPfp').src = currentUser.photoURL
-            // getCFile('userInfo', currentUser.uid).then(function (result) {
-            //   ReactDom.render(<span>{'@' + result['username']}</span>, document.getElementById('settingsAcntUsername'))
-            // })
-          } catch (e) {
-            console.log(e)
+          } else {
+            ReactDom.render('Circel Account', document.getElementById('settingsName'))
           }
+
+          if (currentUser.photoURL){
+            document.getElementById('settingsPfp').src = currentUser.photoURL
+          }
+
+          var email = currentUser.email
+          // hiding the middle 6 characters of the email and replacing them with bullets • for privacy reasons
+          String.prototype.replaceAt = function (index, replacement) {
+            return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+          }
+
+          function changeEmail() {
+            var ref1 = React.createRef()
+            var ref2 = React.createRef()
+            cUniUX.dialog("Verify that it's you", <span>
+              <span className={cUniUX.styles.minorText}>In order to change your account's email address, you need to re-enter your account's password to verify it's you.</span>
+              <br /><br />
+              <input type='password' ref={ref1} placeholder='Password' />
+            </span>, [['Continue', function () {
+              cUniUX.reauthenticate(ref1.current.value, function () {
+                cUniUX.dialog('Change Email Address', <span>
+                  <span className={cUniUX.styles.minorText}>Enter your new email address:</span><br /><br />
+                  <span id='emailSpan'><input type='email' ref={ref2} placeholder='New email' value='' /></span>
+                  
+                </span>, [['Change Email', function () {
+                  cUniUX.updateUserEmail(ref2.current.value, function () { ReactDom.render(ref2.current.value, document.getElementById('settingsName')); cUniUX.closeDialog() }, function (e) { alert(e) })
+                }, true]])
+                ReactDom.render(<input type='email' ref={ref2} placeholder='New email' />, document.getElementById('emailSpan'))
+              }, function (e) {
+                alert(e)
+              })
+            }, true]])
+          }
+
+          var emailMiddleLength = Math.round((email.length / 3))
+          var emailUnhiddenTrailStart = (email.length / 6) * 2
+          var bulletStr = ""
+          var emailMiddleLengthForSubtracting = emailMiddleLength
+          function extendBulletStr(){
+            if (emailMiddleLengthForSubtracting > 0){
+              emailMiddleLengthForSubtracting = emailMiddleLengthForSubtracting - 1
+              bulletStr = bulletStr + '•'
+              extendBulletStr()
+            }
+          }
+          extendBulletStr()
+
+
+
+          setTimeout(function () { ReactDom.render(<cUniUX.EventWrapper contextMenu={[['Show Full Address', function () { cUniUX.alertDialog('Full Email Address', email) }], ['Change Email Address...', changeEmail]]}> {email.replace(email.substring(emailUnhiddenTrailStart, emailUnhiddenTrailStart + emailMiddleLength), bulletStr)}&ensp;<cUniUX.EventWrapper tooltip='Show Full Address'><cUniUX.FontAwesomeIcon icon={cUniUX.icons.faEye} onClick={function(){cUniUX.alertDialog('Full Email Address', email)}}/></cUniUX.EventWrapper></cUniUX.EventWrapper>, document.getElementById('settingsAcntEmail')) }, 1)
+
+          ReactDom.render(<cUniUX.SettingItem name='Email Address' onClick={function () { changeEmail() }} buttonText='Change Email Address' description="Change your account's email address. For security reasons, you'll need to re-enter your password to do this." action='button' />, document.getElementById('accountInfoSpan'))
         }
       },
       content: <span>
@@ -111,17 +159,21 @@ const appConfig = {
         </cUniUX.EventWrapper>
         <span style={{ float: 'left' }}>
           <h3 id='settingsName' style={{ marginTop: '8px', marginBottom: '8px' }} />
-          <span className={cUniUX.styles.minorText} onClick={function () {
-            cUniUX.dialog('Edit Name', <div>
-              <input placeholder='Type a new name' id='newDisplayName' />
-            </div>)
-          }} id='settingsAcntUsername' style={{}} />
+          <span className={cUniUX.styles.minorText} id='settingsAcntEmail' />
         </span>
+
+        <br /><cUniUX.FloatBr />
+
+        <h4>
+          Account Information
+        </h4>
+
+        <span id='accountInfoSpan' />
       </span>
     },
 
 
-    cUniUX: {
+    appearance: {
       name: 'Appearance',
       icon: icons.faPaintBrush,
       url: '/interface',
