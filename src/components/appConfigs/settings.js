@@ -84,7 +84,7 @@ const appConfig = {
             ReactDom.render(currentUser.displayName, document.getElementById('settingsName'))
           } else {
             ReactDom.render('Circel Account', document.getElementById('settingsName'))
-          }
+          } 
 
           if (currentUser.photoURL){
             document.getElementById('settingsPfp').src = currentUser.photoURL
