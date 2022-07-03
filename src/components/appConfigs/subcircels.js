@@ -53,7 +53,7 @@ const appConfig = {
           ,[['Like article', function(){alert('likeddd')}]], ev)
       }, false], ['Share', icons.faShare, '', function () { alert('hi') }, false]],
       autoFirebase: {
-        callbackFunction: function (app, auth, currentUser, cdsDatabase) {
+        callbackFunction: function (fbObj) {
           // database.onValue(database.ref(cdsDatabase, `/content`), function (snapshot) {
           //   if (snapshot.exists()) {
           //     ReactDom.render('Data: ' + snapshot.val(), document.getElementById('header1'))

@@ -18,7 +18,7 @@ const appConfig = {
     shortenedName: 'Admin Centre',
     appCode: 'ADC',
     icon: icons.faUsersCog,
-    rootURL: 'cdsAdminCtr',
+    rootURL: 'admin',
     appOptionButtons: [['Lock CDS', icons.faLock, function(){
         confirm('Lock CDS?', "Users won't be able to read, update, create or delete cFiles on the CDS until you unlock it. Continue?", "Lock CDS", function () {
             writeToCFile('cds/status', {
@@ -58,7 +58,7 @@ const appConfig = {
             url: '/',
             icon: icons.faTachometerAlt,
             autoFirebase: {
-                callbackFunction: function (app, auth, currentUser, cdsDatabase) {
+                callbackFunction: function (fbObj) {
                     getCFileRealtime('cds/status', function (data) {
                         // alert('hello' + data)
                         somethingBlocked = false
@@ -243,7 +243,7 @@ const appConfig = {
             url: '/',
             icon: icons.faDatabase,
             autoFirebase: {
-                callbackFunction: function (app, auth, currentUser, firestoreDb, cdsDatabase) {
+                callbackFunction: function (fbObj) {
                     getCFileRealtime('cds/status', function (data) {
                         // alert('hi' + data)
                         somethingBlocked = false

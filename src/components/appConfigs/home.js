@@ -20,6 +20,9 @@ const appConfig = {
 
     name: 'Home',
     appCode: 'HOM',
+    initialAppData: {
+
+    },
     loginRequired: true,
     icon: icons.faHome,
     rootURL: '',
@@ -61,10 +64,8 @@ const appConfig = {
             name: 'Home',
             icon: icons.faHome,
             url: '/',
-            pageOptionButtons: [['New Workspace', icons.faPlus, 'themeColour', function(){alertDialog('Coming soon', "Still working on Workspaces. In fact, am still working on just about everything. Check back in a later Alpha version.")}], 
-            ['Circel Store', icons.faShoppingBag, 'normal', function(){alertDialog('Coming soon', "Still working on the Circel Store. Check back in a later Alpha version.")}]],
             autoFirebase: {
-                callbackFunction: function (app, auth, currentUser) {
+                callbackFunction: function (fbObj) {
                 }
             },
 
@@ -73,7 +74,7 @@ const appConfig = {
                     More coming soon
                 </h4>
                 <p>
-                    This page is yet to be worked on, but in the meantime here's some pages that have more to them that you might want to visit.
+                    This page is yet to be worked on, but in the meantime here's some pages that have more to them that you might want to visit (gonna fix this massive text).
                 </p>
                 <FullWidthNavCard name='Visit your Settings' takeTo='/settings/' children={<span>
                     Edit Account info, change Appearance (coming soon), plus more to come.

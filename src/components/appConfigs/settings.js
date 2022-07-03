@@ -2,9 +2,22 @@ import * as icons from '@fortawesome/free-solid-svg-icons'
 import * as cUniUX from 'cuniux'
 import ReactDom from 'react-dom'
 import * as React from 'react'
+import { ReturnUpBackOutline } from 'react-ionicons'
 
 var userUID
 var userSettingsObj
+var email
+
+class SettingExplanationCard extends React.Component {
+  render() {
+    return <div>
+      <cUniUX.FontAwesomeIcon icon={this.props.icon} style={{ fontSize: 'x-large', float: 'left', marginTop: '-2px', marginRight: '8px' }} />
+      <span style={{ fontSize: '13.5px', marginTop: '2.5px', float: 'left' }}>
+        Adapt the Circel interface appearance for your individual needs and preferences.
+      </span>
+    </div>
+  }
+}
 
 const appConfig = {
   parentProject: {
@@ -17,6 +30,9 @@ const appConfig = {
   rootURL: 'settings',
   appOptionButtons: [['Export Settings as cFile', cUniUX.icons.faFile, function () { cUniUX.alertDialog('Coming soon', 'Exporting settings is coming soon.') }]],
   loginRequired: true,
+  initialAppData: {
+    hi: 'hey'
+  },
   sections: [],
   circel: {
     circelApp: true,
@@ -36,8 +52,8 @@ const appConfig = {
       appId: "1:121186697586:web:93874da3a21c182b219deb",
       measurementId: "G-72PCDLGBEL"
     },
-    callbackFunction: function (firebaseApp, auth, userInfo) {
-      userUID = userInfo.uid
+    callbackFunction: function (fbObj) {
+      userUID = fbObj.currentUser.uid
     },
     auth: {
       enableSocialLogin: {
@@ -69,7 +85,16 @@ const appConfig = {
           Appearance
         </h4>
         <cUniUX.FullWidthNavCard name='Appearance Settings' takeToPage='appearance' children={<span>
-          Make UniUX yours.
+          Make Circel look your own.
+        </span>} />
+
+        <cUniUX.FloatBr/>
+
+        <h4>
+          Accessibility
+        </h4>
+        <cUniUX.FullWidthNavCard name='Accessibility Settings' takeToPage='accessibility' children={<span>
+          Suit Circel to your individual needs.
         </span>} />
       </span>
     },
@@ -77,20 +102,19 @@ const appConfig = {
       name: 'Account',
       icon: icons.faUser,
       url: '/account',
-      pageOptionButtons: [['Save changes', icons.faSave, 'themeColour', function () { alert('hi') }, true]],
       autoFirebase: {
-        callbackFunction: function (app, auth, currentUser) {
-          if (currentUser.displayName) {
-            ReactDom.render(currentUser.displayName, document.getElementById('settingsName'))
+        callbackFunction: function (fbObj) {
+          if (fbObj.currentUser.displayName) {
+            ReactDom.render(fbObj.currentUser.displayName, document.getElementById('settingsName'))
           } else {
             ReactDom.render('Circel Account', document.getElementById('settingsName'))
-          } 
-
-          if (currentUser.photoURL){
-            document.getElementById('settingsPfp').src = currentUser.photoURL
           }
 
-          var email = currentUser.email
+          if (fbObj.currentUser.photoURL) {
+            document.getElementById('settingsPfp').src = fbObj.currentUser.photoURL
+          }
+
+          email = fbObj.currentUser.email
           // hiding the middle 6 characters of the email and replacing them with bullets • for privacy reasons
           String.prototype.replaceAt = function (index, replacement) {
             return this.substring(0, index) + replacement + this.substring(index + replacement.length);
@@ -108,9 +132,22 @@ const appConfig = {
                 cUniUX.dialog('Change Email Address', <span>
                   <span className={cUniUX.styles.minorText}>Enter your new email address:</span><br /><br />
                   <span id='emailSpan'><input type='email' ref={ref2} placeholder='New email' value='' /></span>
-                  
+
                 </span>, [['Change Email', function () {
-                  cUniUX.updateUserEmail(ref2.current.value, function () { ReactDom.render(ref2.current.value, document.getElementById('settingsName')); cUniUX.closeDialog() }, function (e) { alert(e) })
+                  email = ref2.current.value
+                  var emailMiddleLength = Math.round((ref2.current.value.length / 3))
+                  var emailUnhiddenTrailStart = (ref2.current.value.length / 6) * 2
+                  var bulletStr = ""
+                  var emailMiddleLengthForSubtracting = emailMiddleLength
+                  function extendBulletStr() {
+                    if (emailMiddleLengthForSubtracting > 0) {
+                      emailMiddleLengthForSubtracting = emailMiddleLengthForSubtracting - 1
+                      bulletStr = bulletStr + '•'
+                      extendBulletStr()
+                    }
+                  }
+                  extendBulletStr()
+                  cUniUX.updateUserEmail(ref2.current.value, function () { ReactDom.render(null, document.getElementById('settingsEmail')); ReactDom.render(ref2.current.value.replace(ref2.current.value.substring(emailUnhiddenTrailStart, emailUnhiddenTrailStart + emailMiddleLength), bulletStr), document.getElementById('settingsEmail')); cUniUX.closeDialog() }, function (e) { alert(e) })
                 }, true]])
                 ReactDom.render(<input type='email' ref={ref2} placeholder='New email' />, document.getElementById('emailSpan'))
               }, function (e) {
@@ -123,8 +160,8 @@ const appConfig = {
           var emailUnhiddenTrailStart = (email.length / 6) * 2
           var bulletStr = ""
           var emailMiddleLengthForSubtracting = emailMiddleLength
-          function extendBulletStr(){
-            if (emailMiddleLengthForSubtracting > 0){
+          function extendBulletStr() {
+            if (emailMiddleLengthForSubtracting > 0) {
               emailMiddleLengthForSubtracting = emailMiddleLengthForSubtracting - 1
               bulletStr = bulletStr + '•'
               extendBulletStr()
@@ -134,7 +171,7 @@ const appConfig = {
 
 
 
-          setTimeout(function () { ReactDom.render(<cUniUX.EventWrapper contextMenu={[['Show Full Address', function () { cUniUX.alertDialog('Full Email Address', email) }], ['Change Email Address...', changeEmail]]}> {email.replace(email.substring(emailUnhiddenTrailStart, emailUnhiddenTrailStart + emailMiddleLength), bulletStr)}&ensp;<cUniUX.EventWrapper tooltip='Show Full Address'><cUniUX.FontAwesomeIcon icon={cUniUX.icons.faEye} onClick={function(){cUniUX.alertDialog('Full Email Address', email)}}/></cUniUX.EventWrapper></cUniUX.EventWrapper>, document.getElementById('settingsAcntEmail')) }, 1)
+          setTimeout(function () { ReactDom.render(<cUniUX.EventWrapper contextMenu={[['Show Full Address', function () { cUniUX.alertDialog('Full Email Address', email) }], ['Change Email Address...', changeEmail]]}> <span id='settingsEmail'>{email.replace(email.substring(emailUnhiddenTrailStart, emailUnhiddenTrailStart + emailMiddleLength), bulletStr)}</span>&ensp;<cUniUX.EventWrapper tooltip='Show Full Address'><cUniUX.FontAwesomeIcon icon={cUniUX.icons.faEye} onClick={function () { cUniUX.alertDialog('Full Email Address', email) }} /></cUniUX.EventWrapper></cUniUX.EventWrapper>, document.getElementById('settingsAcntEmail')) }, 1)
 
           ReactDom.render(<cUniUX.SettingItem name='Email Address' onClick={function () { changeEmail() }} buttonText='Change Email Address' description="Change your account's email address. For security reasons, you'll need to re-enter your password to do this." action='button' />, document.getElementById('accountInfoSpan'))
         }
@@ -158,7 +195,17 @@ const appConfig = {
           />
         </cUniUX.EventWrapper>
         <span style={{ float: 'left' }}>
-          <h3 id='settingsName' style={{ marginTop: '8px', marginBottom: '8px' }} />
+          <cUniUX.EventWrapper contextMenu={['Change Account Name', function () {
+            var ref4 = React.createRef(); cUniUX.dialog('Change Account Name', <span>
+              <span className={cUniUX.styles.minorText}>
+                Enter a new name for your Circel account.
+              </span><br /><br />
+
+              <input ref={ref4} placeholder='New name' />
+            </span>, [['Change Name', function () { cUniUX.updateUserDisplayName(ref4.current.value) }]])
+          }]}>
+            <h3 id='settingsName' style={{ marginTop: '8px', marginBottom: '8px' }} />
+          </cUniUX.EventWrapper>
           <span className={cUniUX.styles.minorText} id='settingsAcntEmail' />
         </span>
 
@@ -178,8 +225,8 @@ const appConfig = {
       icon: icons.faPaintBrush,
       url: '/interface',
       autoFirebase: {
-        callbackFunction: function (firebaseApp, auth, userInfo, firestore, cdsDatabase, userSettings) {
-          userSettingsObj = userSettings
+        callbackFunction: function (fbObj) {
+          userSettingsObj = fbObj.userSettings
 
 
           // ACCENT COLOUR SETTINGS
@@ -284,6 +331,48 @@ const appConfig = {
 
       </span>
     },
+
+
+    accessibility: {
+      name: 'Accessibility',
+      icon: cUniUX.icons.faUniversalAccess,
+      url: '',
+      autoFirebase: {
+        callbackFunction: function (fbObj) {
+          userSettingsObj = fbObj.userSettings
+
+          ReactDom.render(<span>
+            {/* <cUniUX.SettingItem action='toggle' default={false} description='Increase the contrast between interface background colours.' name='Use Increased Contrast' toggleOnText='Yes' enabled={userSettingsObj.accessibility.useIncreasedContrast} toggleOffText="No" toggleFunction={function (status) {
+              userSettingsObj.accessibility.useIncreasedContrast = status
+
+
+              cUniUX.setCFileData('/circel/u\\' + userUID + '/settings/settings.stgs', userSettingsObj)
+            }} /> */}
+
+            <cUniUX.SettingItem action='toggle' default={false} description='Makes the borders between interface elements more obvious.' name='Use Obvious Partitioning' toggleOnText='Yes' enabled={userSettingsObj.accessibility.useObvPart} toggleOffText="No" toggleFunction={function (status) {
+              userSettingsObj.accessibility.useObvPart = status
+
+
+              cUniUX.setCFileData('/circel/u\\' + userUID + '/settings/settings.stgs', userSettingsObj)
+            }} />
+          </span>,
+          document.getElementById('interfaceStgs')
+          )
+        }
+      },
+
+      content: <span>
+        <span className={cUniUX.styles.minorText}>
+          Adapt the Circel interface appearance for your individual needs and preferences.
+        </span><br /><br />
+
+        <h4>Interface</h4>
+
+        <span id='interfaceStgs'/>
+
+        {/* <cUniU */}
+      </span>
+    }
   },
 }
 
