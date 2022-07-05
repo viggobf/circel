@@ -109,6 +109,8 @@ const appConfig = {
 
                         reactDom.render(tasksArray, document.getElementById('taskList'))
                     } else {
+                        tasksArray = []
+                        tasksLitArray = []
                         reactDom.render(<span>
                             <strong>No tasks in your list! Click 'New Task' to create one.</strong>
                         </span>, document.getElementById('taskList'))
