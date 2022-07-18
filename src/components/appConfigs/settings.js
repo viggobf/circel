@@ -71,6 +71,11 @@ const appConfig = {
       name: 'Home',
       icon: icons.faHome,
       url: '/',
+      autoFirebase: {
+        callbackFunction: function(){
+
+        }
+      },
       content: <span>
         <h4>
           Account
@@ -88,7 +93,7 @@ const appConfig = {
           Make Circel look your own.
         </span>} />
 
-        <cUniUX.FloatBr/>
+        <cUniUX.FloatBr />
 
         <h4>
           Accessibility
@@ -195,15 +200,15 @@ const appConfig = {
           />
         </cUniUX.EventWrapper>
         <span style={{ float: 'left' }}>
-          <cUniUX.EventWrapper contextMenu={['Change Account Name', function () {
+          <cUniUX.EventWrapper contextMenu={[['Change Account Name', function () {
             var ref4 = React.createRef(); cUniUX.dialog('Change Account Name', <span>
               <span className={cUniUX.styles.minorText}>
                 Enter a new name for your Circel account.
               </span><br /><br />
 
               <input ref={ref4} placeholder='New name' />
-            </span>, [['Change Name', function () { cUniUX.updateUserDisplayName(ref4.current.value) }]])
-          }]}>
+            </span>, [['Change Name', function () { cUniUX.updateUserDisplayName(ref4.current.value); ReactDom.render(ref4.current.value, document.getElementById('settingsName')) }]])
+          }]]}>
             <h3 id='settingsName' style={{ marginTop: '8px', marginBottom: '8px' }} />
           </cUniUX.EventWrapper>
           <span className={cUniUX.styles.minorText} id='settingsAcntEmail' />
@@ -283,7 +288,7 @@ const appConfig = {
 
           // DARK MODE SETTING
 
-          ReactDom.render(<cUniUX.SettingItem action='dropdown' selectedItemIndex={userSettingsObj.interface.darkMode} dropdownItemsArray={['Off', 'On', 'System Theme']} description='Applies a dark theme to all interface components.' name='Use Dark Mode' toggleOnText='Enabled' enabled={userSettingsObj.interface.darkMode} toggleOffText="Disabled" changeFunction={function (status) {
+          ReactDom.render(<cUniUX.SettingItem action='dropdown' selectedItemIndex={userSettingsObj.interface.darkMode} dropdownItemsArray={['Off', 'On', 'System Theme']} description='Applies a dark theme to all interface components.' name='Dark Mode' enabled={userSettingsObj.interface.darkMode} changeFunction={function (status) {
             userSettingsObj.interface.darkMode = status
 
 
@@ -332,6 +337,59 @@ const appConfig = {
       </span>
     },
 
+    privacyAndSecurity: {
+      name: 'Privacy and Security',
+      icon: cUniUX.icons.faShieldAlt,
+      url: '',
+      autoFirebase: {
+        callbackFunction: function (fbObj) {
+          userSettingsObj = fbObj.userSettings
+
+          ReactDom.render(<span>
+
+            <cUniUX.SettingItem action='dropdown' selectedItemIndex={userSettingsObj.privacyAndSecurity.askBeforeLinks} dropdownItemsArray={["Don't Ask", "Ask if Link is Unverified", "Always Ask"]} description="Ask before opening links to external sites." name='Ask Before Opening External Links' changeFunction={function (status) {
+              userSettingsObj.privacyAndSecurity.askBeforeLinks = status
+
+
+              cUniUX.setCFileData('/circel/u\\' + userUID + '/settings/settings.stgs', userSettingsObj)
+            }} />
+          </span>,
+            document.getElementById('securityStgs')
+          )
+
+          ReactDom.render(<span>
+            <cUniUX.SettingItem action='dropdown' selectedItemIndex={userSettingsObj.privacyAndSecurity.useAutoLockTimeout} dropdownItemsArray={['Off', '3 minutes', '5 minutes', '10 minutes', '15 minutes', '20 minutes', '1 hour']} description="If your Circel account session is left idle for the set period of time, automatically log out of your Circel account for security. Clicks and moves of your mouse, touches of the screen and keys pressed, over the Circel client, count as activity." name='Automatic Inactivity Timeout' changeFunction={function (status) {
+              
+              cUniUX.changeAutoLockTimeout(status)
+              userSettingsObj.privacyAndSecurity.useAutoLockTimeout = status
+
+
+              cUniUX.setCFileData('/circel/u\\' + userUID + '/settings/settings.stgs', userSettingsObj)
+            }} />
+          </span>, document.getElementById('timeoutStg'))
+        }
+      },
+
+      content: <span>
+        <span className={cUniUX.styles.minorText}>
+          Circel respects your privacy, and can help you stay even more secure and keep your details private from potential malice.
+        </span><br/><br/>
+
+        <h4>
+          External Link Security
+        </h4>
+
+        <span id='securityStgs'/>
+
+
+        <h4>
+          Inactivity Timeout
+        </h4>
+
+        <span id='timeoutStg'/>
+      </span>
+    },
+
 
     accessibility: {
       name: 'Accessibility',
@@ -356,7 +414,7 @@ const appConfig = {
               cUniUX.setCFileData('/circel/u\\' + userUID + '/settings/settings.stgs', userSettingsObj)
             }} />
           </span>,
-          document.getElementById('interfaceStgs')
+            document.getElementById('interfaceStgs')
           )
         }
       },
@@ -368,9 +426,8 @@ const appConfig = {
 
         <h4>Interface</h4>
 
-        <span id='interfaceStgs'/>
+        <span id='interfaceStgs' />
 
-        {/* <cUniU */}
       </span>
     }
   },

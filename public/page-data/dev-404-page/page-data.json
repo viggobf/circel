@@ -1,5 +1,5 @@
 {
     "componentChunkName": "component---cache-dev-404-page-js",
     "path": "/dev-404-page/",
-    "result": {"data":{"allSiteFunction":{"nodes":[]},"allSitePage":{"nodes":[{"path":"/"},{"path":"/admin/"},{"path":"/apphub/"},{"path":"/bugtrack/"},{"path":"/clock/"},{"path":"/settings/account/"},{"path":"/settings/cuniux/"},{"path":"/settings/"},{"path":"/tasks/"}]}},"pageContext":{}},
+    "result": {"data":{"allSiteFunction":{"nodes":[]},"allSitePage":{"nodes":[{"path":"/appPlat/"},{"path":"/"},{"path":"/admin/"},{"path":"/apphub/"},{"path":"/bugtrack/"},{"path":"/clock/"},{"path":"/settings/account/"},{"path":"/settings/cuniux/"},{"path":"/settings/"},{"path":"/tasks/"},{"path":"/uniuxdocs/"}]}},"pageContext":{}},
     "staticQueryHashes": []}

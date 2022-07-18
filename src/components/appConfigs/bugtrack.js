@@ -12,6 +12,7 @@ const appConfig = {
     icon: cUniUX.icons.faBug,
     appCode: 'BTP',
     rootURL: 'bugtrack',
+    initialAppData: {},
     appOptionButtons: [['New Bug', cUniUX.icons.faPlus, function(){cUniUX.alertDialog('Created Bug', 'yeah its done')}]],
     design: {
         themeColour: cUniUX.colourPacks.purple

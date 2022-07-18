@@ -10,6 +10,7 @@ const appConfig = {
     appCode: 'APH',
     loginRequired: true,
     rootURL: 'apphub',
+    initialAppData: {},
     sections: [],
     autoFirebase: {
         enable: true,

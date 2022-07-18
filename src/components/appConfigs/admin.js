@@ -18,6 +18,8 @@ const appConfig = {
     shortenedName: 'Admin Centre',
     appCode: 'ADC',
     icon: icons.faUsersCog,
+    initialAppData: {
+    },
     rootURL: 'admin',
     appOptionButtons: [['Lock CDS', icons.faLock, function(){
         confirm('Lock CDS?', "Users won't be able to read, update, create or delete cFiles on the CDS until you unlock it. Continue?", "Lock CDS", function () {

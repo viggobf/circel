@@ -36,17 +36,6 @@ const appConfig = {
         themeColour: colourPacks.black,
         enableDarkMode: 'system'
     },
-    keyBinds: [
-        {
-            key: 'F',
-            cmdOrCtrlKey: true,
-            altKey: true,
-            // shiftKey: false,
-            callbackFunction: function () {
-                alertDialog('Keyboard Shortcut bound', "Your keyboard shortcut has been successfully bound. Yey!")
-            }
-        }
-    ],
     autoFirebase: {
         enable: true,
         config: {
@@ -74,7 +63,7 @@ const appConfig = {
                     More coming soon
                 </h4>
                 <p>
-                    This page is yet to be worked on, but in the meantime here's some pages that have more to them that you might want to visit (gonna fix this massive text).
+                    This page is yet to be worked on, but in the meantime here's some pages that have more to them that you might want to visit.
                 </p>
                 <FullWidthNavCard name='Visit your Settings' takeTo='/settings/' children={<span>
                     Edit Account info, change Appearance (coming soon), plus more to come.
