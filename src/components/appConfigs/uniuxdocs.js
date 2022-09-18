@@ -43,7 +43,7 @@ const appConfig = {
 
     },
     design: {
-        themeColour: cUniUX.colourPacks.turquoise
+        accentColour: cUniUX.colourPacks.turquoise
     },
     sections: ['Learn UniUX 3'],
 
@@ -68,9 +68,9 @@ const appConfig = {
                 </p><br />
 
                 <h4>Recommended Pages</h4>
-                <cUniUX.PrimaryActionCard name='Getting Started' icon={cUniUX.icons.faArrowRight} onClick={function () { cUniUX.switchToPage(appConfig.pageConfigs.getStarted) }}>
+                <cUniUX.LargeActionCard name='Getting Started' icon={cUniUX.icons.faArrowRight} onClick={function () { cUniUX.switchToPage(appConfig.pageConfigs.getStarted) }}>
                     The best place for beginners to start. Learn the basics of UniUX 3.
-                </cUniUX.PrimaryActionCard>
+                </cUniUX.LargeActionCard>
             </span>
         },
 
@@ -183,7 +183,7 @@ const appConfig = {
     rootURL: 'visitorguide',
     appOptionButtons: [['Contact Support', uniUX.icons.faQuestionCircle, 'default', sendSupportRequest]],
     design: {
-        themeColour: uniUX.colourPacks.green.darker
+        accentColour: uniUX.colourPacks.green.darker
     },
     sections: ['Essential Information', 'Getting There', 'Meet the Team'],
 
@@ -271,7 +271,7 @@ const appConfig = {
 
                 <Instruction number='2'>
                     Add the following mandatory attributes, or keys and values, to your app config map - Project Configuration (<ICS noCopyBtn>projectConfig</ICS>), Name (<ICS noCopyBtn>name</ICS>),
-                    Root URL (<ICS noCopyBtn>rootURL</ICS>), Theme Colour (<ICS noCopyBtn>design.themeColour</ICS>), and Pages (<ICS noCopyBtn>pageConfigs</ICS>).
+                    Root URL (<ICS noCopyBtn>rootURL</ICS>), Theme Colour (<ICS noCopyBtn>design.accentColour</ICS>), and Pages (<ICS noCopyBtn>pageConfigs</ICS>).
                 </Instruction><br />
 
                 <h3>Wrap-up & what's next</h3>

@@ -28,12 +28,12 @@ const appConfig = {
     rootURL: '',
     sections: [],
     design: {
-        // themeColour:{
+        // accentColour:{
         //     normal: 'rgb(13, 69, 100)',
         //     light: 'rgb(13, 69, 100)',
         //     mostLight: 'rgb(13, 69, 100)',
         // },
-        themeColour: colourPacks.black,
+        accentColour: colourPacks.black,
         enableDarkMode: 'system'
     },
     autoFirebase: {

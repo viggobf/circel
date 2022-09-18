@@ -13,8 +13,8 @@ const appConfig = {
   rootURL: 'subcircels',
   loginRequired: true,
   design: {
-    applyThemeColourToContentBackground: false,
-    themeColour: colourPacks.black,
+    applyaccentColourToContentBackground: false,
+    accentColour: colourPacks.black,
     enableDarkMode: 'system'
   },
   autoFirebase: {
@@ -47,7 +47,7 @@ const appConfig = {
       name: "My Subcircels",
       icon: icons.faThLarge,
       url: '/',
-      pageOptionButtons: [['Create Subcircel', icons.faPlus, 'themeColour', function (ev) {
+      pageOptionButtons: [['Create Subcircel', icons.faPlus, 'accentColour', function (ev) {
         dialog('Create Subcircel', <p></p>
           
           ,[['Like article', function(){alert('likeddd')}]], ev)

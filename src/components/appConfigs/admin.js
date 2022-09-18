@@ -1,6 +1,6 @@
 // CIRCEL DATA SYSTEM ADMINISTRATION CONSOLE
 import * as icons from '@fortawesome/free-solid-svg-icons'
-import { colourPacks, getCFile, getCFileRealtime, Button, writeToCFile, updateCFile, contextMenu, dialog, confirm, updateUserProfilePicture, FontAwesomeIcon, alertDialog, styles, BarCard, ActionCard, FloatBr, ToggleSwitch } from 'cuniux'
+import { WebsiteFrame, colourPacks, getCFile, getCFileRealtime, Button, writeToCFile, updateCFile, contextMenu, dialog, confirm, updateUserProfilePicture, FontAwesomeIcon, alertDialog, styles, BarCard, ActionCard, FloatBr, ToggleSwitch } from 'cuniux'
 import ReactDom from 'react-dom'
 import * as React from 'react'
 import LogoImage from '../../pages/icon.png'
@@ -52,7 +52,7 @@ const appConfig = {
     },
     loginRequired: true,
     design: {
-        themeColour: colourPacks.yellow,
+        accentColour: colourPacks.yellow,
     },
     pageConfigs: {
         indexPage: {

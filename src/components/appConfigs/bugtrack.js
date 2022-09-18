@@ -15,7 +15,7 @@ const appConfig = {
     initialAppData: {},
     appOptionButtons: [['New Bug', cUniUX.icons.faPlus, function(){cUniUX.alertDialog('Created Bug', 'yeah its done')}]],
     design: {
-        themeColour: cUniUX.colourPacks.purple
+        accentColour: cUniUX.colourPacks.purple
     },
 
 

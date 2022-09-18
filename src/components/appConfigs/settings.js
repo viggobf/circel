@@ -38,7 +38,7 @@ const appConfig = {
     circelApp: true,
   },
   design: {
-    themeColour: cUniUX.colourPacks.grey,
+    accentColour: cUniUX.colourPacks.grey,
     enableDarkMode: 'system'
   },
   autoFirebase: {
@@ -347,7 +347,7 @@ const appConfig = {
 
           ReactDom.render(<span>
 
-            <cUniUX.SettingItem action='dropdown' selectedItemIndex={userSettingsObj.privacyAndSecurity.askBeforeLinks} dropdownItemsArray={["Don't Ask", "Ask if Link is Unverified", "Always Ask"]} description="Ask before opening links to external sites." name='Ask Before Opening External Links' changeFunction={function (status) {
+            <cUniUX.SettingItem action='dropdown' selectedItemIndex={userSettingsObj.privacyAndSecurity.askBeforeLinks} dropdownItemsArray={["Don't Ask", "Ask if Site is Unverified", "Always Ask"]} description="Ask before opening links to external sites, or showing external sites within the platform." name='External Site Security Warnings' changeFunction={function (status) {
               userSettingsObj.privacyAndSecurity.askBeforeLinks = status
 
 
@@ -376,7 +376,7 @@ const appConfig = {
         </span><br/><br/>
 
         <h4>
-          External Link Security
+          External Site Security
         </h4>
 
         <span id='securityStgs'/>

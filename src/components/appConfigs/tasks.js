@@ -49,12 +49,12 @@ const appConfig = {
     rootURL: '/',
     // appOptionButtons: [['New Checkalyst']]
     design: {
-        // themeColour:{
+        // accentColour:{
         //     normal: 'rgb(13, 69, 100)',
         //     light: 'rgb(13, 69, 100)',
         //     mostLight: 'rgb(13, 69, 100)',
         // },
-        themeColour: cUniUX.colourPacks.mustard,
+        accentColour: cUniUX.colourPacks.mustard,
         enableDarkMode: 'system'
     },
     autoFirebase: {
@@ -77,7 +77,7 @@ const appConfig = {
             name: 'All Tasks',
             icon: cUniUX.icons.faList,
             url: '',
-            pageOptionButtons: [['New Task', cUniUX.icons.faPlus, 'themeColour', function () {
+            pageOptionButtons: [['New Task', cUniUX.icons.faPlus, 'accentColour', function () {
                 var ref1 = React.createRef()
 
                 cUniUX.dialog('New Task', <span>

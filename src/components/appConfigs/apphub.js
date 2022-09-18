@@ -42,7 +42,7 @@ const appConfig = {
     },
 
     design: {
-        themeColour: cUniUX.colourPacks.blue
+        accentColour: cUniUX.colourPacks.blue
     }
 }
 
